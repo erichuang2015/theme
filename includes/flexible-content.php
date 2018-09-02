@@ -28,7 +28,7 @@ function theme_auto_render_layouts( $content )
 	if ( is_main_query() 
 		&& in_the_loop() 
 		&& ( is_single() || is_page() ) 
-		&& have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
+		&& have_rows( THEME_FLEXIBLE_CONTENT_FIELD ) ) 
 	{
 		remove_filter( current_filter(), __FUNCTION__ );
 
