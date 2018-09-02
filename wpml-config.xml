@@ -1,0 +1,6 @@
+<!-- https://polylang.pro/doc/the-wpml-config-xml-file/ -->
+<wpml-config>
+    <custom-types>
+        <!--<custom-type translate="1">section</custom-type>-->
+    </custom-types>
+</wpml-config>

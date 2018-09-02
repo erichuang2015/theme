@@ -1,0 +1,16 @@
+/**
+ * Opacity
+ */
+
+$n: $opacity-from;
+
+@while $n <= $opacity-until
+{
+    .opacity-#{$n}
+    {
+        opacity: $n/100 !important;
+    }
+
+    $n: $n + $opacity-step;
+}
+

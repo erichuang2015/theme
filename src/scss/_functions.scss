@@ -1,0 +1,17 @@
+
+@import "../../vendor/bootstrap/scss/functions";
+
+//
+// REM Calculator
+//
+// Converts pixels to rem.
+//
+// @param $size Size in pixels.
+// @param $base The base font size in pixels.
+//
+// @return The rem value.
+//
+@function rem( $size, $base: $rem-calculator-base ) 
+{
+	@return ( $size / $base ) * 1rem;
+}

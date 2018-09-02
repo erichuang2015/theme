@@ -1,0 +1,145 @@
+
+@import "../../vendor/bootstrap/scss/navbar";
+
+/**
+ * Navbar
+ * -------------------------------------------------------------------
+ */
+
+.navbar
+{
+	// sets transition for background color changes
+
+	@include transition( background-color 200ms ease-in-out );
+
+	// stuck
+
+	&.navbar-stuck
+	{
+		box-shadow: $navbar-stuck-box-shadow;
+
+    	z-index: $zindex-sticky;
+
+    	// hides large logos
+					
+		.logo-large:not( .logo-small )
+		{
+			display: none;
+		}
+	}
+
+	// sets buttons y spacing
+
+	&.nav-item[class*="menu-item-btn-"] .btn
+	{
+		margin-top: $navbar-padding-y / 2;
+		margin-bottom: $navbar-padding-y / 2;
+	}
+}
+
+// Light theme
+
+.navbar-light
+{
+	// hides light logo
+
+	.logo-light:not( .logo-dark )
+	{
+		display: none;
+	}
+}
+
+// Dark theme
+
+.navbar-dark
+{
+	// hides dark logo
+
+	.logo-dark:not( .logo-light )
+	{
+		display: none;
+	}
+}
+
+// Brand
+
+.navbar-brand
+{
+	// Makes image fit
+
+	display: flex;
+    align-items: center;
+
+	min-height: $navbar-brand-height;
+
+	img
+	{
+		height: $navbar-brand-height;
+		max-height: 100%;
+    	width: auto;
+	}
+}
+
+.navbar-expand
+{
+	@each $breakpoint in map-keys( $grid-breakpoints )
+	{
+    	$next: breakpoint-next( $breakpoint, $grid-breakpoints );
+    	$infix: breakpoint-infix( $next, $grid-breakpoints );
+
+		&#{$infix}
+		{
+			// collapsed
+
+			@include media-breakpoint-down( $breakpoint ) 
+			{
+				// hides large logos
+					
+				.logo-large:not( .logo-small )
+				{
+					display: none;
+				}
+			}
+
+			// expanded
+
+			@include media-breakpoint-up( $next ) 
+			{
+				// not stuck
+
+				&:not( .navbar-stuck )
+				{
+					// larger
+
+					padding-top: $navbar-large-padding-y;
+					padding-bottom: $navbar-large-padding-y;
+
+					.navbar-brand
+					{
+						min-height: $navbar-large-brand-height;
+
+						img
+						{
+							height: $navbar-large-brand-height;
+						}
+					}
+
+					// hides small logos
+					
+					.logo-small:not( .logo-large )
+					{
+						display: none;
+					}
+				}
+
+				// sets buttons x spacing and removes y spacing
+
+			    .nav-item[class*="menu-item-btn-"] .btn
+				{
+					margin: 0 $navbar-nav-link-padding-x;
+				}
+			}
+		}
+    }
+}
+

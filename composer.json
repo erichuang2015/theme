@@ -1,0 +1,12 @@
+{
+    "name": "maartenmenten/wordpress-theme",
+    "description": "Bootstrap driven WordPress theme",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Maarten Menten",
+            "email": "mentenmaarten@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,30 @@
+/**
+ * Viewport height
+ */
+
+// Per Breakpoint
+
+@each $breakpoint in map-keys($grid-breakpoints) 
+{
+	@include media-breakpoint-up($breakpoint) 
+	{
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		$n: $vh-from;
+
+		@while $n <= $vh-until
+		{
+		    .vh#{$infix}-#{$n}
+		    {
+		        min-height: #{$n}vh !important;
+		    }
+
+		    $n: $n + $vh-step;
+		}
+
+		.vh#{$infix}-none
+		{
+			min-height: auto !important;
+		}
+	}
+}

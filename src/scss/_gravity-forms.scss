@@ -1,0 +1,172 @@
+
+.gform_fields,
+.gfield_checkbox,
+.gfield_radio
+{
+	@extend .list-unstyled;
+}
+
+.gfield_visibility_hidden
+{
+	display: none;
+}
+
+.gform_fields
+{
+	@extend .form-row;
+
+	> .gfield
+	{
+		@extend .form-group;
+		@include make-col-ready();
+
+	    padding-right: 5px;
+	    padding-left: 5px;
+	}
+}
+
+.gfield
+{
+	select,
+	textarea,
+	input[type="text"],
+	input[type="password"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="date"],
+	input[type="month"],
+	input[type="time"],
+	input[type="week"],
+	input[type="number"],
+	input[type="email"],
+	input[type="url"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="color"]
+	{
+		@extend .form-control;
+	}
+
+	select[multiple]
+	{
+		height: auto;
+	}
+
+	&.gfield_error
+	{
+		select,
+		textarea,
+		input[type="text"],
+		input[type="password"],
+		input[type="datetime"],
+		input[type="datetime-local"],
+		input[type="date"],
+		input[type="month"],
+		input[type="time"],
+		input[type="week"],
+		input[type="number"],
+		input[type="email"],
+		input[type="url"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="color"]
+		{
+			@extend .is-invalid;
+		}
+	}
+}
+
+.gform_button
+{
+	@extend .btn;
+	@extend .btn-secondary;
+
+	&[type="submit"]
+	{
+		@extend .btn-primary;
+	}
+}
+
+.gform_footer
+{
+	@extend .text-right;
+}
+
+.gform_wrapper
+{
+	.validation_error
+	{
+		@extend .alert;
+		@extend .alert-danger;
+	}
+}
+
+.gfield
+{
+	&.gfield_error
+	{
+		@extend .is-invalid;
+	}
+
+	&.gfield_success
+	{
+		@extend .is-valid;
+	}
+}
+
+.gfield_radio
+{
+	label
+	{
+		margin-left: 5px;
+	}
+}
+
+.gfield_required
+{
+	@extend .invalid-feedback;
+	display: inline !important;
+	margin-left: 5px;
+}
+
+.gform_confirmation_wrapper 
+{
+	@extend .alert;
+	@extend .alert-success;
+}
+
+.validation_message
+{
+	@extend small;
+	color: $form-feedback-invalid-color;
+}
+
+.gfield_description:not( .validation_message )
+{
+	@extend small;
+	@extend .form-text;
+	@extend .text-muted;
+}
+
+.gform_previous_button
+{
+	@extend .btn;
+}
+
+.gform_next_button
+{
+	@extend .btn;
+	@extend .btn-primary;
+}
+
+.gf_page_steps
+{
+	@extend .list-inline;
+	@extend .mb-2;
+
+	> .gf_step
+	{
+		@extend li;
+	}
+}
+

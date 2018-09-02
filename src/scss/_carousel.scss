@@ -1,0 +1,23 @@
+
+@import "../../vendor/bootstrap/scss/carousel";
+
+.theme-carousel
+{
+	@extend .carousel;
+
+	.carousel-control-prev,
+	.carousel-control-next
+	{
+		z-index: 100;
+	}
+
+	.owl-dots
+	{
+		@extend .carousel-indicators;
+	}
+
+	.owl-dot
+	{
+		@extend li;
+	}
+}

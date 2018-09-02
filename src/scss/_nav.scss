@@ -1,0 +1,60 @@
+
+@import "../../vendor/bootstrap/scss/nav";
+
+// Nav themes
+//
+// Styles for switching between navs with light or dark background.
+
+// Dark links against a light background
+.nav-light 
+{
+	.nav-link 
+	{
+		color: $nav-light-color;
+
+		@include hover-focus 
+		{
+			color: $nav-light-hover-color;
+		}
+
+		&.disabled 
+		{
+			color: $nav-light-disabled-color;
+		}
+	}
+
+	.show > .nav-link,
+	.active > .nav-link,
+	.nav-link.show,
+	.nav-link.active 
+	{
+		color: $nav-light-active-color;
+	}
+}
+
+// White links against a dark background
+.nav-dark 
+{
+	.nav-link 
+	{
+		color: $nav-dark-color;
+
+		@include hover-focus 
+		{
+			color: $nav-dark-hover-color;
+		}
+
+		&.disabled 
+		{
+			color: $nav-dark-disabled-color;
+		}
+	}
+
+	.show > .nav-link,
+	.active > .nav-link,
+	.nav-link.show,
+	.nav-link.active 
+	{
+		color: $nav-dark-active-color;
+	}
+}

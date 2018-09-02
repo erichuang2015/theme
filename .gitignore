@@ -1,0 +1,6 @@
+.*
+!.gitignore
+!.bowerrc
+assets
+node_modules
+vendor

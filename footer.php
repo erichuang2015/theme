@@ -1,0 +1,26 @@
+<?php
+/**
+ * The template for displaying the footer
+ *
+ * Contains the closing of the #content div and all content after.
+ */
+
+?>
+		
+		<?php get_sidebar( 'after-content' ); ?>
+
+	</div><!-- #content -->
+
+	<?php if ( is_active_sidebar( 'sidebar-3' ) ) : ?>
+	<footer id="colophon" class="site-footer widget-area" role="contentinfo">
+		<div class="container">
+			<?php dynamic_sidebar( 'sidebar-3' ); ?>
+		</div><!-- .container -->
+	</footer><!-- #colophon -->
+	<?php endif; ?>
+
+</div><!-- #page -->
+<?php wp_footer(); ?>
+
+</body>
+</html>

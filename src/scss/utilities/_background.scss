@@ -1,0 +1,49 @@
+/**
+ * Background Position
+ */
+
+// per breakpoint
+
+@each $breakpoint in map-keys($grid-breakpoints) 
+{
+	@include media-breakpoint-up($breakpoint) 
+	{
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+		@each $slug, $value in ( $bg-positions )
+		{
+			.bg-position#{$infix}-#{$slug}
+			{
+				background-position: $value !important;
+			}
+		}
+	}
+}
+
+/**
+ * Background Repeat
+ */
+
+.bg-repeat-xy 	 { background-repeat: repeat !important; }
+.bg-repeat-x 	 { background-repeat: repeat-x !important; }
+.bg-repeat-y 	 { background-repeat: repeat-y !important; }
+.bg-repeat-none  { background-repeat: no-repeat !important; }
+
+/**
+ * Background Size
+ */
+
+.bg-size-cover   { background-size: cover !important; }
+.bg-size-contain { background-size: contain !important; }
+
+/**
+ * Parallax
+ */
+
+.parallax 
+{ 
+	background-attachment: fixed !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}

@@ -1,0 +1,49 @@
+
+#comments, .comment-respond
+{
+	.comment-list
+	{
+		@extend .list-unstyled;
+	}
+
+	.comment-form-comment
+	{
+		@extend .form-group;
+	}
+
+	select,
+	textarea,
+	input[type="text"],
+	input[type="password"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="date"],
+	input[type="month"],
+	input[type="time"],
+	input[type="week"],
+	input[type="number"],
+	input[type="email"],
+	input[type="url"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="color"]
+	{
+		@extend .form-control;
+	}
+
+	select[multiple]
+	{
+		height: auto;
+	}
+
+	input[type="submit"]
+	{
+		@extend .btn;
+		@extend .btn-secondary;
+	}
+
+	.form-submit
+	{
+		@extend .text-right;
+	}
+}

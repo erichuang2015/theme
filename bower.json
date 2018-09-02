@@ -1,0 +1,21 @@
+{
+  "name": "theme",
+  "description": "WordPress theme",
+  "main": "js/main.js",
+  "authors": [
+    "Maarten Menten"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mmaarten/wordpress-theme",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "html5shiv": "^3.7.3",
+    "sticky-kit": "^1.1.2",
+    "bower": "*",
+    "install": "^1.0.4",
+    "jquery.scrollTo": "^2.1.2",
+    "fancybox": "^3.3.5",
+    "owl.carousel": "^2.3.4"
+  }
+}
