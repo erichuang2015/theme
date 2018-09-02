@@ -3,15 +3,34 @@
  * Additional features to allow styling of the templates
  */
 
+if ( ! function_exists( 'theme_has_container' ) ) :
 /**
  * Has Container
  *
- * Return true if the #content element has a .container element.
+ * Returns true if the #content element has a .container element.
  */
 function theme_has_container()
 {
 	return ! is_page_template( 'page-templates/full-width.php' );
 }
+endif; // theme_has_container
+
+if ( ! function_exists( 'theme_is_full_width' ) ) :
+/**
+ * Is Full Width
+ */
+function theme_is_full_width()
+{
+	if ( ! ( is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) )
+		|| is_page_template( 'page-templates/full-width-fixed.php' ) 
+		|| is_page_template( 'page-templates/full-width.php' ) ) 
+	{
+		return true;
+	}
+
+	return false;
+}
+endif; // theme_is_full_width
 
 /**
  * Adds custom classes to the array of body classes.
@@ -39,10 +58,28 @@ function theme_body_classes( $classes )
 		$classes[] = 'theme-front-page';
 	}
 
+	// Browser/device Info
+	global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+
+	    if ( $is_lynx )     $classes[] = 'browser-lynx';
+	elseif ( $is_gecko ) 	$classes[] = 'browser-gecko';
+	elseif ( $is_opera ) 	$classes[] = 'browser-opera';
+	elseif ( $is_NS4 ) 		$classes[] = 'browser-ns4';
+	elseif ( $is_safari ) 	$classes[] = 'browser-safari';
+	elseif ( $is_chrome ) 	$classes[] = 'browser-chrome';
+	elseif ( $is_IE ) 		$classes[] = 'browser-ie';
+	else 					$classes[] = 'browser-unknown';
+
+	if ( $is_iphone ) $classes[] = 'iphone';
+
+	//
+
 	return $classes;
 }
+
 add_filter( 'body_class', 'theme_body_classes' );
 
+if ( ! function_exists( 'theme_is_frontpage' ) ) :
 /**
  * Checks to see if we're on the front page or not.
  */
@@ -50,74 +87,6 @@ function theme_is_frontpage()
 {
 	return ( is_front_page() && ! is_home() );
 }
+endif; // theme_is_frontpage
 
-
-if ( ! function_exists( 'theme_site_logo' ) ) :
-/**
- * Site Logo
- *
- * Outputs the site's logo if available.
- * If not, the blog name will be displayed.
- */
-function theme_site_logo()
-{
-	$logos = array
-	(
-		'dark'        => array( 'attachment' => theme_get_option( 'site_logo_dark' )	   , 'type' => array( 'dark', 'large' ) ),
-		'dark_small'  => array( 'attachment' => theme_get_option( 'site_logo_dark_small' ) , 'type' => array( 'dark', 'small' ) ),
-		'light'       => array( 'attachment' => theme_get_option( 'site_logo_light' )	   , 'type' => array( 'light', 'large' ) ),
-		'light_small' => array( 'attachment' => theme_get_option( 'site_logo_light_small' ), 'type' => array( 'light', 'small' ) )
-	);
-
-	// Filters logo's with attachments
-
-	$logos = array_filter( $logos, function( $logo )
-	{
-		return $logo['attachment'] && get_post_type( $logo['attachment'] );
-	});
-
-	// Large logo's are also small logo's when small version is not set
-	
-	if ( isset( $logos['dark'] ) && ! isset( $logos['dark_small'] ) ) 
-	{
-		$logos['dark']['type'] = array_merge( $logos['dark']['type'], $logos['dark_small']['type'] );
-	}
-
-	if ( isset( $logos['light'] ) && ! isset( $logos['light_small'] ) ) 
-	{
-		$logos['dark']['type'] = array_merge( $logos['light']['type'], $logos['light_small']['type'] );
-	}
-
-	// Checks if there are any logos
-
-	if ( count( $logos ) ) 
-	{
-		// Prints images
-
-		foreach ( $logos as $logo ) 
-		{
-			$class = array( 'site-logo' );
-
-			foreach ( $logo['type'] as $type ) 
-			{
-				$class[ $type ] = "logo-$type";
-			}
-
-			$class = implode( ' ', $class );
-
-			echo wp_get_attachment_image( $logo['attachment'], 'site_logo', false, array
-	        (
-	        	'class' => $class
-	        ));
-		}
-	}
-
-	// Displays blog name
-
-    else
-    {
-        echo esc_html( get_bloginfo( 'name' ) );
-    }
-}
-endif; // theme_site_logo
 

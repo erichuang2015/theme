@@ -3,11 +3,11 @@
  * Theme functions and definitions
  */
 
-// Load theme constants.
+// Load constants.
 require get_theme_file_path( 'includes/constants.php' );
 
 // Load common helper functions
-require get_parent_theme_file_path( '/includes/common.php' );
+require get_parent_theme_file_path( 'includes/common.php' );
 
 /**
  * Theme Setup
@@ -52,13 +52,19 @@ function theme_support_init()
 	// Settings
 	if ( current_theme_supports( 'theme-settings' ) && is_plugin_active( THEME_PLUGIN_ACF_PRO ) ) 
 	{
-		require_once get_theme_file_path( '/includes/features/settings.php' );
+		require_once get_theme_file_path( 'includes/settings.php' );
+	}
+
+	// Flexible Content
+	if ( current_theme_supports( 'theme-flexible-content' ) && is_plugin_active( THEME_PLUGIN_ACF_PRO ) ) 
+	{
+		require_once get_theme_file_path( 'includes/flexible-content.php' );
 	}
 
 	// SVG
 	if ( current_theme_supports( 'theme-svg' ) ) 
 	{
-		require_once get_theme_file_path( '/includes/features/svg.php' );
+		require_once get_theme_file_path( 'includes/svg.php' );
 	}
 }
 
@@ -186,10 +192,10 @@ function theme_get_option( $name )
 }
 
 // Custom Nav Menu for this theme.
-require get_parent_theme_file_path( '/includes/nav-menu.php' );
+require get_parent_theme_file_path( 'includes/nav-menu.php' );
 
 // Custom template tags for this theme.
-require get_parent_theme_file_path( '/includes/template-tags.php' );
+require get_parent_theme_file_path( 'includes/template-tags.php' );
 
 // Additional features to allow styling of the templates.
-require get_parent_theme_file_path( '/includes/template-functions.php' );
+require get_parent_theme_file_path( 'includes/template-functions.php' );

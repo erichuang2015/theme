@@ -3,7 +3,7 @@
  * Primary Navigation
  */
 ?>
-<nav id="primary-navigation" class="navbar navbar-expand-md navbar-light bg-light navbar-sticky" data-themealt="navbar-dark bg-dark" role="navigation">
+<nav id="primary-navigation" class="navbar navbar-expand-md navbar-light bg-light" role="navigation">
 	<div class="container">
 		<a class="navbar-brand" href="<?php echo esc_url( get_home_url( null, '/' ) ); ?>" rel="home"><?php theme_site_logo(); ?></a>
 		<?php if ( has_nav_menu( 'primary_1' ) || has_nav_menu( 'primary_2' ) ) : ?>

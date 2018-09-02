@@ -1,6 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * Settings
+ *
+ * Include `add_theme_support( 'theme-settings' )` to enable this feature.
  */
 
 defined( 'THEME_OPTION_NAME' ) or define( 'THEME_OPTION_NAME', 'theme_options' );

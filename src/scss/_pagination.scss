@@ -1,2 +1,63 @@
 
 @import "../../vendor/bootstrap/scss/pagination";
+
+// the_posts_pagination()
+
+.pagination .nav-links
+{
+	display: flex;
+	@include list-unstyled();
+	@include border-radius();
+
+	user-select: none;
+
+	> a, > span
+	{
+		position: relative;
+		display: block;
+		padding: $pagination-padding-y $pagination-padding-x;
+		margin-left: -$pagination-border-width;
+		line-height: $pagination-line-height;
+		color: $pagination-color;
+		background-color: $pagination-bg;
+		border: $pagination-border-width solid $pagination-border-color;
+
+		&:first-child
+		{
+      		margin-left: 0;
+      		@include border-left-radius($border-radius);
+		}
+
+		&:last-child 
+		{
+			@include border-right-radius($border-radius);
+		}
+	}
+
+	> a
+	{
+		&:hover 
+		{
+			z-index: 2;
+			color: $pagination-hover-color;
+			text-decoration: none;
+			background-color: $pagination-hover-bg;
+			border-color: $pagination-hover-border-color;
+		}
+
+		&:focus
+		{
+			z-index: 2;
+			outline: $pagination-focus-outline;
+			box-shadow: $pagination-focus-box-shadow;
+		}
+	}
+
+	> .current
+	{
+		z-index: 1;
+		color: $pagination-active-color;
+		background-color: $pagination-active-bg;
+		border-color: $pagination-active-border-color;
+	}
+}

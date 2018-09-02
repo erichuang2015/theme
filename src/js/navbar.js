@@ -5,222 +5,238 @@
 {
 	"use strict";
 
-	var theme = window.theme || {};
-
-	theme.navbar = 
+	function Plugin( elem, options )
 	{
-		$elem : null,
+		this.$elem   = $( elem );
+		this.options = $.extend( {}, Plugin.defaultOptions, options );
 
-		isStuck : false,
-		isExpanded : false,
-		isNavExpanded : false,
+		this.initExpand();
 
-		init : function()
+		if ( this.options.sticky ) 
 		{
-			var _this = this;
+			this.initSticky();
+		}
+		this.initNavExpand();
 
-			this.$elem = $( '.navbar' );
+		$( document ).trigger( 'navbar/init', [ this ] );
+	}
 
-			if ( this.$elem.is( '.navbar-sticky' ) ) 
-			{
-				this.initSticky();
-			}
-
-			// Nav Expanded
-
-			this.$elem.find( '#navbar-nav' )
-
-				// This event fires immediately when the show instance method is called.
-				.on( 'show.bs.collapse', function( event )
-				{
-					_this.isNavExpanded = true;
-
-					_this.$elem.trigger( 'theme/change' );
-				})
-
-				// This event is fired when a collapse element has been hidden from the user (will wait for CSS transitions to complete).
-				.on( 'hidden.bs.collapse', function( event )
-				{
-					_this.isNavExpanded = false;
-
-					_this.$elem.trigger( 'theme/change' );
-				})
-
-			// Expanded
-
-			$( window ).on( 'resize', function()
-			{
-				theme.waitForFinalEvent( function()
-				{
-					_this.updatedExpanded();
-
-				}, 300, 'navbar');
-			});
-
-			this.updatedExpanded();
-		},
-
-		updatedExpanded : function()
+	Plugin.defaultOptions =
+	{
+		sticky : false,
+		breakpoints : 
 		{
-			var breakpoints = 
-			{
-				xs: 0,
-				sm: 576,
-				md: 768,
-				lg: 992,
-				xl: 1200
-			};
-
-			var breakpoint = this.getBreakpoint(), width;
-
-			if ( breakpoint && typeof breakpoints[ breakpoint ] !== undefined ) 
-			{
-				width = breakpoints[ breakpoint ];
-			}
-
-			else
-			{
-				width = breakpoints.xs;
-			};
-
-			var viewport = theme.getViewPort();
-
-			if ( width <= viewport.width ) 
-			{
-				this.isExpanded = true;
-			}
-
-			else
-			{
-				this.isExpanded = false;
-			}
-
-			this.$elem.trigger( 'theme/change' );
-		},
-
-		getBreakpoint : function()
-		{
-			var matches = this.$elem.attr( 'class' ).match( /(?:^| )navbar-expand-([a-z]+)(?: |$)/ );
-
-			if ( matches ) 
-			{
-				return matches[ 1 ];
-			}
-
-			return null;
-		},
-
-		getTheme : function()
-		{
-			var classes = [];
-
-			// Theme: navbar-{slug}
-
-			var matches = this.$elem.attr( 'class' ).match( /(?:^| )(navbar-(?:light|dark))(?: |$)/ );
-
-			if ( matches ) 
-			{
-				classes.push( matches[1] );
-			}
-
-			// Background: bg-{slug}
-
-			var matches = this.$elem.attr( 'class' ).match( /(?:^| )(bg-[a-z]+)(?: |$)/ );
-
-			if ( matches ) 
-			{
-				classes.push( matches[1] );
-			}
-
-			//
-
-			return classes.join( ' ' );
-		},
-
-		setTheme : function( className )
-		{
-			var theme = this.getTheme();
-
-			// Stores original theme
-
-			if ( ! this.$elem.data( 'theme' ) ) 
-			{
-				this.$elem.data( 'theme', theme );	
-			}
-
-			this.$elem
-				.removeClass( theme )
-				.addClass( className );
-		},
-
-		restoreTheme : function()
-		{
-			this.$elem
-				.removeClass( this.getTheme() )
-				.addClass( this.$elem.data( 'theme' ) );
-		},
-
-		initSticky : function()
-		{
-			var _this = this;
-
-			// Prevents sticky class to be set when navbar is at default position.
-
-			this.$elem.parent().children().eq(0).css( 'margin-top', '-1px' )
-				.parent().css( 'padding-top', '1px' );
-
-			// Makes sure adminbar is absolute positioned. (prevents layout issues)
-
-			$( '#wpadminbar' ).css( 'position', 'absolute' );
-
-			// init Sticky Kit
-
-			this.$elem.stick_in_parent(
-			{
-				parent : 'body',
-				sticky_class : 'navbar-stuck'
-			})
-
-			// Called when stuck
-			.on( 'sticky_kit:stick', function( event )
-			{
-				_this.isStuck = true;
-
-				_this.$elem.trigger( 'theme/change' );
-			})
-
-			// Called when unstuck
-			.on( 'sticky_kit:unstick', function( event ) 
-			{
-				_this.isStuck = false;
-
-				_this.$elem.trigger( 'theme/change' );
-			});
-		},
+			xs: 0,
+			sm: 576,
+			md: 768,
+			lg: 992,
+			xl: 1200
+		}
 	};
 
-})( jQuery );
-
-(function( $ )
-{
-	$( document ).on( 'ready', function()
+	Plugin.waitForFinalEvent = (function()
 	{
-		theme.navbar.init();
-
-		theme.navbar.$elem.on( 'theme/change', function( event )
+		var timers = {};
+		
+		return function( callback, ms, uniqueId ) 
 		{
-			var navbarAltTheme = theme.navbar.$elem.data( 'themealt' );
-
-			if ( theme.navbar.isStuck || ( theme.navbar.isNavExpanded && ! theme.navbar.isExpanded ) ) 
+			if ( ! uniqueId )
 			{
-				theme.navbar.setTheme( navbarAltTheme );
-			}
+				uniqueId =  "Don't call this twice without a uniqueId";
+			};
 
-			else
+			if ( timers[ uniqueId ] )
 			{
-				theme.navbar.restoreTheme();
-			}
+				clearTimeout( timers[ uniqueId ] );
+			};
+
+			timers[ uniqueId ] = setTimeout( callback, ms );
+		};
+	})();
+
+	Plugin.prototype.$elem = null;
+	Plugin.prototype.options = {};
+
+	Plugin.prototype.updateExpand = function()
+	{
+		var breakpoint = this.getNavExpand(), width;
+
+		if ( breakpoint && typeof this.options.breakpoints[ breakpoint ] !== undefined ) 
+		{
+			width = this.options.breakpoints[ breakpoint ];
+		}
+
+		else
+		{
+			width = this.options.breakpoints.xs;
+		};
+
+		var viewport = theme.getViewPort();
+
+		if ( width <= viewport.width ) 
+		{
+			this.isExpanded = true;
+		}
+
+		else
+		{
+			this.isExpanded = false;
+		}
+
+		this.$elem.trigger( 'change', [ this ] );
+	};
+
+	Plugin.prototype.initExpand = function()
+	{
+		var _this = this;
+
+		$( window ).on( 'resize', function()
+		{
+			Plugin.waitForFinalEvent( function()
+			{
+				_this.updateExpand();
+
+			}, 300, 'navbar');
 		});
-	});
+
+		this.updateExpand();
+	};
+
+	Plugin.prototype.initNavExpand = function()
+	{
+		var _this = this;
+
+		this.$elem.find( '#navbar-nav' )
+
+		// This event fires immediately when the show instance method is called.
+		.on( 'show.bs.collapse', function( event )
+		{
+			_this.isNavExpanded = true;
+
+			_this.$elem.trigger( 'change', [ _this ] );
+		})
+
+		// This event is fired when a collapse element has been hidden from the user (will wait for CSS transitions to complete).
+		.on( 'hidden.bs.collapse', function( event )
+		{
+			_this.isNavExpanded = false;
+
+			_this.$elem.trigger( 'change', [ _this ] );
+		})
+	};
+
+	Plugin.prototype.initSticky = function()
+	{
+		var _this = this;
+
+		// Prevents sticky class to be set when navbar is at default position.
+
+		this.$elem.parent().children().eq(0).css( 'margin-top', '-1px' )
+			.parent().css( 'padding-top', '1px' );
+
+		// Makes sure adminbar is absolute positioned. (prevents layout issues)
+
+		$( '#wpadminbar' ).css( 'position', 'absolute' );
+
+		// init Sticky Kit
+
+		this.$elem.stick_in_parent(
+		{
+			parent : 'body',
+			sticky_class : 'navbar-stuck'
+		})
+
+		// Called when stuck
+		.on( 'sticky_kit:stick', function( event )
+		{
+			_this.isStuck = true;
+
+			_this.$elem.trigger( 'change', [ _this ] );
+		})
+
+		// Called when unstuck
+		.on( 'sticky_kit:unstick', function( event ) 
+		{
+			_this.isStuck = false;
+
+			_this.$elem.trigger( 'change', [ _this ] );
+		});
+	};
+	 
+	Plugin.prototype.getTheme = function()
+	{
+		var classes = [];
+
+		// Get Theme
+
+		var matches = this.$elem.attr( 'class' ).match( /(?:^| )(navbar-(?:dark|light))(?: |$)/ );
+
+		if ( matches ) 
+		{
+			classes.push( matches[1] );
+		}
+
+		// Get Background
+
+		var matches = this.$elem.attr( 'class' ).match( /(?:^| )(bg-[a-z0-9_-]+)(?: |$)/ );
+
+		if ( matches ) 
+		{
+			classes.push( matches[1] );
+		}
+
+		//
+
+		return classes.join( ' ' );
+	};
+
+	Plugin.prototype.getNavExpand = function()
+	{
+		var matches = this.$elem.attr( 'class' ).match( /(?:^| )navbar-expand-([a-z]+)(?: |$)/ );
+
+		return matches ? matches[ 1 ] : null;
+	};
+
+	Plugin.prototype.setTheme = function( className )
+	{
+		var current = this.getTheme();
+
+		// Store current
+
+		if ( typeof this.$elem.data( 'theme.original' ) === 'undefined' ) 
+		{
+			this.$elem.data( 'theme.original', current );
+		}
+
+		// Set new
+
+		this.$elem.removeClass( current ).addClass( className );
+	};
+
+	Plugin.prototype.restoreTheme = function()
+	{
+		var current  = this.getTheme();
+		var original = this.$elem.data( 'theme.original' ) || '';
+
+		this.$elem.removeClass( current ).addClass( original );
+	};
+
+	/**
+	 * jQuery Function
+	 */
+	$.fn.navbar = function( options )
+	{
+		return this.each( function()
+		{
+			if ( $( this ).data( 'navbar' ) ) 
+			{
+				return true;
+			}
+ 
+			var instance = new Plugin( this, options );
+ 
+			$( this ).data( 'navbar', instance );
+		});
+	};
 
 })( jQuery );

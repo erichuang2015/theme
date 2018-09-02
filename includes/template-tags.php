@@ -1,7 +1,4 @@
 <?php
-/**
- * Custom template tags for this theme
- */
 
 if ( ! function_exists( 'theme_posted_on' ) ) :
 /**
@@ -120,3 +117,245 @@ add_action( 'wp_head', 'theme_favicon' );
 
 endif; // theme_favicon
 
+if ( ! function_exists( 'theme_site_logo' ) ) :
+/**
+ * Site Logo
+ *
+ * Outputs the site's logo if available.
+ * If not, the blog name will be displayed.
+ */
+function theme_site_logo()
+{
+	$logos = array
+	(
+		'dark'        => array( 'attachment' => theme_get_option( 'site_logo_dark' )	   , 'type' => array( 'dark', 'large' ) ),
+		'dark_small'  => array( 'attachment' => theme_get_option( 'site_logo_dark_small' ) , 'type' => array( 'dark', 'small' ) ),
+		'light'       => array( 'attachment' => theme_get_option( 'site_logo_light' )	   , 'type' => array( 'light', 'large' ) ),
+		'light_small' => array( 'attachment' => theme_get_option( 'site_logo_light_small' ), 'type' => array( 'light', 'small' ) )
+	);
+
+	// Filters logo's with attachments
+
+	$logos = array_filter( $logos, function( $logo )
+	{
+		return $logo['attachment'] && get_post_type( $logo['attachment'] );
+	});
+
+	// Large logo's are also small logo's when small version is not set
+	
+	if ( isset( $logos['dark'] ) && ! isset( $logos['dark_small'] ) ) 
+	{
+		$logos['dark']['type'] = array_merge( $logos['dark']['type'], $logos['dark_small']['type'] );
+	}
+
+	if ( isset( $logos['light'] ) && ! isset( $logos['light_small'] ) ) 
+	{
+		$logos['dark']['type'] = array_merge( $logos['light']['type'], $logos['light_small']['type'] );
+	}
+
+	// Checks if there are any logos
+
+	if ( count( $logos ) ) 
+	{
+		// Prints images
+
+		foreach ( $logos as $logo ) 
+		{
+			$class = array( 'site-logo' );
+
+			foreach ( $logo['type'] as $type ) 
+			{
+				$class[ $type ] = "logo-$type";
+			}
+
+			$class = implode( ' ', $class );
+
+			echo wp_get_attachment_image( $logo['attachment'], 'site_logo', false, array
+	        (
+	        	'class' => $class
+	        ));
+		}
+	}
+
+	// Displays blog name
+
+    else
+    {
+        echo esc_html( get_bloginfo( 'name' ) );
+    }
+}
+endif; // theme_site_logo
+
+if ( ! function_exists( 'theme_carousel' ) ) :
+/**
+ * Carousel
+ *
+ * Renders an Owl Carousel with the looks of a Bootstrap carousel.
+ * 
+ * Dependencies:
+ * wp_enqueue_script( 'owl-carousel' );
+ * wp_enqueue_style( 'owl-carousel' );
+ *
+ * @link https://owlcarousel2.github.io/OwlCarousel2
+ */
+function theme_carousel( $args )
+{
+	static $counter = 0;
+
+	/**
+	 * Arguments
+	 *
+	 * @param id 		 string The carousel id (optional) 
+	 * @param query 	 string|array|WP_Query WP Query arguments (required) 
+	 * @param items 	 integer|string|array The number of items to see on the screen. (optional, default: 3)
+	 *					 e.g.: `3` or per grid breakpoint: `array( 'xs' => 1,'sm' => 3 )`
+	 * @param autoplay 	 boolean (optional, default: true)
+	 * @param loop 		 boolean (optional, default: true)
+	 * @param controls 	 boolean Show dots navigation (optional, default: true)
+	 * @param indicators boolean Show next/prev buttons (optional, default: false)
+	 * @param template   string The item template. (optional, default: (empty))
+	 * 					 Filename: `carousel-item-{template}.php`. default: `carousel-item.php`
+	 */
+
+	$defaults = array
+	(
+		'id'         => sprintf( 'carousel-%d', ++$counter ),
+		'query'      => '',
+		'items'      => 3,
+		'autoplay'   => true,
+		'loop'       => true,
+		'controls'   => true,
+		'indicators' => false,
+		'template'   => ''
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	extract( $args, EXTR_SKIP );
+
+	// Sanitizes arguments
+
+	if ( ! is_array( $items ) ) 
+	{
+		$items = array( 'xs' => $items );
+	}
+
+	else
+	{
+		$items = wp_parse_args( $items );
+	}
+
+	if ( $query instanceof WP_Query ) 
+	{
+		$the_query = $query;
+	}
+
+	else
+	{
+		$the_query = new WP_Query( $query );
+	}
+
+	// Stops when no posts are found
+
+	if ( ! $the_query->have_posts() ) 
+	{
+		return;
+	}
+
+	// Sets the amount of items to show per grid breakpoint
+
+	$breakpoints = theme_get_grid_breakpoints();
+
+	$responsive = array();
+
+	foreach ( $breakpoints as $breakpoint => $width ) 
+	{
+		if ( ! isset( $items[ $breakpoint ] ) ) 
+		{
+			continue;
+		}
+
+		$amount = intval( $items[ $breakpoint ] );
+
+		if ( ! $amount ) 
+		{
+			continue;
+		}
+
+		$responsive[ $width ] = array
+		(
+			'items' => $amount
+		);
+	}
+
+	// Template
+
+	?>
+
+	<div id="<?php echo esc_attr( $id ); ?>" class="theme-carousel">
+	
+  		<div class="owl-carousel">
+        	<?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+	    	<?php get_template_part( 'template-parts/carousel-item', $template ); ?>
+	    	<?php endwhile; wp_reset_postdata(); ?>
+		</div>
+
+		<?php if ( $controls ) : ?>
+
+		<a class="carousel-control-prev" href="#" role="button">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only"><?php esc_html_e( 'Previous', 'theme' ); ?></span>
+		</a>
+
+		<a class="carousel-control-next" href="#" role="button">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only"><?php esc_html_e( 'Next', 'theme' ); ?></span>
+		</a>
+
+		<?php endif; ?>
+
+	</div>
+
+	<script type="text/javascript">
+
+		<?php 
+
+			$options = array
+			(
+				'responsive' => $responsive,
+				'loop'       => $loop ? 1 : 0,
+				'autoplay'   => $autoplay ? 1 : 0,
+				'nav'        => 0, // we use a custom navigation
+				'dots'       => $indicators ? 1 : 0
+			);
+
+		?>
+
+		jQuery( document ).ready( function( $ )
+		{
+			var $elem = $( '#<?php echo esc_attr( $id ); ?>' );
+
+	  		$elem.find( '.owl-carousel' ).owlCarousel( <?php echo json_encode( $options ); ?> );
+			
+			// TODO : js file
+
+			$elem.on( 'click', '.carousel-control-next', function( event )
+			{
+				event.preventDefault();
+
+				$elem.find( '.owl-carousel' ).trigger( 'next.owl.carousel' );
+			});
+
+			$elem.on( 'click', '.carousel-control-prev', function( event )
+			{
+				event.preventDefault();
+
+				$elem.find( '.owl-carousel' ).trigger( 'prev.owl.carousel' );
+			});
+		});
+
+	</script>
+
+	<?php
+}
+endif; // theme_carousel

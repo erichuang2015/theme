@@ -1,14 +1,35 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * SVG
+ *
+ * Include `add_theme_support( 'theme-svg' )` to enable this feature.
  */
 
 /**
- * Add SVG definitions to the footer.
+ * Include
  */
 function theme_svg_include()
 {
-	locate_template( 'assets/images/sprite.svg', true, true );
+	$paths = array
+	(
+		'icons' => get_theme_file_path( 'assets/images/icons.svg' )
+	);
+
+	$paths = apply_filters( 'theme/svg_include', $paths );
+
+	if ( ! is_array( $paths ) || ! count( $paths ) ) 
+	{
+		return;
+	}
+
+	echo '<div class="svg-sprite">';
+
+	foreach ( $paths as $path ) 
+	{
+		load_template( $path, true );
+	}
+
+	echo '</div>';
 }
 
 add_action( 'wp_footer', 'theme_svg_include', 9999 );
@@ -19,9 +40,10 @@ add_action( 'wp_footer', 'theme_svg_include', 9999 );
  * @param array $args {
  *     Parameters needed to display an SVG.
  *
- *     @type string $id  Required SVG id.
- *     @type string $title Optional SVG title.
- *     @type string $desc  Optional SVG description.
+ *     @type string $id       Required SVG id.
+ *     @type string $title    Optional SVG title.
+ *     @type string $desc     Optional SVG description.
+ *     @type string $fallback Optional fallback.
  * }
  * @return string SVG markup.
  */
@@ -44,6 +66,8 @@ function theme_get_svg( $args )
 
 	if ( ! $args['id'] ) 
 	{
+		trigger_error( __( 'id is reguired.', 'theme' ) );
+
 		return;
 	}
 
@@ -51,17 +75,14 @@ function theme_get_svg( $args )
 
 	$atts = array
 	(
-		'aria-hidden' => 'true'
+		'aria-hidden' => 'true',
+		'class'       => "icon icon-{$args['icon']}"
 	);
 
+	// -- Add icon class
 	if ( stripos( $args['id'], 'icon-' ) === 0 ) 
 	{
 		$atts['class'] = "icon {$args['id']}";
-	}
-
-	else
-	{
-		$atts['class'] = $args['id'];
 	}
 
 	if ( $args['title'] ) 
@@ -103,29 +124,29 @@ function theme_get_svg( $args )
 	return $svg;
 }
 
-function theme_menu_item_icon( $title, $item, $args, $depth )
+function theme_svg_menu_item( $title, $item, $args, $depth )
 {
-    $icon = null;
+    $svg_id = null;
 
     foreach ( $item->classes as $class ) 
     {
-        if ( preg_match( '/^menu-item-icon-([a-z0-9_-]+)$/', $class, $matches ) ) 
+        if ( preg_match( '/^svg-([a-z0-9_-]+)$/', $class, $matches ) ) 
         {
-            $icon = $matches[1];
+            $svg_id = $matches[1];
 
             break;
         }
     }
 
-    if ( $icon ) 
+    if ( $svg_id )
     {
-        return theme_get_svg( array( 'id' => "icon-$icon", 'title' => $item->title ) ) . sprintf( '<span>%s</span>', esc_html( $title ) );
+        return theme_get_svg( $svg_id ) . sprintf( '<span>%s</span>', esc_html( $title ) );
     }
 
     return $title;
 }
 
-add_filter( 'nav_menu_item_title', 'theme_menu_item_icon', 10, 4 );
+add_filter( 'nav_menu_item_title', 'theme_svg_menu_item', 10, 4 );
 
 function theme_svg_body_class( $classes )
 {

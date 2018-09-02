@@ -1,16 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
-
-function theme()
-{
-	static $instance = null;
-
-	if ( ! $instance ) 
-	{
-		$instance = new Theme();
-	}
-
-	return $instance;
-}
+/**
+ * Common Helper Functions
+ */
 
 function theme_esc_attr( $attribute )
 {
@@ -27,4 +18,14 @@ function theme_esc_attr( $attribute )
 	}
 
 	return $str;
+}
+
+function theme_sort_order( $a, $b )
+{
+    if ( $a['order'] == $b['order'] ) 
+    {
+        return 0;
+    }
+
+    return ( $a['order'] < $b['order'] ) ? -1 : 1;
 }
