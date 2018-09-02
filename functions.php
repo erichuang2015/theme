@@ -171,7 +171,8 @@ function theme_scripts()
 
 	wp_localize_script( 'theme-script', 'theme', (array) apply_filters( 'theme_js_vars', array
 	(
-		'ajaxurl' => admin_url( 'admin-ajax.php' )
+		'ajaxurl'         => admin_url( 'admin-ajax.php' ),
+		'gridBreakpoints' => theme_get_grid_breakpoints(),
 	)));
 
 	// Comments
