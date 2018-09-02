@@ -75,8 +75,7 @@ function theme_get_svg( $args )
 
 	$atts = array
 	(
-		'aria-hidden' => 'true',
-		'class'       => "icon icon-{$args['icon']}"
+		'aria-hidden' => 'true'
 	);
 
 	// -- Add icon class
