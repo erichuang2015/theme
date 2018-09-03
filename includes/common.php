@@ -20,16 +20,6 @@ function theme_esc_attr( $attribute )
 	return $str;
 }
 
-function theme_sort_order( $a, $b )
-{
-    if ( $a['order'] == $b['order'] ) 
-    {
-        return 0;
-    }
-
-    return ( $a['order'] < $b['order'] ) ? -1 : 1;
-}
-
 function theme_get_grid_breakpoints()
 {
 	return (array) apply_filters( 'theme/grid_breakpoints', array

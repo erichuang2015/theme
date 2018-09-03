@@ -40,6 +40,9 @@ endif; // theme_is_full_width
  */
 function theme_body_classes( $classes )
 {
+	$classes[] = 'no-js';
+	$classes[] = 'no-svg';
+
 	// Add class of group-blog to blogs with more than 1 published author.
 	if ( is_multi_author() ) 
 	{

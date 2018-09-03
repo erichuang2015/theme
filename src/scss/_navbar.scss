@@ -30,7 +30,7 @@
 
 	// sets buttons y spacing
 
-	&.nav-item[class*="menu-item-btn-"] .btn
+	&.nav-item[class*="menu-item-button-"] .btn
 	{
 		margin-top: $navbar-padding-y / 2;
 		margin-bottom: $navbar-padding-y / 2;
@@ -134,7 +134,7 @@
 
 				// sets buttons x spacing and removes y spacing
 
-			    .nav-item[class*="menu-item-btn-"] .btn
+			    .nav-item[class*="menu-item-button-"] .btn
 				{
 					margin: 0 $navbar-nav-link-padding-x;
 				}

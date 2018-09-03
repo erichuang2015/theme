@@ -19,7 +19,7 @@ if ( ! has_nav_menu( 'top_1' ) && ! has_nav_menu( 'top_2' ) )
 			(
 				'theme_location' => 'top_1', 
 				'menu_id'        => 'top-menu-left', 
-				'menu_class'     => 'nav mr-auto',
+				'menu_class'     => 'nav align-items-center mr-auto',
 				'container'      => false,
 				'walker'         => new Theme_Nav_Menu_Walker()
 			));
@@ -31,7 +31,7 @@ if ( ! has_nav_menu( 'top_1' ) && ! has_nav_menu( 'top_2' ) )
 			(
 				'theme_location' => 'top_2',
 				'menu_id'        => 'top-menu-right', 
-				'menu_class'     => 'nav ml-auto',
+				'menu_class'     => 'nav align-items-center ml-auto',
 				'container'      => false,
 				'walker'         => new Theme_Nav_Menu_Walker()
 			));
