@@ -1,0 +1,15 @@
+
+.menu-item-social,
+[class*="menu-item-icon-"]
+{
+	span
+	{
+		margin-left: .5rem;
+	}
+}
+
+.nav-item[class*="menu-item-button"]
+{
+	padding-left: $nav-link-padding-x;
+	padding-right: $nav-link-padding-x;
+}

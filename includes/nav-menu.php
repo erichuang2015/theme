@@ -131,9 +131,12 @@ function theme_nav_menu_args( $args )
 add_filter( 'wp_nav_menu_args', 'theme_nav_menu_args' );
 
 /**
- * Modal Toggle
- *
- * class `menu-item-modal` sets link attribute data-toggle="model"
+ * Menu Item Modal
+ * 
+ * Menu item with CSS class 'menu-item-modal' sets link attribute `data-toggle="modal"`.
+ * Set item 'URL' setting to '#my-modal-id' to refer to the modal.
+ * 
+ * Note: Only works with 'Custom Links'.
  */
 function theme_menu_item_modal( $atts, $item, $args, $depth )
 {
@@ -148,63 +151,52 @@ function theme_menu_item_modal( $atts, $item, $args, $depth )
 add_filter( 'nav_menu_link_attributes', 'theme_menu_item_modal', 10, 4 );
 
 /**
- * Button
+ * Menu Item Button
  *
- * Converts a menu item link to a button.
+ * Converts a menu item a button.
  *
- * Sample: `menu-item-btn-primary` sets link class 'btn-primary'
+ * Example: Menu item with CSS class `menu-item-button-primary` sets link class 'btn btn-primary'.
  */
 function theme_menu_item_button( $atts, $item, $args, $depth )
 {
-    // gets button classes
+    // Get button classes
 
-    $buttons = array();
+    $classes = array();
 
     foreach ( $item->classes as $class ) 
     {
-        if ( ! preg_match( '/^menu-item-btn-([a-z0-9_-]+)/', $class, $matches ) ) 
+        if ( preg_match( '/^menu-item-button-([a-z0-9_-]+)/', $class, $matches ) && $matches[1] != 'btn' ) 
         {
-            continue;
+            $classes[] = "btn-{$matches[1]}";
+        }
+    }
+
+    // Check if button classes
+    if ( count( $classes ) ) 
+    {
+        // Add 'btn' class 
+        array_unshift( $classes, 'btn' );
+        
+        // Make sure class is set
+        if ( ! isset( $atts['class'] ) ) 
+        {
+           $atts['class'] = '';
         }
 
-        if ( $matches[1] === 'btn' ) 
+        else
         {
-            continue;
+            // Removes 'nav-link' class
+            $atts['class'] = preg_replace( '/(^| )nav-link( |$)/', '', $atts['class'] );
         }
 
-        $buttons[] = sprintf( 'btn-%s', $matches[1] );
+        if ( $atts['class'] )
+        {
+            $atts['class'] .= ' ';
+        }
+
+        // Add button classes to link attributes
+        $atts['class'] .= implode( ' ', $classes );
     }
-
-    // checks if button classes
-
-    if ( ! count( $buttons ) ) 
-    {
-        return $atts;
-    }
-
-    // adds 'btn' class to button classes
-
-    array_unshift( $buttons, 'btn' );
-
-    if ( isset( $atts['class'] ) ) 
-    {
-        // removes 'nav-link' class
-        $atts['class'] = preg_replace( '/(^| )nav-link( |$)/', '', $atts['class'] );
-    }
-
-    else
-    {
-        $atts['class'] = '';
-    }
-
-    // adds button classes
-
-    if ( $atts['class'] ) 
-    {
-        $atts['class'] .= ' ';
-    }
-
-    $atts['class'] .= implode( ' ', $buttons );
 
     return $atts;
 }

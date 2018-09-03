@@ -34,7 +34,7 @@ function theme_setup()
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'theme-settings' );
-	add_theme_support( 'theme-svg' );
+	add_theme_support( 'theme-icons' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -62,9 +62,9 @@ function theme_support_init()
 	}
 
 	// SVG
-	if ( current_theme_supports( 'theme-svg' ) ) 
+	if ( current_theme_supports( 'theme-icons' ) ) 
 	{
-		require_once get_theme_file_path( 'includes/svg.php' );
+		require_once get_theme_file_path( 'includes/icons.php' );
 	}
 }
 
