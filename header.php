@@ -25,7 +25,3 @@
 	</header><!-- #masthead -->
 
 	<div id="content" class="site-content">
-
-		<?php get_sidebar( 'before-content' ); ?>
-
-		

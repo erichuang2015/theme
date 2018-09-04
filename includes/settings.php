@@ -2,7 +2,11 @@
 /**
  * Settings
  *
- * Include `add_theme_support( 'theme-settings' )` to enable this feature.
+ * Use `add_theme_support( 'theme-settings' );` to load this feature.
+ *
+ * Dependency: Advanced Custom Fields PRO 
+ *
+ * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_OPTION_NAME' ) or define( 'THEME_OPTION_NAME', 'theme_options' );

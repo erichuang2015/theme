@@ -34,7 +34,8 @@ function theme_setup()
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'theme-settings' );
-	
+	add_theme_support( 'theme-breadcrumbs' );
+
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
 }
@@ -59,6 +60,12 @@ function theme_support_init()
 	{
 		require_once get_theme_file_path( 'includes/flexible-content.php' );
 	}
+
+	// Breadcrumbs
+	if ( current_theme_supports( 'theme-breadcrumbs' ) && is_plugin_active( THEME_PLUGIN_BREADCRUMB_NAVXT ) ) 
+	{
+		require_once get_theme_file_path( 'includes/breadcrumbs.php' );
+	}
 }
 
 add_action( 'after_setup_theme', 'theme_support_init', 99 );
@@ -69,17 +76,6 @@ add_action( 'after_setup_theme', 'theme_support_init', 99 );
 function theme_widgets_init()
 {
 	// Registers sidebars
-
-	register_sidebar( array
-	(
-		'id'            => 'sidebar-before-content',
-		'name'          => __( 'Before Content', 'theme' ),
-		'description'   => __( 'Section before the main content.', 'theme' ),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h2>',
-		'after_title'   => '</h2>'
-	));
 
 	register_sidebar( array
 	(
@@ -101,17 +97,6 @@ function theme_widgets_init()
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
-	));
-
-	register_sidebar( array
-	(
-		'id'            => 'sidebar-after-content',
-		'name'          => __( 'After Content', 'theme' ),
-		'description'   => __( 'Section after the main content.', 'theme' ),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h2>',
-		'after_title'   => '</h2>'
 	));
 	
 	register_sidebar( array
