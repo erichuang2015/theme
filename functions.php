@@ -26,15 +26,17 @@ function theme_setup()
 		'top_1'     => __( 'Top menu left', 'theme' ),
 		'top_2'     => __( 'Top menu right', 'theme' ),
 		'primary_1' => __( 'Primary menu left', 'theme' ),
-		'primary_2' => __( 'Primary menu right', 'theme' )
+		'primary_2' => __( 'Primary menu right', 'theme' ),
+		'site_info' => __( 'Site Info', 'theme' ),
 	));
 
 	// Features
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'automatic-feed-links' );
+	add_theme_support( 'theme-main-visual' );
+	add_theme_support( 'theme-sections' );
+	add_theme_support( 'theme-flexible-content' );
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'theme-settings' );
-	add_theme_support( 'theme-breadcrumbs' );
 
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -47,24 +49,22 @@ add_action( 'after_setup_theme', 'theme_setup' );
  */
 function theme_support_init() 
 {
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	// Settings
-	if ( current_theme_supports( 'theme-settings' ) && is_plugin_active( THEME_PLUGIN_ACF_PRO ) ) 
+	// Main Visual
+	if ( current_theme_supports( 'theme-main-visual' ) ) 
 	{
-		require_once get_theme_file_path( 'includes/settings.php' );
+		require_once get_theme_file_path( 'includes/main-visual.php' );
+	}
+
+	// Sections
+	if ( current_theme_supports( 'theme-sections' ) ) 
+	{
+		require_once get_theme_file_path( 'includes/sections.php' );
 	}
 
 	// Flexible Content
-	if ( current_theme_supports( 'theme-flexible-content' ) && is_plugin_active( THEME_PLUGIN_ACF_PRO ) ) 
+	if ( current_theme_supports( 'theme-flexible-content' ) ) 
 	{
 		require_once get_theme_file_path( 'includes/flexible-content.php' );
-	}
-
-	// Breadcrumbs
-	if ( current_theme_supports( 'theme-breadcrumbs' ) && is_plugin_active( THEME_PLUGIN_BREADCRUMB_NAVXT ) ) 
-	{
-		require_once get_theme_file_path( 'includes/breadcrumbs.php' );
 	}
 }
 
@@ -104,7 +104,7 @@ function theme_widgets_init()
 		'id'            => 'sidebar-3',
 		'name'          => __( 'Footer', 'theme' ),
 		'description'   => __( 'The footer section.', 'theme' ),
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s col-md">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
@@ -163,15 +163,42 @@ function theme_scripts()
 add_action( 'wp_enqueue_scripts', 'theme_scripts' );
 
 /**
- * Options
+ * Get Option
+ *
+ * Commonly used to retrieve an option from our options page.
+ * Used as fallback when Advanced Custom Fields PRO plugin 
+ * is not active.
  */
 function theme_get_option( $name )
 {
 	return apply_filters( 'theme/option', null, $name );
 }
 
-// Icon functions
-require_once get_theme_file_path( 'includes/icons.php' );
+/**
+ * Get Grid Breakpoints
+ *
+ * @return array
+ */
+function theme_get_grid_breakpoints()
+{
+	return (array) apply_filters( 'theme/grid_breakpoints', array
+	(
+		'xs' => 0,
+		'sm' => 576,
+		'md' => 768,
+		'lg' => 992,
+		'xl' => 1200
+	));
+}
+
+// Settings
+require_once get_parent_theme_file_path( 'includes/settings.php' );
+
+// Icon functions.
+require_once get_parent_theme_file_path( 'includes/icons.php' );
+
+// Breadcrumbs.
+require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
 
 // Custom Nav Menu for this theme.
 require get_parent_theme_file_path( 'includes/nav-menu.php' );

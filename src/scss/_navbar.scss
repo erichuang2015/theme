@@ -9,13 +9,14 @@
 .navbar
 {
 	// sets transition for background color changes
-
-	@include transition( background-color 200ms ease-in-out );
+	//@include transition( background-color 200ms ease-in-out );
 
 	// stuck
 
 	&.navbar-stuck
 	{
+		animation: fadein 300ms;
+
 		box-shadow: $navbar-stuck-box-shadow;
 
     	z-index: $zindex-sticky;

@@ -9,13 +9,13 @@ class Theme_Nav_Menu_Walker extends Walker_Nav_Menu
     {
         $indent = str_repeat( "\t", $depth );
 
-        // adds dropdown menu
-        
         $class = '';
 
+        // Check depth
         if ( $depth == 0 )
         {
-           $class = ' dropdown-menu';
+            // Add dropdown menu
+            $class = ' dropdown-menu';
         }
 
         $output .= "\n$indent<ul class=\"sub-menu{$class}\">\n";
@@ -24,8 +24,7 @@ class Theme_Nav_Menu_Walker extends Walker_Nav_Menu
 
 function theme_nav_menu_css_class( $classes, $item, $args, $depth )
 {
-    // checks if our walker is used
-
+    // Check walker
     if ( is_object( $args->walker ) && get_class( $args->walker ) == 'Theme_Nav_Menu_Walker' )
     {
         // adds Bootstrap classes
@@ -48,8 +47,7 @@ add_filter( 'nav_menu_css_class' , 'theme_nav_menu_css_class', 10, 4 );
 
 function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
 {
-    // checks if our walker is used
-
+    // Check walker
     if ( is_object( $args->walker ) && get_class( $args->walker ) == 'Theme_Nav_Menu_Walker' )
     {
         if ( ! isset( $atts['class'] ) ) 
@@ -67,8 +65,7 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
             $atts['class'] .= ' dropdown-item';
         }
 
-        // adds Bootstrap dropdown attributes
-
+        // Add Bootstrap dropdown attributes
         if ( in_array( 'menu-item-has-children', $item->classes ) )
         {
             $atts['class']         .= ' dropdown-toggle';
@@ -78,8 +75,7 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
             $atts['aria-expanded'] = 'false';
         }
 
-        // sets active
-
+        // Set active
         if ( in_array( 'current-menu-ancestor', $item->classes ) 
           || in_array( 'current-page-ancestor', $item->classes )
           || in_array( 'current-menu-item', $item->classes ) )
@@ -94,19 +90,6 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
 }
 
 add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_link_attributes', 10, 4 );
-
-function theme_widget_nav_menu_args( $nav_menu_args, $nav_menu, $args, $instance )
-{
-    // Footer sidebar
-    if ( $args['id'] == 'footer' ) 
-    {
-        $nav_menu_args['walker'] = new Theme_Nav_Menu_Walker();
-    }
-
-    return $nav_menu_args;
-}
-
-add_filter( 'widget_nav_menu_args', 'theme_widget_nav_menu_args', 10, 4 );
 
 function theme_nav_menu_args( $args )
 {
@@ -210,8 +193,10 @@ add_filter( 'nav_menu_link_attributes', 'theme_menu_item_button', 15, 4 );
  */
 function theme_menu_item_text( $classes, $item, $args, $depth )
 {
+    // Check class
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
     {
+        // Check menu location
         if ( $args->theme_location == 'primary_1' || $args->theme_location == 'primary_2' ) 
         {
             $classes[] = 'navbar-text';
@@ -235,6 +220,7 @@ add_filter( 'nav_menu_css_class', 'theme_menu_item_text', 10, 4 );
  */
 function theme_menu_item_unlink( $item_output, $item, $depth, $args )
 {
+    // Check class
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
     {
         // Remove Link
@@ -258,6 +244,7 @@ function theme_menu_item_template( $item_output, $item, $depth, $args )
 {
     foreach ( $item->classes as $class ) 
     {
+        // Check class
         if ( preg_match( '/^menu-item-template-([a-z0-9_]+)$/', $class, $matches ) ) 
         {
             $located = locate_template( "template-parts/menu-item-{$matches[1]}.php", false );

@@ -2,14 +2,15 @@
 /**
  * Settings
  *
- * Use `add_theme_support( 'theme-settings' );` to load this feature.
- *
  * Dependency: Advanced Custom Fields PRO 
  *
  * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_OPTION_NAME' ) or define( 'THEME_OPTION_NAME', 'theme_options' );
+
+// Check dependency
+if ( function_exists( 'acf_add_options_page' ) ) :
 
 acf_add_options_page( array
 (
@@ -53,8 +54,16 @@ acf_add_options_page( array
 	'autoload' => false
 ));
 
+endif;
+
 function theme_settings_option( $value, $name )
 {
+	// Check dependency
+	if ( ! function_exists( 'get_field' ) ) 
+	{
+		return $value;
+	}
+
 	$field_value = get_field( $name, THEME_OPTION_NAME );
 
 	if ( ! is_null( $field_value ) ) 

@@ -52,30 +52,6 @@ function theme_time_link()
 }
 endif; // theme_time_link
 
-if ( ! function_exists( 'theme_edit_link' ) ) :
-/**
- * Returns an accessibility-friendly link to edit a post or page.
- *
- * This also gives us a little context about what exactly we're editing
- * (post or page?) so that users understand a bit more where they are in terms
- * of the template hierarchy and their content. Helpful when/if the single-page
- * layout with multiple posts/pages shown gets confusing.
- */
-function theme_edit_link()
-{
-	edit_post_link(
-		sprintf(
-			/* translators: %s: Name of current post */
-			__( 'Edit<span class="sr-only"> "%s"</span>', 'theme' ),
-			get_the_title()
-		),
-		'<span class="edit-link">',
-		'</span>'
-	);
-}
-endif; // theme_edit_link
-
-
 if ( ! function_exists( 'theme_favicon' ) ) :
 /**
  * Favicon
@@ -95,7 +71,7 @@ function theme_favicon()
 
     if ( $attachment_id && get_post_type( $attachment_id ) )
     {
-    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'favicon' );
+    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'full' );
 
     	printf( '<link rel="shortcut icon" href="%s">', esc_url( $image_url ) );
     }
@@ -111,7 +87,7 @@ function theme_favicon()
 
     if ( $attachment_id && get_post_type( $attachment_id ) )
     {
-    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'favicon_touch' );
+    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'full' );
 
     	printf( '<link rel="apple-touch-icon" href="%s">', esc_url( $image_url ) );
     }
@@ -138,14 +114,14 @@ function theme_site_logo()
 		'light_small' => array( 'attachment' => theme_get_option( 'site_logo_light_small' ), 'type' => array( 'light', 'small' ) )
 	);
 
-	// Filters logo's with attachments
+	// Filter logo's with attachments
 
 	$logos = array_filter( $logos, function( $logo )
 	{
 		return $logo['attachment'] && get_post_type( $logo['attachment'] );
 	});
 
-	// Large logo's are also small logo's when small version is not set
+	// Large logos are also small logos when small version is not set.
 	
 	if ( isset( $logos['dark'] ) && ! isset( $logos['dark_small'] ) ) 
 	{
@@ -157,7 +133,7 @@ function theme_site_logo()
 		$logos['dark']['type'] = array_merge( $logos['light']['type'], $logos['light_small']['type'] );
 	}
 
-	// Checks if there are any logos
+	// Check if there are any logos
 
 	if ( count( $logos ) ) 
 	{
@@ -189,6 +165,128 @@ function theme_site_logo()
     }
 }
 endif; // theme_site_logo
+
+/**
+ * Page Header
+ */
+function theme_page_header( $args )
+{
+	$defaults = array
+	(
+		'title'    => '',
+		'subtitle' => ''
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	?>
+
+	<div class="page-header">
+		<?php if ( ! theme_has_container() ) : ?>
+		<div class="container">
+		<?php endif; ?>
+		<?php  
+
+			echo '<h1>' . esc_html( $args['title'] );
+
+			if ( $args['subtitle'] )
+			{
+				printf( ' <small>%s</small>', esc_html( $args['subtitle'] ) );
+			}
+
+			echo '</h1>';
+		?>
+		<?php if ( ! theme_has_container() ) : ?>
+		</div><!-- .container -->
+		<?php endif; ?>
+	</div><!-- .page-header -->
+
+	<?php
+}
+
+add_action( 'theme/render_layout/name=page_header', 'theme_page_header' );
+
+/**
+ * Heading
+ */
+function theme_heading( $args )
+{
+	$defaults = array
+	(
+		'text'   => '',
+		'text_2' => ''
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	?>
+
+	<div class="heading">
+		<?php if ( ! theme_has_container() ) : ?>
+		<div class="container">
+		<?php endif; ?>
+		<?php  
+
+			echo '<h2>' . esc_html( $args['text'] );
+
+			if ( $args['text_2'] )
+			{
+				printf( ' <small>%s</small>', esc_html( $args['text_2'] ) );
+			}
+
+			echo '</h2>';
+
+		?>
+		<?php if ( ! theme_has_container() ) : ?>
+		</div><!-- .container -->
+		<?php endif; ?>
+	</div><!-- .heading -->
+
+	<?php
+}
+
+add_action( 'theme/render_layout/name=heading', 'theme_heading' );
+
+/**
+ * Content
+ */
+function theme_content( $args )
+{
+	$defaults = array
+	(
+		'title'    => '',
+		'subtitle' => ''
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	?>
+
+	<div class="content">
+		<?php if ( ! theme_has_container() ) : ?>
+		<div class="container">
+		<?php endif; ?>
+
+			<?php if ( theme_is_full_width() ) : ?>
+			<div class="row">
+				<div class="col-lg-7">
+			<?php endif; ?>
+
+			<?php echo $args['content']; ?>
+
+			<?php if ( theme_is_full_width() ) : ?>
+				</div><!-- .col-lg-7 -->
+			</div><!-- .row -->
+			<?php endif; ?>
+		<?php if ( ! theme_has_container() ) : ?>
+		</div><!-- .container -->
+		<?php endif; ?>
+	</div><!-- .content -->
+
+	<?php
+}
+
+add_action( 'theme/render_layout/name=content', 'theme_content' );
 
 if ( ! function_exists( 'theme_carousel' ) ) :
 /**

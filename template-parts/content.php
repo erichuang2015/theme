@@ -15,7 +15,6 @@
 				theme_posted_on();
 			} else {
 				echo theme_time_link();
-				theme_edit_link();
 			};
 			echo '</div><!-- .entry-meta -->';
 		};
