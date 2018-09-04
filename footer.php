@@ -6,9 +6,6 @@
  */
 
 ?>
-		
-		<?php get_sidebar( 'after-content' ); ?>
-
 	</div><!-- #content -->
 
 	<?php if ( is_active_sidebar( 'sidebar-3' ) ) : ?>

@@ -16,7 +16,7 @@
 		<input type="search" id="<?php echo $unique_id; ?>" class="form-control" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'theme' ); ?>" value="<?php echo get_search_query(); ?>" name="s" />
 		<div class="input-group-append">
 			<button type="submit" class="btn btn-outline-secondary">
-				<?php echo theme_get_svg( 'icon-search' ); ?><span class="sr-only"><?php esc_html_e( 'Search', 'theme' ); ?></span>
+				<?php echo theme_get_icon( 'search' ); ?><span class="sr-only"><?php esc_html_e( 'Search', 'theme' ); ?></span>
 			</button>
 		</div>
 	</div>

@@ -2,7 +2,11 @@
 /**
  * Flexible Content
  *
- * Include `add_theme_support( 'theme-flexible-content' )` to enable this feature.
+ * Use `add_theme_support( 'theme-flexible-content' );` to load this feature.
+ *
+ * Dependency: Advanced Custom Fields PRO 
+ *
+ * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_FLEXIBLE_CONTENT_FIELD', 'content' );
