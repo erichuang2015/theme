@@ -34,7 +34,6 @@ function theme_setup()
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'theme-settings' );
-	add_theme_support( 'theme-icons' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -59,12 +58,6 @@ function theme_support_init()
 	if ( current_theme_supports( 'theme-flexible-content' ) && is_plugin_active( THEME_PLUGIN_ACF_PRO ) ) 
 	{
 		require_once get_theme_file_path( 'includes/flexible-content.php' );
-	}
-
-	// SVG
-	if ( current_theme_supports( 'theme-icons' ) ) 
-	{
-		require_once get_theme_file_path( 'includes/icons.php' );
 	}
 }
 
@@ -191,6 +184,9 @@ function theme_get_option( $name )
 {
 	return apply_filters( 'theme/option', null, $name );
 }
+
+// Icon functions
+require_once get_theme_file_path( 'includes/icons.php' );
 
 // Custom Nav Menu for this theme.
 require get_parent_theme_file_path( 'includes/nav-menu.php' );

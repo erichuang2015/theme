@@ -22,7 +22,12 @@ get_header();
 
 				endwhile;
 
-				the_posts_pagination();
+				the_posts_pagination( array
+				(
+					'prev_text'          => sprintf( '%s<span class="sr-only">%s</span>', theme_get_icon( 'arrow-left' ), __( 'Previous page', 'theme' ) ),
+					'next_text'          => sprintf( '<span class="sr-only">%s</span>%s', __( 'Next page', 'theme' ), theme_get_icon( 'arrow-right' ) ),
+					'before_page_number' => sprintf( '<span class="meta-nav sr-only">%s</span>', __( 'Next page', 'theme' ) ),
+				));
 			
 			else : 
 			
