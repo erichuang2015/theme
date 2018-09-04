@@ -203,9 +203,12 @@ function theme_menu_item_button( $atts, $item, $args, $depth )
 add_filter( 'nav_menu_link_attributes', 'theme_menu_item_button', 15, 4 );
 
 /**
- * Menu Item Navbar Text
+ * Menu Item Text
+ *
+ * Use CSS class `menu-item-unlink` to remove link.
+ * Item class `navbar-text` or `nav-text` is added depending on the menu location.
  */
-function theme_menu_item_navbar_text( $classes, $item, $args, $depth )
+function theme_menu_item_text( $classes, $item, $args, $depth )
 {
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
     {
@@ -223,10 +226,12 @@ function theme_menu_item_navbar_text( $classes, $item, $args, $depth )
     return $classes;
 }
 
-add_filter( 'nav_menu_css_class', 'theme_menu_item_navbar_text', 10, 4 );
+add_filter( 'nav_menu_css_class', 'theme_menu_item_text', 10, 4 );
 
 /**
  * Menu Item Unlink
+ *
+ * Use CSS class `menu-item-unlink` to remove link.
  */
 function theme_menu_item_unlink( $item_output, $item, $depth, $args )
 {
@@ -239,10 +244,15 @@ function theme_menu_item_unlink( $item_output, $item, $depth, $args )
     return $item_output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 5 );
+add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 4 );
 
 /**
  * Menu Item Template
+ *
+ * Replaces the all item content with content rendered in a template.
+ *
+ * Template can be set by following CSS class format: `menu-item-template-{template_name}`.
+ * The loaded template will be: `template-parts/menu-item-{template_name}.php`
  */
 function theme_menu_item_template( $item_output, $item, $depth, $args )
 {
@@ -266,4 +276,4 @@ function theme_menu_item_template( $item_output, $item, $depth, $args )
     return $item_output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_template', 10, 5 );
+add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_template', 10, 4 );
