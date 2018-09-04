@@ -14,7 +14,7 @@ Bootstrap driven WordPress theme.
 - Bootstrap styled [Gravity Forms](https://www.gravityforms.com/).
 - Bootstrap [navbar](http://getbootstrap.com/docs/4.1/components/navbar/).
 - [Advanced Custom Fields](https://www.advancedcustomfields.com/) option page.
-- Menu item Utilities.
+- Menu item utilities.
 
 ### Menu Items
 This theme provides some usefull features for menu items:
