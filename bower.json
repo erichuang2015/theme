@@ -6,7 +6,7 @@
     "Maarten Menten"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/mmaarten/wordpress-theme",
+  "homepage": "https://github.com/mmaarten/theme",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.3",
