@@ -9,11 +9,17 @@ Bootstrap driven WordPress theme.
 1. Run `grunt dist` to create assets folder.
 1. Activate theme via WordPress admin menu: Appearance/Themes.
 
+## Features
+- svg icons.
+- Bootstrap styled [Gravity Forms](https://www.gravityforms.com/).
+- Bootstrap [navbar](http://getbootstrap.com/docs/4.1/components/navbar/).
+- [Advanced Custom Fields](https://www.advancedcustomfields.com/) option page.
+
 ## Menu Items
 This theme provides some usefull features for menu items:
 
 ### Modal
-Menu item with CSS class `menu-item-modal sets link attribute `data-toggle="modal"`.
+Menu item with CSS class `menu-item-modal` sets link attribute `data-toggle="modal"`.
 Set item 'URL' setting to refer to the modal.
 *Note: Only works with 'Custom Links'.*
 
