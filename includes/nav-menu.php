@@ -164,7 +164,7 @@ function theme_menu_item_button( $atts, $item, $args, $depth )
 
     foreach ( $item->classes as $class ) 
     {
-        if ( preg_match( '/^menu-item-button-([a-z0-9_-]+)/', $class, $matches ) && $matches[1] != 'btn' ) 
+        if ( preg_match( '/^menu-item-button-([a-z0-9_-]+)$/', $class, $matches ) && $matches[1] != 'btn' ) 
         {
             $classes[] = "btn-{$matches[1]}";
         }
@@ -201,3 +201,69 @@ function theme_menu_item_button( $atts, $item, $args, $depth )
 }
 
 add_filter( 'nav_menu_link_attributes', 'theme_menu_item_button', 15, 4 );
+
+/**
+ * Menu Item Navbar Text
+ */
+function theme_menu_item_navbar_text( $classes, $item, $args, $depth )
+{
+    if ( in_array( 'menu-item-unlink', $item->classes ) ) 
+    {
+        if ( $args->theme_location == 'primary_1' || $args->theme_location == 'primary_2' ) 
+        {
+            $classes[] = 'navbar-text';
+        }
+
+        else
+        {
+            $classes[] = 'nav-text';
+        }
+    }
+
+    return $classes;
+}
+
+add_filter( 'nav_menu_css_class', 'theme_menu_item_navbar_text', 10, 4 );
+
+/**
+ * Menu Item Unlink
+ */
+function theme_menu_item_unlink( $item_output, $item, $depth, $args )
+{
+    if ( in_array( 'menu-item-unlink', $item->classes ) ) 
+    {
+        // Remove Link
+        $item_output = preg_replace( '#<a.*?>(.*)</a>#', '$1', $item_output );
+    }
+
+    return $item_output;
+}
+
+add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 5 );
+
+/**
+ * Menu Item Template
+ */
+function theme_menu_item_template( $item_output, $item, $depth, $args )
+{
+    foreach ( $item->classes as $class ) 
+    {
+        if ( preg_match( '/^menu-item-template-([a-z0-9_]+)$/', $class, $matches ) ) 
+        {
+            $located = locate_template( "template-parts/menu-item-{$matches[1]}.php", false );
+
+            if ( $located ) 
+            {
+                ob_start();
+
+                load_template( $located, false );
+
+                return ob_get_clean();
+            }
+        }
+    }
+
+    return $item_output;
+}
+
+add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_template', 10, 5 );
