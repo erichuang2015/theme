@@ -37,6 +37,7 @@ function theme_breadcrumb_navigation( $args = array() )
 		// Check if breadcrumb items
 		if ( trim( $items ) ) 
 		{
+			// Render navigation
 			$str = sprintf( '%s<nav class="breadcrumb-nav" aria-label="breadcrumb"><ol class="breadcrumb">%s</ol></nav>%s', 
 				$args['before'], $items, $args['after'] );
 		}
