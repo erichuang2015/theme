@@ -9,7 +9,6 @@ if ( ! function_exists( 'theme_posted_on' ) ) :
  */
 function theme_posted_on()
 {
-
 	// Get the author name; wrap it in a link.
 	$byline = sprintf(
 		/* translators: %s: post author */
@@ -30,7 +29,9 @@ if ( ! function_exists( 'theme_time_link' ) ) :
 function theme_time_link()
 {
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
-	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+
+	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) 
+	{
 		$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
 	}
 
