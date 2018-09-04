@@ -1,8 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
- * SVG
- *
- * Include `add_theme_support( 'theme-svg' )` to enable this feature.
+ * Icons
  */
 
 /**

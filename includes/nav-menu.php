@@ -1,9 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly
-
 /**
  * Nav menu related functions
- * --------------------------------------------------------------------
  */
+
 class Theme_Nav_Menu_Walker extends Walker_Nav_Menu
 {
     public function start_lvl( &$output, $depth = 0, $args = array() )

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Template Tags
+ */
 
 if ( ! function_exists( 'theme_posted_on' ) ) :
 /**
