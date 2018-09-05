@@ -3,42 +3,50 @@
  * Additional features to allow styling of the templates
  */
 
-if ( ! function_exists( 'theme_has_container' ) ) :
 /**
  * Has Container
  *
  * Returns true if the #content element has a .container element.
+ *
+ * @return boolean
  */
 function theme_has_container()
 {
-	return ! is_page_template( 'page-templates/full-width.php' );
-}
-endif; // theme_has_container
+	$return = ! is_page_template( 'page-templates/full-width.php' );
 
-if ( ! function_exists( 'theme_is_full_width' ) ) :
+	return apply_filters( 'theme_has_container', $return );
+}
+
 /**
  * Is Full Width
+ * 
+ * Returns true when no left or right sidebar is displayed. 
+ *
+ * @return boolean
  */
 function theme_is_full_width()
 {
+	$return = false;
+
 	if ( ! ( is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) )
 		|| is_page_template( 'page-templates/full-width-fixed.php' ) 
 		|| is_page_template( 'page-templates/full-width.php' ) ) 
 	{
-		return true;
+		$return = true;
 	}
 
-	return false;
+	return apply_filters( 'theme_is_full_width', $return );
 }
-endif; // theme_is_full_width
 
 /**
+ * Body Class
+ *
  * Adds custom classes to the array of body classes.
  *
  * @param array $classes Classes for the body element.
  * @return array
  */
-function theme_body_classes( $classes )
+function theme_body_class( $classes )
 {
 	$classes[] = 'no-js';
 	$classes[] = 'no-svg';
@@ -61,7 +69,7 @@ function theme_body_classes( $classes )
 		$classes[] = 'theme-front-page';
 	}
 
-	// Browser/device Info
+	// Browser and device Info
 	global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
 
 	    if ( $is_lynx )     $classes[] = 'browser-lynx';
@@ -80,16 +88,4 @@ function theme_body_classes( $classes )
 	return $classes;
 }
 
-add_filter( 'body_class', 'theme_body_classes' );
-
-if ( ! function_exists( 'theme_is_frontpage' ) ) :
-/**
- * Checks to see if we're on the front page or not.
- */
-function theme_is_frontpage()
-{
-	return ( is_front_page() && ! is_home() );
-}
-endif; // theme_is_frontpage
-
-
+add_filter( 'body_class', 'theme_body_class' );

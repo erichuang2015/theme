@@ -45,9 +45,11 @@ module.exports = function(grunt) {
       // merges specific js files into assets/js/theme.js
       theme: {
         src: [
-          'src/js/common.js',
-          'src/js/cover-image.js',
+          'src/js/utilities.js',
+          'src/js/breakpoint.js',
           'src/js/navbar.js',
+          'src/js/cover-image.js',
+          'src/js/common.js',
         ],
         dest: 'assets/js/theme.js',
       }

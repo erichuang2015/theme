@@ -9,7 +9,7 @@ if ( ! has_nav_menu( 'top_1' ) && ! has_nav_menu( 'top_2' ) )
 }
 
 ?>
-<nav id="top-navigation" class="nav nav-dark bg-dark" role="navigation">
+<nav id="top-navigation" class="nav nav-dark bg-dark d-none d-md-flex" role="navigation">
 	<div class="container d-flex">
 	<?php
 

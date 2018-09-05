@@ -2,14 +2,15 @@
 /**
  * Settings
  *
- * Use `add_theme_support( 'theme-settings' );` to load this feature.
- *
  * Dependency: Advanced Custom Fields PRO 
  *
  * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_OPTION_NAME' ) or define( 'THEME_OPTION_NAME', 'theme_options' );
+
+// Check dependency
+if ( function_exists( 'acf_add_options_page' ) ) :
 
 acf_add_options_page( array
 (
@@ -53,16 +54,56 @@ acf_add_options_page( array
 	'autoload' => false
 ));
 
+endif;
+
+/**
+ * Settings Option
+ */
 function theme_settings_option( $value, $name )
 {
-	$field_value = get_field( $name, THEME_OPTION_NAME );
-
-	if ( ! is_null( $field_value ) ) 
+	// Check dependency
+	if ( function_exists( 'get_field' ) ) 
 	{
-		return $field_value;
+		$field_value = get_field( $name, THEME_OPTION_NAME );
+
+		if ( ! is_null( $field_value ) ) 
+		{
+			return $field_value;
+		}
 	}
 
 	return $value;
 }
 
 add_filter( 'theme/option', 'theme_settings_option', 5, 2 );
+
+/**
+ * WP Site Icon Option
+ *
+ * Site icon option can be set via the WordPress Customizer.
+ * We overrule the setting cause this theme has its own setting.  
+ *
+ * note: WordPress handles the markup itself and the icon is displayed in frontend and backend.
+ * See: `wp_site_icon()` in wp-includes/general-template.php
+ *
+ * @return int Attachment ID.
+ */
+function theme_set_wp_site_icon_option( $site_icon ) 
+{
+	return theme_get_option( 'site_icon' );
+}
+
+add_filter( 'option_site_icon', 'theme_set_wp_site_icon_option', 999 );
+
+/**
+ * Remove site icon setting from Customizer.
+ * This theme has its own setting. 
+ *
+ * @param $wp_customize WP_Customize_Manager
+ */
+function theme_remove_customizer_site_icon( $wp_customize ) 
+{
+	$wp_customize->remove_control( 'site_icon' );
+}
+
+add_filter( 'customize_register', 'theme_remove_customizer_site_icon', 15 );

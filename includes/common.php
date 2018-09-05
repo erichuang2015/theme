@@ -3,6 +3,13 @@
  * Common Helper Functions
  */
 
+/**
+ * Escape HTML Attributes
+ *
+ * @param string|array $attribute
+ *
+ * @return string
+ */
 function theme_esc_attr( $attribute )
 {
 	if ( ! is_array( $attribute ) ) 
@@ -20,14 +27,59 @@ function theme_esc_attr( $attribute )
 	return $str;
 }
 
-function theme_get_grid_breakpoints()
+/**
+ * Load Template
+ */
+function theme_load_template( $template_name, $vars = array(), $__return = false )
 {
-	return (array) apply_filters( 'theme/grid_breakpoints', array
-	(
-		'xs' => 0,
-		'sm' => 576,
-		'md' => 768,
-		'lg' => 992,
-		'xl' => 1200
-	));
+	$__located = locate_template( $template_name, false );
+
+	$vars = apply_filters( 'theme/template_vars', $vars, $template_name );
+
+	if ( $__located ) 
+	{
+		if ( $__return ) 
+		{
+			ob_start();
+		}
+
+		extract( $vars );
+
+		include $__located;
+
+		if ( $__return ) 
+		{
+			return ob_get_clean();
+		}
+	}
+}
+
+/**
+ * Function Exists
+ *
+ * @param string|array $function_name
+ *
+ * @return boolean
+ */
+function theme_function_exists( $function_name )
+{
+	if ( func_num_args() > 1 ) 
+	{
+		$function_names = func_get_args();
+	}
+
+	else
+	{
+		$function_names = (array) $function_name;
+	}
+
+	foreach ( $function_names as $function_name ) 
+	{
+		if ( ! function_exists( $function_name ) ) 
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

@@ -2,11 +2,7 @@
 /**
  * Flexible Content
  *
- * Use `add_theme_support( 'theme-flexible-content' );` to load this feature.
- *
  * Dependency: Advanced Custom Fields PRO 
- *
- * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_FLEXIBLE_CONTENT_FIELD', 'content' );
@@ -16,11 +12,17 @@ defined( 'THEME_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_FLEXIBLE_CONTENT_FIE
  */
 function theme_render_layouts( $post_id = 0 )
 {
+	// Check dependency
+	if ( ! theme_function_exists( 'have_rows', 'the_row', 'get_row', 'get_row_layout' ) ) 
+	{
+		return;
+	}
+
 	while ( have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
 	{
 		the_row();
 
-		get_template_part( 'template-parts/layout', get_row_layout() );
+		do_action( 'theme/render_layout/name=' . get_row_layout(), get_row( true ) );
 	}
 }
 
@@ -29,6 +31,12 @@ function theme_render_layouts( $post_id = 0 )
  */
 function theme_auto_render_layouts( $content )
 {
+	// Check dependency
+	if ( ! theme_function_exists( 'have_rows' ) ) 
+	{
+		return $content;
+	}
+
 	if ( is_main_query() 
 		&& in_the_loop() 
 		&& ( is_single() || is_page() ) 
@@ -57,13 +65,20 @@ function theme_has_layout( $layout, $post_id = 0 )
 {
 	$return = false;
 
-	while ( have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
+	// Check dependency
+	if ( theme_function_exists( 'have_rows', 'the_row', 'get_row_layout' ) ) 
 	{
-		the_row();
-
-		if ( get_row_layout() == $layout ) 
+		while ( have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
 		{
-			$return = true;
+			the_row();
+
+			// Check layout
+			if ( get_row_layout() == $layout ) 
+			{
+				$return = true;
+
+				// Don't break loop
+			}
 		}
 	}
 

@@ -1,8 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
- * SVG
- *
- * Include `add_theme_support( 'theme-svg' )` to enable this feature.
+ * Icons
  */
 
 /**
@@ -140,6 +138,7 @@ function theme_menu_item_icon( $title, $item, $args, $depth )
 {
     foreach ( $item->classes as $class ) 
     {
+    	// Check class
         if ( preg_match( '/^menu-item-icon-([a-z0-9_]+)$/', $class, $matches ) ) 
         {
             $icon = $matches[1];
@@ -160,14 +159,17 @@ add_filter( 'nav_menu_item_title', 'theme_menu_item_icon', 10, 4 );
  */
 function theme_menu_item_social_icon( $title, $item, $args, $depth )
 {
+	// Check class
     if ( in_array( 'menu-item-social', $item->classes ) ) 
     {
         $social_icons = theme_get_social_links_icons();
 
-        foreach ( $social_icons as $attr => $icon ) 
+        foreach ( $social_icons as $domain => $icon ) 
         {
-            if ( stripos( $item->url, $attr ) !== false ) 
+        	// Check if url contains icon domain
+            if ( stripos( $item->url, $domain ) !== false ) 
             {
+            	// Add icon
                 $title = theme_get_icon( $icon ) . sprintf( '<span>%s</span>', esc_html( $title ) );
             }
         }
@@ -231,4 +233,3 @@ function theme_get_social_links_icons()
 	
 	return apply_filters( 'theme/social_links_icons', $social_links_icons );
 }
-
