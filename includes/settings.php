@@ -75,3 +75,16 @@ function theme_settings_option( $value, $name )
 }
 
 add_filter( 'theme/option', 'theme_settings_option', 5, 2 );
+
+/**
+ * Remove site icon setting from Customizer.
+ * This theme has its own setting. 
+ *
+ * @param $wp_customize WP_Customize_Manager
+ */
+function theme_remove_customizer_site_icon( $wp_customize ) 
+{
+	$wp_customize->remove_control( 'site_icon' );
+}
+
+add_filter( 'customize_register', 'theme_remove_customizer_site_icon', 15 );
