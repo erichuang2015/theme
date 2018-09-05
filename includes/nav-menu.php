@@ -235,9 +235,8 @@ add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 4 );
 /**
  * Menu Item Template
  *
- * Replaces the all item content with content rendered in a template.
- *
- * Template can be set by following CSS class format: `menu-item-template-{template_name}`.
+ * Replace all item content with template content.
+ * Template can be set by using CSS class format: `menu-item-template-{template_name}`.
  * The loaded template will be: `template-parts/menu-item-{template_name}.php`
  */
 function theme_menu_item_template( $item_output, $item, $depth, $args )
