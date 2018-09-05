@@ -191,6 +191,18 @@ function theme_get_grid_breakpoints()
 	));
 }
 
+/**
+ * Removes the additional CSS section from the Customizer.
+ *
+ * @param $wp_customize WP_Customize_Manager
+ */
+function theme_remove_customizer_custom_css_section( $wp_customize ) 
+{
+	$wp_customize->remove_section( 'custom_css' );
+}
+
+add_action( 'customize_register', 'theme_remove_customizer_custom_css_section', 15 );
+
 // Settings
 require_once get_parent_theme_file_path( 'includes/settings.php' );
 

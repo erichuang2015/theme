@@ -52,50 +52,30 @@ function theme_time_link()
 }
 endif; // theme_time_link
 
-if ( ! function_exists( 'theme_favicon' ) ) :
 /**
- * Favicon
+ * Site Icon
  *
- * @link https://en.wikipedia.org/wiki/Favicon
- * @link http://realfavicongenerator.net
+ * Site icon option can be set via the WordPress Customizer.
+ * We overrule the setting when our theme has a site icon of its own.  
+ *
+ * note: WordPress handles the markup itself and the icon is displayed in front- and backend.
+ * See: `wp_site_icon()` in wp-includes/general-template.php
+ *
+ * @return int Attachment ID.
  */
-function theme_favicon()
+function theme_set_site_icon( $site_icon ) 
 {
-	/**
-     * size: 16×16, 32×32, 48×48 or 64×64
-     * format: ico (supported for all browsers, also older browser versions)
-     * ---------------------------------------------------------------
-     */
+	$theme_site_icon = theme_get_option( 'site_icon' );
 
-    $attachment_id = theme_get_option( 'favicon' );
+	if ( $theme_site_icon && get_post_type( $theme_site_icon ) ) 
+	{
+		return $theme_site_icon;
+	}
 
-    if ( $attachment_id && get_post_type( $attachment_id ) )
-    {
-    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'full' );
-
-    	printf( '<link rel="shortcut icon" href="%s">', esc_url( $image_url ) );
-    }
-
-    /**
-     * Touch Icons
-     *
-     * Size: 180x180. Format: png.
-     * ---------------------------------------------------------------
-     */
-
-    $attachment_id = theme_get_option( 'favicon_touch' );
-
-    if ( $attachment_id && get_post_type( $attachment_id ) )
-    {
-    	list( $image_url ) = wp_get_attachment_image_src( $attachment_id, 'full' );
-
-    	printf( '<link rel="apple-touch-icon" href="%s">', esc_url( $image_url ) );
-    }
+	return $site_icon;
 }
 
-add_action( 'wp_head', 'theme_favicon' );
-
-endif; // theme_favicon
+add_filter( 'option_site_icon', 'theme_set_site_icon', 999 );
 
 if ( ! function_exists( 'theme_site_logo' ) ) :
 /**

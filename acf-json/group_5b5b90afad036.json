@@ -116,34 +116,10 @@
         },
         {
             "key": "field_5b5c71a25aba8",
-            "label": "Favicon",
-            "name": "favicon",
+            "label": "Site Icon",
+            "name": "site_icon",
             "type": "image",
-            "instructions": "Size: 16×16, 32×32, 48×48 or 64×64. Format: ico.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "id",
-            "preview_size": "thumbnail",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": ""
-        },
-        {
-            "key": "field_5b5c71d8f2faf",
-            "label": "Favicon (touch devices)",
-            "name": "favicon_touch",
-            "type": "image",
-            "instructions": "Size: 180x180. Format: png.",
+            "instructions": "Site Icons are what you see in browser tabs, bookmark bars. They should be square and at least 512 × 512 pixels.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -180,5 +156,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1535659068
+    "modified": 1536120341
 }
