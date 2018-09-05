@@ -34,12 +34,12 @@ function theme_main_visual( $name = null )
 function theme_has_main_visual( $post_id = 0 )
 {
 	// Check dependency
-	if ( ! function_exists( 'get_field' ) ) 
+	if ( function_exists( 'get_field' ) ) 
 	{
-		return false;
+		return get_field( 'main_visual_active', $post_id ) ? true : false;
 	}
 
-	return get_field( 'main_visual_active', $post_id ) ? true : false;
+	return false;
 }
 
 function theme_main_visual_body_class( $classes )
