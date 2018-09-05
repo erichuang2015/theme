@@ -69,7 +69,7 @@ function theme_body_class( $classes )
 		$classes[] = 'theme-front-page';
 	}
 
-	// Browser/device Info
+	// Browser and device Info
 	global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
 
 	    if ( $is_lynx )     $classes[] = 'browser-lynx';
