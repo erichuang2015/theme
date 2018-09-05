@@ -31,7 +31,7 @@ add_action( 'wp_footer', 'theme_include_svg_icons', 9999 );
  *     @type string  $icon     Required SVG icon filename.
  *     @type string  $title    Optional SVG title.
  *     @type string  $desc     Optional SVG description.
- *     @type boolean $fallback Optional fallback.
+ *     @type string $fallback Optional fallback.
  * }
  * @return string SVG markup.
  */
@@ -48,7 +48,7 @@ function theme_get_icon( $args )
 		'icon'     => '',
 		'title'    => '',
 		'desc'     => '',
-		'fallback' => false,
+		'fallback' => '',
 	);
 
 	// Parse args.
