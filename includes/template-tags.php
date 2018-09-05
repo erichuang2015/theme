@@ -58,7 +58,7 @@ endif; // theme_time_link
  * Site icon option can be set via the WordPress Customizer.
  * We overrule the setting when our theme has a site icon of its own.  
  *
- * note: WordPress handles the markup itself and the icon is displayed in front- and backend.
+ * note: WordPress handles the markup itself and the icon is displayed in frontend and backend.
  * See: `wp_site_icon()` in wp-includes/general-template.php
  *
  * @return int Attachment ID.
@@ -146,6 +146,7 @@ function theme_site_logo()
 }
 endif; // theme_site_logo
 
+if ( ! function_exists( 'theme_page_header' ) ) :
 /**
  * Page Header
  */
@@ -184,8 +185,11 @@ function theme_page_header( $args )
 	<?php
 }
 
+endif; // theme_page_header
+
 add_action( 'theme/render_layout/name=page_header', 'theme_page_header' );
 
+if ( ! function_exists( 'theme_heading' ) ) :
 /**
  * Heading
  */
@@ -225,8 +229,11 @@ function theme_heading( $args )
 	<?php
 }
 
+endif; // theme_heading
+
 add_action( 'theme/render_layout/name=heading', 'theme_heading' );
 
+if ( ! function_exists( 'theme_content' ) ) :
 /**
  * Content
  */
@@ -265,6 +272,8 @@ function theme_content( $args )
 
 	<?php
 }
+
+endif; // theme_content
 
 add_action( 'theme/render_layout/name=content', 'theme_content' );
 
