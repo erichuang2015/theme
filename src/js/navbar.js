@@ -19,26 +19,8 @@
 			this.initSticky();
 		};
 
-		theme.breakpoint.change( function( breakpoint, breakpoints )
-		{
-			var width = breakpoints[ breakpoint ];
-			
-			_this.isExpand = false;
-
-			var expand = _this.getExpand();
-
-			if ( expand && typeof breakpoints[ expand ] !== 'undefined' ) 
-			{
-				var expandWidth = breakpoints[ expand ];
-
-				if ( expandWidth < width ) 
-				{
-					_this.isExpand = true;
-				}
-			}
-
-			_this.$elem.trigger( 'change', [ _this ] );
-		});
+		this.initExpand();
+		this.initNavExpand();
 
 		$( document ).trigger( 'theme.navbar', [ this ] );
 	}
@@ -50,21 +32,39 @@
 		stickyClass : 'navbar-stuck'
 	};
 
-	Plugin.prototype.$elem   = null;
-	Plugin.prototype.options = false;
-	Plugin.prototype.isStuck = false;
-	Plugin.prototype.isExpand = false;
+	Plugin.prototype.$elem       = null;
+	Plugin.prototype.options     = false;
+	Plugin.prototype.isStuck     = false;
+	Plugin.prototype.isExpand    = false;
+	Plugin.prototype.isNavExpand = false;
+
+	Plugin.prototype.set = function( prop, value )
+	{
+		if ( typeof this[ prop ] === 'undefined' ) 
+		{
+			return;
+		}
+
+		if ( this[ prop ] === value ) 
+		{
+			return;
+		}
+
+		this[ prop ] = value;
+	
+		this.$elem.trigger( 'change', this );
+	}
 
 	/**
-	 * Sticky
+	 * Init Sticky
 	 */
 	Plugin.prototype.initSticky = function()
 	{
 		var _this = this;
 
-		// Prevents sticky class to be set when navbar is at default position.
-		this.$elem.parent().children().eq(0).css( 'margin-top', '-1px' )
-			.parent().css( 'padding-top', '1px' );
+		// Prevents sticky class from being set when navbar's is on top of screen.
+		//this.$elem.parent().children().eq(0).css( 'margin-top', '-1px' )
+			//.parent().css( 'padding-top', '1px' );
 
 		// Makes sure adminbar is absolute positioned. (prevents layout issues)
 		$( '#wpadminbar' ).css( 'position', 'absolute' );
@@ -81,25 +81,19 @@
 			// Called when stuck
 			.on( 'sticky_kit:stick', function( event )
 			{
-				_this.isStuck = true;
-
-				_this.$elem.trigger( 'change', [ _this ] );
+				_this.set( 'isStuck', true );
 			})
 
 			// Called when unstuck
 			.on( 'sticky_kit:unstick', function( event ) 
 			{
-				_this.isStuck = false;
-
-				_this.$elem.trigger( 'change', [ _this ] );
+				_this.set( 'isStuck', false );
 			})
 
 			// Called when detached
 			.on( 'sticky_kit:detach', function( event ) 
 			{
-				_this.isStuck = false;
-
-				_this.$elem.trigger( 'change', [ _this ] );
+				_this.set( 'isStuck', false );
 			});
 		}
 
@@ -115,7 +109,7 @@
 			// In viewport
 			if ( theme.isInViewPort( _this.$elem ) ) 
 			{
-				// Detach and Destroy Sticky Kit
+				// Detach elem and Destroy Sticky Kit
 				_this.$elem.trigger( 'sticky_kit:detach' );
 			}
 
@@ -133,6 +127,64 @@
 		});
 
 		maybeInitStickyKit();
+	};
+
+	/**
+	 * Init Expand
+	 */
+	Plugin.prototype.initExpand = function()
+	{
+		var _this = this;
+
+		// Check when navbar is expanded.
+		var update = function()
+		{
+			var expand      = _this.getExpand();
+			var viewport    = theme.getViewPort();
+			var breakpoints = theme.gridBreakpoints;
+			var isExpand    = false;
+
+			if ( expand && typeof breakpoints[ expand ] !== 'undefined' ) 
+			{
+				var expandWidth = breakpoints[ expand ];
+
+				if ( expandWidth < viewport.width ) 
+				{
+					isExpand = true;
+				}
+			}
+
+			_this.set( 'isExpand', isExpand );
+		}
+
+		$( window ).on( 'resize', function( event )
+		{
+			theme.waitForFinalEvent( function()
+			{
+				update();
+			}, 300, 'navbar/initExpand' );
+		});
+
+		update();
+	};
+
+	Plugin.prototype.initNavExpand = function() 
+	{
+		var _this = this;
+
+		this.$elem.find( '#navbar-nav' )
+
+			// This event fires immediately when the show instance method is called.
+			.on( 'show.bs.collapse', function( event )
+			{
+				_this.set( 'isNavExpand', true );
+			})
+
+			// This event is fired when a collapse element has been hidden from the user (will wait for CSS transitions to complete).
+			.on( 'hidden.bs.collapse', function( event )
+			{
+				_this.set( 'isNavExpand', false );
+			})
 	};
 
 	/**
@@ -248,8 +300,11 @@ jQuery( document ).ready( function()
 		sticky : true
 	})
 
+	// Check state change
 	.on( 'change', function( event, navbar )
 	{
+		// Update theme
+
 		if ( navbar.isStuck ) 
 		{
 			navbar.setTheme( 'navbar-dark bg-dark' );
