@@ -168,6 +168,9 @@
 		update();
 	};
 
+	/**
+	 * Init Nav Expand
+	 */
 	Plugin.prototype.initNavExpand = function() 
 	{
 		var _this = this;
@@ -215,6 +218,14 @@
 		// return
 
 		return classes.join( ' ' );
+	}
+
+	/**
+	 * Get Original Theme
+	 */
+	Plugin.prototype.getOriginalTheme = function()
+	{
+		return this.$elem.data( Plugin.THEME_BACKUP_KEY );
 	}
 
 	/**
@@ -305,7 +316,14 @@ jQuery( document ).ready( function()
 	{
 		// Update theme
 
+		var isTranparantOverlay = false;
+
 		if ( navbar.isStuck ) 
+		{
+			navbar.setTheme( 'navbar-dark bg-dark' );
+		} 
+
+		else if ( isTranparantOverlay && navbar.isNavExpand && ! navbar.isExpand ) 
 		{
 			navbar.setTheme( 'navbar-dark bg-dark' );
 		}
