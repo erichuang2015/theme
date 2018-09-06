@@ -1,12 +1,21 @@
 
 @import "../../vendor/bootstrap/scss/nav";
 
-
 .nav-text 
 {
 	display: inline-block;
 	padding-top: $nav-link-padding-y;
 	padding-bottom: $nav-link-padding-y;
+
+	&:not(:first-child)
+	{
+		margin-left: $nav-link-padding-x;
+	}
+
+	&:not(:last-child)
+	{
+		margin-right: $nav-link-padding-x;
+	}
 }
 
 // Nav themes

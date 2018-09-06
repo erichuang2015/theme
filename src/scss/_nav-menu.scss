@@ -1,15 +1,12 @@
 
-.menu-item-social,
-[class*="menu-item-icon-"]
+.nav
 {
-	span
+	.nav-item
 	{
-		margin-left: .5rem;
+		.btn
+		{
+			margin-left: $nav-link-padding-x;
+			margin-right: $nav-link-padding-x;
+		}
 	}
-}
-
-.nav-item[class*="menu-item-button"]
-{
-	padding-left: $nav-link-padding-x;
-	padding-right: $nav-link-padding-x;
 }

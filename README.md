@@ -16,43 +16,63 @@ Bootstrap driven WordPress theme.
 - [Advanced Custom Fields](https://www.advancedcustomfields.com/) option page.
 - Menu item utilities.
 
-### Menu Items
+### Nav Menu Item Features
 This theme provides some usefull features for menu items:
 
 #### Modal
-Menu item with CSS class `menu-item-modal` sets link attribute `data-toggle="modal"`.
-Set item 'URL' setting to refer to the modal.
-*Note: Only works with 'Custom Links'.*
+Makes item able to toggle a modal.
+
+Usage: Set menu item CSS class to `menu-item-modal`.
+
+Note: Works only with 'Custom Links'. You need to set
+link to e.g. `#my-modal-id` to refer to the modal.
 
 ![alt text](screenshots/menu-item-modal.png)
 
 #### Icon
-Adds an icon inside a menu item.
-Define the icon by following CSS class format: `menu-item-icon-{icon_name}`
-Example: `menu-item-icon-search` displays a search icon.
+Adds an icon. 
+
+Usage: Set menu item CSS class to `menu-item-icon-{icon_name}`.
+
+Example: `menu-item-icon-search` creates icon with class `icon-search`.
 
 ![alt text](screenshots/menu-item-icon.png)
 
-#### Social Icon
-Item with CSS class `menu-item-social` adds social icon based on the item URL.
-
-![alt text](screenshots/menu-item-social.png)
-
 #### Button
-Converts a menu item to a button.
-Example: Menu item with CSS class `menu-item-button-primary menu-item-button-sm` sets link class `btn btn-primary btn-sm`.
+Usage: Add button CSS classes to item 'CSS Classes' setting by using format `menu-item-{button_class}`.
+
+e.g. `menu-item-btn-primary menu-item-btn-sm` adds link classes `btn btn-primary btn-sm`.
+
+Note: `btn` class is automatically added.
 
 ![alt text](screenshots/menu-item-button.png)
 
+#### Hide Title
+Hides menu item title.
+
+Usage: Set menu item CSS class to `menu-item-hide-title`.
+
 #### Unlink
-Remove link from menu item with CSS class `menu-item-unlink`.
+Removes link from menu item.
+
+Usage: Set menu item CSS class `menu-item-unlink`.
 
 ![alt text](screenshots/menu-item-unlink.png)
 
 #### Template
-Replace all item content with template content.
+Replaces item content by use of filter.
 
-Template can be set by using CSS class format: `menu-item-template-{template_name}`.
-The loaded template will be: `template-parts/menu-item-{template_name}.php`
+Usage: Template can be set by using CSS class: `menu-item-template-{template_name}`.
+
+Filter tag will be: `theme/render_nav_menu_template/template={template_name}`.
+
+e.g. `menu-item-template-search_form`.
+	
+	// Set Search Form
+	add_filter( 'theme/render_nav_menu_template/template=search_form', function( $output, $item, $depth, $args )
+	{
+		return get_search_form();
+
+	}, 10, 4 );
 
 ![alt text](screenshots/menu-item-template.png)

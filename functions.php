@@ -84,38 +84,48 @@ function theme_widgets_init()
 		'after_title'   => '</h2>',
 	));
 
-	register_sidebar( array
-	(
-		'id'            => sprintf( 'sidebar-3' ),
-		'name'          => __( 'Footer Column 1', 'theme' ),
-		'description'   => __( 'First column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+	// Create footer sidebars
 
-	register_sidebar( array
-	(
-		'id'            => sprintf( 'sidebar-4' ),
-		'name'          => __( 'Footer Column 2', 'theme' ),
-		'description'   => __( 'Second column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+	$columns = 3; $start_index = 3;
 
-	register_sidebar( array
-	(
-		'id'            => sprintf( 'sidebar-5' ),
-		'name'          => __( 'Footer Column 3', 'theme' ),
-		'description'   => __( 'Third column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+	$ordinals = array
+	( 
+		1 => __( 'first', 'theme' ), 
+		2 => __( 'second', 'theme' ), 
+		3 => __( 'thirth', 'theme' ),  
+		4 => __( 'fourth', 'theme' ), 
+		5 => __( 'fifth', 'theme' ), 
+		6 => __( 'sixth', 'theme' ),
+		7 => __( 'seventh', 'theme' ), 
+		8 => __( 'eighth', 'theme' ), 
+		9 => __( 'ninth', 'theme' ), 
+	);
+
+	for ( $n = 1; $n <= $columns; $n++ ) 
+	{ 
+		if ( $columns > 1 ) 
+		{
+			$name        = sprintf( __( 'Footer Column %d', 'theme' ), $n );
+			$description = sprintf( __( '%s column in footer section.', 'theme' ), ucfirst( $ordinals[$n] ) );
+		}
+
+		else
+		{
+			$name        = __( 'Footer', 'theme' );
+			$description = __( 'Footer section.', 'theme' );
+		}
+
+		register_sidebar( array
+		(
+			'id'            => sprintf( 'sidebar-%d', $start_index++ ),
+			'name'          => $name,
+			'description'   => $description,
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		));
+	}
 }
 
 add_action( 'widgets_init', 'theme_widgets_init' );
