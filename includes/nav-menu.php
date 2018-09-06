@@ -3,8 +3,6 @@
  * Nav menu related functions
  */
 
-defined( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX' ) or define( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX', '-' );
-
 /**
  * Check if menu has 'nav' or 'navbar-nav' class.
  *
