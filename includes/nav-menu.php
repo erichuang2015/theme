@@ -6,19 +6,33 @@
 defined( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX' ) or define( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX', '-' );
 
 /**
+ * Check if menu has 'nav' or 'navbar-nav' class.
+ *
+ * @return boolean
+ */
+function theme_is_bootstrap_nav( $menu_args )
+{
+    return preg_match( '/(^| )nav|navbar-nav( |$)/', $menu_args->menu_class ) ? true : false;
+}
+
+/**
  * Bootstrap Menu Item css class
  */
 function theme_bootstrap_nav_menu_css_class( $classes, $item, $args, $depth )
 {
-    if ( $depth == 0 )
+    // Check if 'nav'.
+    if ( theme_is_bootstrap_nav( $args ) )
     {
-        $classes[] = 'nav-item';
-    }
+        if ( $depth == 0 )
+        {
+            $classes[] = 'nav-item';
+        }
 
-    // TODO : Don't use CSS class.
-    if ( $depth == 0 && in_array( 'menu-item-has-children', $classes ) )
-    {
-        $classes[] = 'dropdown';
+        // TODO : Don't use CSS class.
+        if ( $depth == 0 && in_array( 'menu-item-has-children', $classes ) )
+        {
+            $classes[] = 'dropdown';
+        }
     }
 
     return $classes;
@@ -31,9 +45,13 @@ add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_css_class', 10, 4 )
  */
 function theme_bootstrap_nav_menu_submenu_css_class( $classes, $args, $depth )
 {
-    if ( $depth == 0 )
+    // Check if 'nav'.
+    if ( theme_is_bootstrap_nav( $args ) )
     {
-        $classes[] = 'dropdown-menu';
+        if ( $depth == 0 )
+        {
+            $classes[] = 'dropdown-menu';
+        }
     }
 
     return $classes;
@@ -46,6 +64,12 @@ add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu_css_
  */
 function theme_bootstrap_nav_menu_link_attributes( $atts, $item, $args, $depth )
 {
+    // Check if 'nav'.
+    if ( ! theme_is_bootstrap_nav( $args ) )
+    {
+        return $atts;
+    }
+
     if ( ! isset( $atts['class'] ) ) 
     {
         $atts['class'] = '';
@@ -182,6 +206,12 @@ add_filter( 'nav_menu_item_title', 'theme_menu_item_hide_title', 5, 4 );
  */
 function theme_menu_item_text( $classes, $item, $args, $depth )
 {
+    // Check if 'nav'.
+    if ( ! theme_is_bootstrap_nav( $args ) )
+    {
+        return $classes;
+    }
+
     // Check class
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
     {
