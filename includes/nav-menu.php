@@ -4,65 +4,84 @@
  */
 
 /**
- * Check if menu has 'nav' or 'navbar-nav' class.
+ * Get Bootstrap nav type.
+ *
+ * @return string|null
+ */
+function theme_get_bootstrap_nav_class( $menu_args )
+{
+    if ( preg_match( '/(?:^| )(nav|navbar-nav)(?: |$)/', $menu_args->menu_class, $matches ) ) 
+    {
+        return $matches[1];
+    }
+
+    return null;
+}
+
+/**
+ * Check if Bootstrap navigation.
  *
  * @return boolean
  */
 function theme_is_bootstrap_nav( $menu_args )
 {
-    return preg_match( '/(^| )nav|navbar-nav( |$)/', $menu_args->menu_class ) ? true : false;
+    return theme_get_bootstrap_nav_class( $menu_args ) ? true : false;
 }
 
 /**
- * Bootstrap Menu Item css class
+ * Bootstrap Menu Item
  */
-function theme_bootstrap_nav_menu_css_class( $classes, $item, $args, $depth )
+function theme_bootstrap_nav_menu_item( $classes, $item, $args, $depth )
 {
-    // Check if 'nav'.
-    if ( theme_is_bootstrap_nav( $args ) )
+    // Check Bootstrap nav.
+    if ( ! theme_is_bootstrap_nav( $args ) )
     {
-        if ( $depth == 0 )
-        {
-            $classes[] = 'nav-item';
-        }
+        return $classes;
+    }
 
-        // TODO : Don't use CSS class.
-        if ( $depth == 0 && in_array( 'menu-item-has-children', $classes ) )
-        {
-            $classes[] = 'dropdown';
-        }
+    if ( $depth == 0 )
+    {
+        $classes[] = 'nav-item';
+    }
+
+    // TODO : Don't use CSS class.
+    if ( $depth == 0 && in_array( 'menu-item-has-children', $classes ) )
+    {
+        $classes[] = 'dropdown';
     }
 
     return $classes;
 }
 
-add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_css_class', 10, 4 );
+add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_item', 10, 4 );
 
 /**
- * Bootstrap Submenu css class
+ * Bootstrap Submenu
  */
-function theme_bootstrap_nav_menu_submenu_css_class( $classes, $args, $depth )
+function theme_bootstrap_nav_menu_submenu( $classes, $args, $depth )
 {
-    // Check if 'nav'.
-    if ( theme_is_bootstrap_nav( $args ) )
+    // Check Bootstrap nav.
+    if ( ! theme_is_bootstrap_nav( $args ) )
     {
-        if ( $depth == 0 )
-        {
-            $classes[] = 'dropdown-menu';
-        }
+        return $classes;
+    }
+
+    if ( $depth == 0 )
+    {
+        $classes[] = 'dropdown-menu';
     }
 
     return $classes;
 }
 
-add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu_css_class', 10, 3 );
+add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu', 10, 3 );
 
 /**
- * Bootstrap Menu Item Link Attributes
+ * Bootstrap Menu Item Link
  */
-function theme_bootstrap_nav_menu_link_attributes( $atts, $item, $args, $depth )
+function theme_bootstrap_nav_menu_link( $atts, $item, $args, $depth )
 {
-    // Check if 'nav'.
+    // Check Bootstrap nav.
     if ( ! theme_is_bootstrap_nav( $args ) )
     {
         return $atts;
@@ -105,7 +124,7 @@ function theme_bootstrap_nav_menu_link_attributes( $atts, $item, $args, $depth )
     return $atts;
 }
 
-add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link_attributes', 10, 4 );
+add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link', 10, 4 );
 
 /**
  * Button
@@ -196,41 +215,6 @@ function theme_menu_item_hide_title( $title, $item, $args, $depth )
 add_filter( 'nav_menu_item_title', 'theme_menu_item_hide_title', 5, 4 );
 
 /**
- * Text
- *
- * Usage: Set CSS class `menu-item-unlink` to remove link.
- *
- * Note: Item class `navbar-text` or `nav-text` is added depending on the menu location.
- */
-function theme_menu_item_text( $classes, $item, $args, $depth )
-{
-    // Check if 'nav'.
-    if ( ! theme_is_bootstrap_nav( $args ) )
-    {
-        return $classes;
-    }
-
-    // Check class
-    if ( in_array( 'menu-item-unlink', $item->classes ) ) 
-    {
-        // Check menu location
-        if ( $args->theme_location == 'main' ) 
-        {
-            $classes[] = 'navbar-text';
-        }
-
-        else
-        {
-            $classes[] = 'nav-text';
-        }
-    }
-
-    return $classes;
-}
-
-add_filter( 'nav_menu_css_class', 'theme_menu_item_text', 10, 4 );
-
-/**
  * Unlink
  *
  * Removes link from menu item.
@@ -244,6 +228,21 @@ function theme_menu_item_unlink( $item_output, $item, $depth, $args )
     {
         // Remove Link
         $item_output = preg_replace( '#<a.*?>(.*)</a>#', '$1', $item_output );
+
+        // Get nav type
+        $nav_type = theme_get_bootstrap_nav_class( $args );
+        
+        // Add nav related 'text' class
+        // TODO : Only wrap link content
+        if ( $nav_type == 'navbar-nav' ) 
+        {
+            $item_output = sprintf( '<span class="navbar-text">%s</span>', $item_output );
+        }
+
+        else if ( $nav_type == 'nav' )
+        {
+            $item_output = sprintf( '<span class="nav-text">%s</span>', $item_output );
+        }
     }
 
     return $item_output;
