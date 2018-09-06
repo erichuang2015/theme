@@ -3,8 +3,8 @@
  * Bottom Navigation
  */
 
-// Check if menu
-if ( ! has_nav_menu( 'bottom' ) ) 
+// Check if locations have menus
+if ( ! has_nav_menu( 'bottom_left' ) && ! has_nav_menu( 'bottom_right' ) ) 
 {
 	return;
 }
@@ -15,13 +15,29 @@ if ( ! has_nav_menu( 'bottom' ) )
 	<div class="container d-flex">
 	<?php
 
-		wp_nav_menu( array
-		(
-			'theme_location' => 'bottom', 
-			'menu_class'     => 'nav align-items-center',
-			'container'      => false,
-			'depth'          => 1
-		));
+		if ( has_nav_menu( 'bottom_left' ) ) 
+		{
+			wp_nav_menu( array
+			(
+				'theme_location' => 'bottom_left', 
+				'menu_class'     => 'nav align-items-center mr-auto',
+				'container'      => false,
+				'depth'          => 1
+			));
+		}
+		
+		if ( has_nav_menu( 'bottom_right' ) ) 
+		{
+			wp_nav_menu( array
+			(
+				'theme_location' => 'bottom_right', 
+				'menu_class'     => 'nav align-items-center ml-auto',
+				'container'      => false,
+				'depth'          => 1
+			));
+		}
+		
+
 	?>
 	</div><!-- .container -->
 </nav><!-- #footer-navigation -->

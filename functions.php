@@ -20,12 +20,24 @@ function theme_setup()
 	// This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
 
-	// Register menu locations.
+	/**
+	 * Register menu locations.
+	 *
+	 * All availabe locations used in templates:
+	 * - top_left
+	 * - top_right
+	 * - main_left
+	 * - main_right
+	 * - bottom_left
+	 * - bottom_right
+	 */
+
+	// Register those needed for the project.
 	register_nav_menus( array
 	(
-		'top'    => __( 'Top Menu', 'theme' ),
-		'main'   => __( 'Main Menu', 'theme' ),
-		'bottom' => __( 'Bottom Menu', 'theme' ),
+		'top_right'    => __( 'Top Menu', 'theme' ),
+		'main_right'   => __( 'Main Menu', 'theme' ),
+		'bottom_right' => __( 'Bottom Menu', 'theme' ),
 	));
 
 	// Features
