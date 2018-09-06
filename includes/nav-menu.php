@@ -3,18 +3,19 @@
  * Nav menu related functions
  */
 
+defined( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX' ) or define( 'THEME_NAV_MENU_FEATURE_CLASS_PREFIX', '-' );
+
 /**
- * Menu Item css class
- *
- * Sets Bootstrap classes.
+ * Bootstrap Menu Item css class
  */
-function theme_nav_menu_css_class( $classes, $item, $args, $depth )
+function theme_bootstrap_nav_menu_css_class( $classes, $item, $args, $depth )
 {
     if ( $depth == 0 )
     {
         $classes[] = 'nav-item';
     }
 
+    // TODO : Don't use CSS class.
     if ( $depth == 0 && in_array( 'menu-item-has-children', $classes ) )
     {
         $classes[] = 'dropdown';
@@ -23,14 +24,12 @@ function theme_nav_menu_css_class( $classes, $item, $args, $depth )
     return $classes;
 }
 
-add_filter( 'nav_menu_css_class' , 'theme_nav_menu_css_class', 10, 4 );
+add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_css_class', 10, 4 );
 
 /**
- * Submenu css class
- *
- * Sets Bootstrap classes.
+ * Bootstrap Submenu css class
  */
-function theme_nav_menu_submenu_css_class( $classes, $args, $depth )
+function theme_bootstrap_nav_menu_submenu_css_class( $classes, $args, $depth )
 {
     if ( $depth == 0 )
     {
@@ -40,14 +39,12 @@ function theme_nav_menu_submenu_css_class( $classes, $args, $depth )
     return $classes;
 }
 
-add_filter( 'nav_menu_submenu_css_class', 'theme_nav_menu_submenu_css_class', 10, 3 );
+add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu_css_class', 10, 3 );
 
 /**
- * Menu Item Link Attributes
- *
- * Sets Bootstrap attributes.
+ * Bootstrap Menu Item Link Attributes
  */
-function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
+function theme_bootstrap_nav_menu_link_attributes( $atts, $item, $args, $depth )
 {
     if ( ! isset( $atts['class'] ) ) 
     {
@@ -64,7 +61,8 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
         $atts['class'] .= ' dropdown-item';
     }
 
-    // Set dropdown attributes.
+    // Set dropdown attributes. (Only when menu depth is not equal to 1).
+    // TODO : Don't use CSS class.
     if ( in_array( 'menu-item-has-children', $item->classes ) && $args->depth != 1 )
     {
         $atts['class']         .= ' dropdown-toggle';
@@ -75,9 +73,7 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
     }
 
     // Set active.
-    if ( in_array( 'current-menu-ancestor', $item->classes ) 
-      || in_array( 'current-page-ancestor', $item->classes )
-      || in_array( 'current-menu-item', $item->classes ) )
+    if ( $item->current || $item->current_item_ancestor || $item->current_item_parent )
     {
         $atts['class'] .= ' active';
     }
@@ -87,14 +83,16 @@ function theme_nav_menu_link_attributes( $atts, $item, $args, $depth )
     return $atts;
 }
 
-add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_link_attributes', 10, 4 );
+add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link_attributes', 10, 4 );
 
 /**
- * Button Feature
+ * Button
  *
- * Usage: Add button CSS classes to item 'CSS Classes' setting prefixed by `menu-item-`.
+ * Usage: Add button CSS classes to item 'CSS Classes' setting by
+ * using format `menu-item-{button_class}`.
  *
- * e.g. `menu-item-btn-primary menu-item-btn-sm` adds link classes `btn btn-primary btn-sm`.
+ * e.g. `menu-item-btn-primary menu-item-btn-sm` 
+ * adds link classes `btn btn-primary btn-sm`.
  *
  * Note: `btn` class is automatically added.
  */
@@ -152,7 +150,7 @@ function theme_menu_item_button( $atts, $item, $args )
 add_filter( 'nav_menu_link_attributes', 'theme_menu_item_button', 10, 3 );
 
 /**
- * Hide title Feature
+ * Hide title
  *
  * Hides menu item title.
  *
@@ -176,7 +174,7 @@ function theme_menu_item_hide_title( $title, $item, $args, $depth )
 add_filter( 'nav_menu_item_title', 'theme_menu_item_hide_title', 5, 4 );
 
 /**
- * Text Feature
+ * Text
  *
  * Usage: Set CSS class `menu-item-unlink` to remove link.
  *
@@ -188,7 +186,7 @@ function theme_menu_item_text( $classes, $item, $args, $depth )
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
     {
         // Check menu location
-        if ( $args->theme_location == 'primary' ) 
+        if ( $args->theme_location == 'main' ) 
         {
             $classes[] = 'navbar-text';
         }
@@ -205,7 +203,7 @@ function theme_menu_item_text( $classes, $item, $args, $depth )
 add_filter( 'nav_menu_css_class', 'theme_menu_item_text', 10, 4 );
 
 /**
- * Unlink Feature
+ * Unlink
  *
  * Removes link from menu item.
  *
@@ -226,7 +224,7 @@ function theme_menu_item_unlink( $item_output, $item, $depth, $args )
 add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 4 );
 
 /**
- * Modal Feature
+ * Modal
  *
  * Makes item able to toggle a modal.
  *
@@ -248,12 +246,23 @@ function theme_menu_item_modal( $atts, $item, $args )
 add_filter( 'nav_menu_link_attributes', 'theme_menu_item_modal', 10, 3 );
 
 /**
- * Template Feature
+ * Template
  *
- * Replaces all item content with content provided by template.
- *
+ * Replaces item content by use of filter.
+ * 
  * Usage: Template can be set by using CSS class: `menu-item-template-{template_name}`.
- * The loaded template will be: `template-parts/menu-item-{template_name}.php`
+ * 
+ * Filter tag will be: `theme/render_nav_menu_template/template={template_name}`.
+ * 
+ * Example
+ * 
+ * `menu-item-template-search_form`.
+ *    
+ * // Set Search Form
+ * add_filter( 'theme/render_nav_menu_template/template=search_form', function( $output, $item, $depth, $args )
+ * {
+ *      return get_search_form();
+ * }, 10, 4 );
  */
 function theme_menu_item_template( $item_output, $item, $depth, $args )
 {
@@ -262,16 +271,11 @@ function theme_menu_item_template( $item_output, $item, $depth, $args )
         // Check class
         if ( preg_match( '/^menu-item-template-([a-z0-9_]+)$/', $class, $matches ) ) 
         {
-            $located = locate_template( "template-parts/menu-item-{$matches[1]}.php", false );
+            // Get template
+            $template = $matches[1];
 
-            if ( $located ) 
-            {
-                ob_start();
-
-                load_template( $located, false );
-
-                return ob_get_clean();
-            }
+            // Filter
+            $item_output = apply_filters( "theme/render_nav_menu_template/template=$template", $item_output, $item, $depth, $args );
         }
     }
 

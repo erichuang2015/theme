@@ -20,7 +20,7 @@
 					wp_nav_menu( array
 					(
 						'theme_location' => 'main', 
-						'menu_class'     => 'nav navbar-nav align-items-center ml-auto',
+						'menu_class'     => 'navbar-nav align-items-md-center ml-auto',
 						'container'      => false
 					));
 				}

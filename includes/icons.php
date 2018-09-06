@@ -127,6 +127,8 @@ function theme_get_icon( $args )
  * Adds an icon. 
  *
  * Usage: Set menu item CSS class to `menu-item-icon-{icon_name}`.
+ *
+ * Example: `menu-item-icon-search` creates icon with class `icon-search`.
  */
 function theme_menu_item_icon( $title, $item, $args, $depth )
 {
