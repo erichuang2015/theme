@@ -1,34 +1,38 @@
 <?php
 /**
  * Template Name: Full Width Fixed
+ *
+ * No left and right sidebar.
  */
 
 get_header(); ?>
 
 <div class="container">
 
-		<main id="main" class="site-main" role="main">
+	<main id="main" class="site-main" role="main">
+		
+		<?php
 
-			<?php
+			// The Loop
+			while ( have_posts() )
+			{
+				the_post();
 
-			while ( have_posts() ) : the_post();
-
-				// Load Post-Type-specific template.
+				// Include the Post-Type-specific template for the content.
 				get_template_part( 'template-parts/content', get_post_type() );
 
 				// If comments are open or we have at least one comment, load up the comment template.
-				if ( comments_open() || get_comments_number() ) :
+				if ( comments_open() || get_comments_number() )
+				{
 					comments_template();
-				endif;
+				}
+			}
 
-			endwhile; // End of the loop.
+		?>
 
-			?>
+	</main><!-- #main -->
 
-		</main><!-- #main -->
-		
-	</div><!-- .container -->
-</div><!-- #content-body -->
+</div><!-- .container -->
 
-<?php
+<?php 
 get_footer();

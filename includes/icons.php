@@ -54,12 +54,6 @@ function theme_get_icon( $args )
 	// Parse args.
 	$args = wp_parse_args( $args, $defaults );
 
-	// Define an icon.
-	if ( $args['icon'] === '' ) 
-	{
-		return __( 'Please define an SVG icon filename.', 'theme' );
-	}
-
 	$atts = array
 	(
 		'class'       => "icon icon-{$args['icon']}",
@@ -130,20 +124,25 @@ function theme_get_icon( $args )
 /**
  * Menu Item Icon
  *
- * Adds an icon inside a menu item.
+ * Adds an icon. 
  *
- * Define the icon by following CSS class format: `menu-item-icon-{icon_name}`
+ * Usage: Set menu item CSS class to `menu-item-icon-{icon_name}`.
  */
 function theme_menu_item_icon( $title, $item, $args, $depth )
 {
+    // Loop item classes.
     foreach ( $item->classes as $class ) 
     {
-    	// Check class
+        // Search class `menu-item-icon-{icon_name}`.
         if ( preg_match( '/^menu-item-icon-([a-z0-9_]+)$/', $class, $matches ) ) 
         {
-            $icon = $matches[1];
+            // Get icon.
+            $icon = theme_get_icon( $matches[1] );
 
-            return theme_get_icon( $icon ) . sprintf( '<span>%s</span>', esc_html( $title ) );
+            // Add icon to title.
+            $title = "$icon $title";
+
+            break;
         }
     }
 
@@ -151,85 +150,3 @@ function theme_menu_item_icon( $title, $item, $args, $depth )
 }
 
 add_filter( 'nav_menu_item_title', 'theme_menu_item_icon', 10, 4 );
-
-/**
- * Menu Item Social
- *
- * Item with CSS class `menu-item-social` adds Social Icon based on the item URL.
- */
-function theme_menu_item_social_icon( $title, $item, $args, $depth )
-{
-	// Check class
-    if ( in_array( 'menu-item-social', $item->classes ) ) 
-    {
-        $social_icons = theme_get_social_links_icons();
-
-        foreach ( $social_icons as $domain => $icon ) 
-        {
-        	// Check if url contains icon domain
-            if ( stripos( $item->url, $domain ) !== false ) 
-            {
-            	// Add icon
-                $title = theme_get_icon( $icon ) . sprintf( '<span>%s</span>', esc_html( $title ) );
-            }
-        }
-    }
-
-    return $title;
-}
-
-add_filter( 'nav_menu_item_title', 'theme_menu_item_social_icon', 10, 4 );
-
-/**
- * Get Social Links Icons
- *
- * Returns an array of supported social links (URL and icon name).
- *
- * @return array $social_links_icons
- */
-function theme_get_social_links_icons() 
-{
-	// Supported social links icons.
-	$social_links_icons = array
-	(
-		'behance.net'     => 'behance',
-		'codepen.io'      => 'codepen',
-		'deviantart.com'  => 'deviantart',
-		'digg.com'        => 'digg',
-		'docker.com'      => 'dockerhub',
-		'dribbble.com'    => 'dribbble',
-		'dropbox.com'     => 'dropbox',
-		'facebook.com'    => 'facebook',
-		'flickr.com'      => 'flickr',
-		'foursquare.com'  => 'foursquare',
-		'plus.google.com' => 'google-plus',
-		'github.com'      => 'github',
-		'instagram.com'   => 'instagram',
-		'linkedin.com'    => 'linkedin',
-		'mailto:'         => 'envelope-o',
-		'medium.com'      => 'medium',
-		'pinterest.com'   => 'pinterest-p',
-		'pscp.tv'         => 'periscope',
-		'getpocket.com'   => 'get-pocket',
-		'reddit.com'      => 'reddit-alien',
-		'skype.com'       => 'skype',
-		'skype:'          => 'skype',
-		'slideshare.net'  => 'slideshare',
-		'snapchat.com'    => 'snapchat-ghost',
-		'soundcloud.com'  => 'soundcloud',
-		'spotify.com'     => 'spotify',
-		'stumbleupon.com' => 'stumbleupon',
-		'tumblr.com'      => 'tumblr',
-		'twitch.tv'       => 'twitch',
-		'twitter.com'     => 'twitter',
-		'vimeo.com'       => 'vimeo',
-		'vine.co'         => 'vine',
-		'vk.com'          => 'vk',
-		'wordpress.org'   => 'wordpress',
-		'wordpress.com'   => 'wordpress',
-		'yelp.com'        => 'yelp',
-		'youtube.com'     => 'youtube',
-	);
-	
-	return apply_filters( 'theme/social_links_icons', $social_links_icons );
-}

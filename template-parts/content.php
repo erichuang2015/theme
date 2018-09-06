@@ -11,10 +11,9 @@
 		<?php
 		if ( 'post' === get_post_type() ) {
 			echo '<div class="entry-meta">';
-			if ( is_single() ) {
+			if ( is_single() ) 
+			{
 				theme_posted_on();
-			} else {
-				echo theme_time_link();
 			};
 			echo '</div><!-- .entry-meta -->';
 		};
@@ -26,16 +25,19 @@
 		} else {
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		}
+
 		?>
 	</header><!-- .entry-header -->
 
-	<?php if ( has_post_thumbnail() && ! is_single() ) : ?>
+	<?php if ( '' !== get_the_post_thumbnail() && ! is_single() ) : ?>
 		<div class="post-thumbnail">
 			<a href="<?php the_permalink(); ?>">
 				<?php the_post_thumbnail( 'theme-featured-image' ); ?>
 			</a>
 		</div><!-- .post-thumbnail -->
 	<?php endif; ?>
+
+	<?php if ( is_single() ) : ?>
 
 	<div class="entry-content">
 		<?php
@@ -53,5 +55,13 @@
 
 		?>
 	</div><!-- .entry-content -->
+
+	<?php else : ?>
+
+	<div class="entry-summary">
+		<?php the_excerpt(); ?>
+	</div><!-- .entry-summary -->
+
+	<?php endif ?>
 
 </article><!-- #post-## -->

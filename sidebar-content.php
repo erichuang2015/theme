@@ -1,8 +1,9 @@
-<?php
+<?php 
 /**
- * The Content Sidebar
+ * Content Sidebar
  */
 
+// Check if widgets
 if ( ! is_active_sidebar( 'sidebar-2' ) ) 
 {
 	return;
