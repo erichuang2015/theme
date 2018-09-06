@@ -18,6 +18,18 @@
 	}
 }
 
+.nav
+{
+	.nav-item
+	{
+		.btn
+		{
+			margin-left: $nav-link-padding-x;
+			margin-right: $nav-link-padding-x;
+		}
+	}
+}
+
 // Nav themes
 //
 // Styles for switching between navs with light or dark background.
