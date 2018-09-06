@@ -3,8 +3,8 @@
  * Top Navigation
  */
 
-// Check if menu
-if ( ! has_nav_menu( 'top' ) ) 
+// Check if locations have menus
+if ( ! has_nav_menu( 'top_left' ) && ! has_nav_menu( 'top_right' ) ) 
 {
 	return;
 }
@@ -15,12 +15,26 @@ if ( ! has_nav_menu( 'top' ) )
 	<div class="container d-flex">
 	<?php
 
-		wp_nav_menu( array
-		(
-			'theme_location' => 'top', 
-			'menu_class'     => 'nav align-items-center ml-auto',
-			'container'      => false
-		));
+		if ( has_nav_menu( 'top_left' ) ) 
+		{
+			wp_nav_menu( array
+			(
+				'theme_location' => 'top_left', 
+				'menu_class'     => 'nav align-items-center mr-auto',
+				'container'      => false
+			));
+		}
+		
+		if ( has_nav_menu( 'top_right' ) ) 
+		{
+			wp_nav_menu( array
+			(
+				'theme_location' => 'top_right', 
+				'menu_class'     => 'nav align-items-center ml-auto',
+				'container'      => false
+			));
+		}
+
 	?>
 	</div><!-- .container -->
 </nav><!-- #top-navigation -->
