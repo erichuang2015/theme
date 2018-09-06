@@ -48,28 +48,8 @@ function theme_is_full_width()
  */
 function theme_body_class( $classes )
 {
-	$classes[] = 'no-js';
-	$classes[] = 'no-svg';
-
-	// Add class of group-blog to blogs with more than 1 published author.
-	if ( is_multi_author() ) 
-	{
-		$classes[] = 'group-blog';
-	}
-
-	// Add class of hfeed to non-singular pages.
-	if ( ! is_singular() ) 
-	{
-		$classes[] = 'hfeed';
-	}
-
-	// Add class on front page.
-	if ( is_front_page() && 'posts' !== get_option( 'show_on_front' ) ) 
-	{
-		$classes[] = 'theme-front-page';
-	}
-
 	// Browser and device Info
+	
 	global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
 
 	    if ( $is_lynx )     $classes[] = 'browser-lynx';

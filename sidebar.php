@@ -1,8 +1,9 @@
-<?php
+<?php 
 /**
- * The Primary Sidebar
+ * Primary Sidebar
  */
 
+// Check if widgets
 if ( ! is_active_sidebar( 'sidebar-1' ) ) 
 {
 	return;

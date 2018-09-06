@@ -2,18 +2,27 @@
 /**
  * Flexible Content
  *
- * Dependency: Advanced Custom Fields PRO 
+ * Dependency: Advanced Custom Fields PRO. 
+ *
+ * @link https://www.advancedcustomfields.com/
  */
 
 defined( 'THEME_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_FLEXIBLE_CONTENT_FIELD', 'content' );
 
 /**
  * Render Layouts
+ *
+ * Renders flexible content layouts
+ *
+ * @param int $post_id The post id. (optional, default: current post id)
  */
 function theme_render_layouts( $post_id = 0 )
 {
 	// Check dependency
-	if ( ! theme_function_exists( 'have_rows', 'the_row', 'get_row', 'get_row_layout' ) ) 
+	if ( ! function_exists( 'have_rows' ) 
+	  || ! function_exists( 'the_row' )
+	  || ! function_exists( 'get_row_layout' )
+	  || ! function_exists( 'get_row' ) ) 
 	{
 		return;
 	}
@@ -28,19 +37,22 @@ function theme_render_layouts( $post_id = 0 )
 
 /**
  * Auto Render Layouts
+ *
+ * Replaces post/page content with layout content.
+ *
+ * @param string $content The post content.
+ *
+ * @return string The layouts if found. Otherwise the post content.
  */
 function theme_auto_render_layouts( $content )
 {
 	// Check dependency
-	if ( ! theme_function_exists( 'have_rows' ) ) 
+	if ( ! function_exists( 'have_rows' ) ) 
 	{
 		return $content;
 	}
 
-	if ( is_main_query() 
-		&& in_the_loop() 
-		&& ( is_single() || is_page() ) 
-		&& have_rows( THEME_FLEXIBLE_CONTENT_FIELD ) ) 
+	if ( is_main_query() && in_the_loop() && ( is_single() || is_page() ) && have_rows( THEME_FLEXIBLE_CONTENT_FIELD ) ) 
 	{
 		remove_filter( current_filter(), __FUNCTION__ );
 
@@ -60,25 +72,33 @@ add_filter( 'the_content', 'theme_auto_render_layouts' );
 
 /**
  * Has Layout
+ *
+ * Checks if a post has a layout.
+ *
+ * @param string $layout  The layout name.
+ * @param int    $post_id The post id. (optional, default: current post id)
+ *
+ * @return boolean True if layout is found.
  */
 function theme_has_layout( $layout, $post_id = 0 )
 {
+	// Check dependency
+	if ( ! function_exists( 'have_rows' ) 
+	  || ! function_exists( 'the_row' )
+	  || ! function_exists( 'get_row_layout' ) ) 
+	{
+		return;
+	}
+
 	$return = false;
 
-	// Check dependency
-	if ( theme_function_exists( 'have_rows', 'the_row', 'get_row_layout' ) ) 
+	while ( have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
 	{
-		while ( have_rows( THEME_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
+		the_row();
+
+		if ( get_row_layout() == $layout ) 
 		{
-			the_row();
-
-			// Check layout
-			if ( get_row_layout() == $layout ) 
-			{
-				$return = true;
-
-				// Don't break loop
-			}
+			$return = true;
 		}
 	}
 

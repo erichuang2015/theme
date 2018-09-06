@@ -1,25 +1,20 @@
-<?php
+<?php  
 /**
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after.
+ * Footer
  */
 
-?>
-	</div><!-- #content -->
+?>		
+			
+			</div><!-- #content -->
 
-	<?php if ( is_active_sidebar( 'sidebar-3' ) ) : ?>
-	<footer id="colophon" class="site-footer widget-area" role="contentinfo">
-		<div class="container">
-			<div class="row">
-				<?php dynamic_sidebar( 'sidebar-3' ); ?>
-			</div>
-		</div><!-- .container -->
-	</footer><!-- #colophon -->
-	<?php endif; ?>
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<?php get_template_part( 'template-parts/footer-widgets' ); ?>
+			<?php get_template_part( 'template-parts/nav-bottom' ); ?>
+		</footer><!-- #colophon -->
 
-</div><!-- #page -->
-<?php wp_footer(); ?>
+	</div><!-- #page -->
 
+	<?php wp_footer(); ?>	
 </body>
+
 </html>
