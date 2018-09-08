@@ -3,7 +3,9 @@
  * The template for displaying all single posts
  */
 
-get_header(); ?>
+get_header(); 
+
+?>
 
 <div class="container">
 	<div class="row">
@@ -43,5 +45,6 @@ get_header(); ?>
 	</div><!-- .row -->
 </div><!-- .container -->
 
-<?php 
+<?php
+
 get_footer();

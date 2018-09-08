@@ -3,7 +3,9 @@
  * The template for displaying archive pages
  */
 
-get_header(); ?>
+get_header(); 
+
+?>
 			
 <div class="container">
 	<div class="row">
@@ -60,4 +62,5 @@ get_header(); ?>
 </div><!-- .container -->
 
 <?php 
+
 get_footer();

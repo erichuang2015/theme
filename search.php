@@ -3,7 +3,9 @@
  * The template for displaying search results pages
  */
 
-get_header(); ?>
+get_header(); 
+
+?>
 
 <div class="container">
 	<div class="row">
@@ -21,10 +23,6 @@ get_header(); ?>
 			<?php
 
 			if ( have_posts() ) :
-
-
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="taxonomy-description">', '</div>' );
 
 				// The Loop
 				while ( have_posts() )
@@ -59,4 +57,5 @@ get_header(); ?>
 </div><!-- .container -->
 
 <?php 
+
 get_footer();

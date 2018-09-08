@@ -12,7 +12,7 @@
  */
 function theme_breadcrumb_navigation( $args = array() )
 {
-	// Dependency check
+	// Check Dependency 
 	if ( ! function_exists( 'bcn_display_list' ) )
 	{
 		return '';
@@ -50,14 +50,14 @@ function theme_breadcrumb_navigation( $args = array() )
 			$args['before'], $items, $args['after'] );
 	}
 	
-	// Echo
-	if ( $args['echo'] ) 
+	// Return
+	if ( ! $args['echo'] ) 
 	{
-		echo $str;
+		return $str;
 	}
 
-	// Return
-	return $str;
+	// Echo
+	echo $str;
 }
 
 /**

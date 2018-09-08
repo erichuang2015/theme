@@ -3,7 +3,9 @@
  * The template for displaying 404 pages (not found)
  */
 
-get_header(); ?>
+get_header(); 
+
+?>
 
 <div class="container">
 
@@ -29,5 +31,6 @@ get_header(); ?>
 
 </div><!-- .container -->
 
-<?php 
+<?php
+ 
 get_footer();
