@@ -4,7 +4,7 @@
  */
 
 /**
- * Get Bootstrap nav class.
+ * Get Bootstrap navigation class.
  *
  * @return string|null
  */
@@ -19,9 +19,7 @@ function theme_get_bootstrap_nav_class( $menu_args )
 }
 
 /**
- * Is Bootstrap Nav Class
- *
- * Check if nav menu is `.nav` or `.navbar-nav`.
+ * Check if Bootstrap navigation.
  *
  * @return boolean
  */

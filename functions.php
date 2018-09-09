@@ -41,14 +41,6 @@ function theme_setup()
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'theme-settings' );
-	add_theme_support( 'theme-main-visuals' );
-	add_theme_support( 'theme-sections' );
-	add_theme_support( 'theme-layouts' );
-	add_theme_support( 'theme-breadcrumbs' );
-	add_theme_support( 'theme-icons' );
-	add_theme_support( 'theme-shortcodes' );
-	add_theme_support( 'theme-mce' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -56,57 +48,12 @@ function theme_setup()
 
 add_action( 'after_setup_theme', 'theme_setup' );
 
-/**
- * Support Init
- */
 function theme_support_init()
 {
-	// Settings
-	if ( current_theme_supports( 'theme-settings' ) ) 
+	// Options Page
+	if ( current_theme_supports( 'theme-options-page' ) ) 
 	{
-		require_once get_parent_theme_file_path( 'includes/settings.php' );
-	}
-
-	// Main Visuals
-	if ( current_theme_supports( 'theme-main-visuals' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/main-visuals.php' );
-	}
-
-	// Sections
-	if ( current_theme_supports( 'theme-sections' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/sections.php' );
-	}
-
-	// Layouts
-	if ( current_theme_supports( 'theme-layouts' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/layouts.php' );
-	}
-
-	// Breadcrumbs
-	if ( current_theme_supports( 'theme-breadcrumbs' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
-	}
-
-	// Icons
-	if ( current_theme_supports( 'theme-icons' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/icons.php' );
-	}
-
-	// Shortcodes
-	if ( current_theme_supports( 'theme-shortcodes' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/shortcodes.php' );
-	}
-
-	// TinyMCE
-	if ( current_theme_supports( 'theme-mce' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/mce.php' );
+		require_once get_parent_theme_file_path( 'includes/options-page.php' );
 	}
 }
 
@@ -273,6 +220,18 @@ function theme_scripts()
 }
 
 add_action( 'wp_enqueue_scripts', 'theme_scripts' );
+
+// Custom Customizer Settings
+require_once get_parent_theme_file_path( 'includes/customizer.php' );
+
+// Breadcrumbs
+require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
+	
+// MCE
+require_once get_parent_theme_file_path( 'includes/mce.php' );
+
+// Icons
+require_once get_parent_theme_file_path( 'includes/icons.php' );
 
 // Custom nav menu features.
 require_once get_parent_theme_file_path( 'includes/nav-menus.php' );

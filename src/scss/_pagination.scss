@@ -60,4 +60,16 @@
 		background-color: $pagination-active-bg;
 		border-color: $pagination-active-border-color;
 	}
+
+	.next,
+	.prev
+	{
+		display: flex;
+		align-items: center;
+
+		.icon
+		{
+			top: 0;
+		}
+	}
 }

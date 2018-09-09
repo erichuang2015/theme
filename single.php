@@ -28,11 +28,7 @@ get_header();
 						comments_template();
 					}
 
-					the_post_navigation( array
-					(
-						//'prev_text' => '<span class="sr-only">' . __( 'Previous Post', 'theme' ) . '</span><span aria-hidden="true" class="nav-subtitle">' . __( 'Previous', 'theme' ) . '</span> <span class="nav-title"><span class="nav-title-icon-wrapper">' . theme_get_icon( array( 'icon' => 'arrow-left' ) ) . '</span>%title</span>',
-						//'next_text' => '<span class="sr-only">' . __( 'Next Post', 'theme' ) . '</span><span aria-hidden="true" class="nav-subtitle">' . __( 'Next', 'theme' ) . '</span> <span class="nav-title">%title<span class="nav-title-icon-wrapper">' . theme_get_icon( array( 'icon' => 'arrow-right' ) ) . '</span></span>',
-					));
+					the_post_navigation();
 				}
 
 			?>

@@ -31,7 +31,7 @@
 
                     var node = editor.selection.getNode();
 
-                    if ( node.nodeName == 'A' ) 
+                    if ( node && node.nodeName == 'A' ) 
                     {
                         this.selectedButton = node;
 
@@ -159,8 +159,10 @@
                                 $button = $( '<a></a>' )
                             }
 
-                            $button.addClass( 'btn' );
-
+                            $button
+                                .addClass( 'btn' )
+                                .attr( 'role', 'button' );
+                                
                             /**
                              * Attributes
                              */

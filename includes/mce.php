@@ -9,10 +9,10 @@ function theme_mce_init()
 	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
 
 	add_filter( 'tiny_mce_before_init', 'theme_tiny_mce_before_init' );
-	add_filter( 'mce_external_plugins', 'theme_mce_plugins' );
+	add_filter( 'mce_external_plugins', 'theme_mce_external_plugins' );
+	add_filter( 'mce_buttons_2'		  , 'theme_mce_buttons' );
 	add_filter( 'mce_buttons' 	      , 'theme_mce_remove_buttons', 999 );
 	add_filter( 'mce_buttons_2'	 	  , 'theme_mce_remove_buttons', 999 );
-	add_filter( 'mce_buttons_2'		  , 'theme_mce_buttons' );
 }
 
 add_action( 'init', 'theme_mce_init' );
@@ -24,7 +24,7 @@ add_action( 'init', 'theme_mce_init' );
  */
 function theme_tiny_mce_before_init( $init_array ) 
 {  
-	$colors = array
+	$colors = apply_filters( 'theme/mce_colors', array
     (
 		'primary'   => __( 'Primary', 'theme' ),
 		'secondary' => __( 'Secondary', 'theme' ),
@@ -39,7 +39,7 @@ function theme_tiny_mce_before_init( $init_array )
 		'white'     => __( 'White', 'theme' ),
 		'black'     => __( 'Black', 'theme' ),
 		'white'     => __( 'White', 'theme' )
-    );
+    ));
 
     /**
      * Style Formats
@@ -200,7 +200,7 @@ function theme_mce_remove_buttons( $buttons )
 /**
  * Plugins
  */
-function theme_mce_plugins( $plugins ) 
+function theme_mce_external_plugins( $plugins ) 
 {
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 

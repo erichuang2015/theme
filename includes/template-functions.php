@@ -3,6 +3,7 @@
  * Additional features to allow styling of the templates
  */
 
+if ( ! function_exists( 'theme_has_container' ) ) :
 /**
  * Has Container
  *
@@ -12,11 +13,12 @@
  */
 function theme_has_container()
 {
-	$return = ! is_page_template( 'page-templates/full-width.php' );
-
-	return apply_filters( 'theme_has_container', $return );
+	return ! is_page_template( 'page-templates/full-width.php' );
 }
 
+endif; // theme_has_container
+
+if ( ! function_exists( 'theme_is_full_width' ) ) :
 /**
  * Is Full Width
  * 
@@ -28,15 +30,17 @@ function theme_is_full_width()
 {
 	$return = false;
 
-	if ( ! ( is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) )
+	if ( ( ! is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) )
 		|| is_page_template( 'page-templates/full-width-fixed.php' ) 
 		|| is_page_template( 'page-templates/full-width.php' ) ) 
 	{
-		$return = true;
+		return true;
 	}
 
-	return apply_filters( 'theme_is_full_width', $return );
+	return false;
 }
+
+endif; // theme_is_full_width
 
 /**
  * Body Class

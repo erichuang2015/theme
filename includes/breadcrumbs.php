@@ -2,6 +2,8 @@
 /**
  * Breadcrumbs
  *
+ * Creates Bootstrap breadcrumb navigation.
+ *
  * Dependency: Breadcrumb NavXT. 
  *
  * @link https://wordpress.org/plugins/breadcrumb-navxt/

@@ -5,6 +5,26 @@
 
 if ( ! function_exists( 'theme_posted_on' ) ) :
 /**
+ * The Posts Pagination
+ */
+function theme_the_posts_pagination( $args = array() )
+{
+	$defaults = apply_filters( 'theme/the_posts_pagination_defaults', array
+	(
+		'prev_text'          => sprintf( '%2$s<span class="sr-only">%1$s</span>', __( 'Previous page', 'theme' ), theme_get_icon( 'arrow-left' ) ),
+		'next_text'          => sprintf( '<span class="sr-only">%1$s</span>%2$s', __( 'Next page', 'theme' ), theme_get_icon( 'arrow-right' ) ),
+		'before_page_number' => sprintf( '<span class="sr-only">%s</span>', __( 'Page', 'theme' ) ),
+	));
+
+	$args = wp_parse_args( $args, $defaults );
+
+	the_posts_pagination( $args );
+}
+
+endif; // theme_the_posts_pagination
+
+if ( ! function_exists( 'theme_posted_on' ) ) :
+/**
  * Prints HTML with meta information for the current post-date/time and author.
  */
 function theme_posted_on()
@@ -20,7 +40,6 @@ function theme_posted_on()
 	echo '<span class="posted-on">' . theme_time_link() . '</span><span class="byline"> ' . $byline . '</span>';
 }
 endif; // theme_posted_on
-
 
 if ( ! function_exists( 'theme_time_link' ) ) :
 /**
@@ -63,17 +82,17 @@ function theme_site_logo()
 {
 	$logos = array
 	(
-		'dark'        => array( 'attachment' => theme_get_option( 'site_logo_dark' )	   , 'type' => array( 'dark', 'large' ) ),
-		'dark_small'  => array( 'attachment' => theme_get_option( 'site_logo_dark_small' ) , 'type' => array( 'dark', 'small' ) ),
-		'light'       => array( 'attachment' => theme_get_option( 'site_logo_light' )	   , 'type' => array( 'light', 'large' ) ),
-		'light_small' => array( 'attachment' => theme_get_option( 'site_logo_light_small' ), 'type' => array( 'light', 'small' ) )
+		'dark'        => array( 'url' => get_theme_mod( 'site_logo_dark' )	     , 'type' => array( 'dark', 'large' ) ),
+		'dark_small'  => array( 'url' => get_theme_mod( 'site_logo_dark_small' ) , 'type' => array( 'dark', 'small' ) ),
+		'light'       => array( 'url' => get_theme_mod( 'site_logo_light' )	     , 'type' => array( 'light', 'large' ) ),
+		'light_small' => array( 'url' => get_theme_mod( 'site_logo_light_small' ), 'type' => array( 'light', 'small' ) )
 	);
 
 	// Filter logo's with attachments
 
 	$logos = array_filter( $logos, function( $logo )
 	{
-		return $logo['attachment'] && get_post_type( $logo['attachment'] );
+		return $logo['url'];
 	});
 
 	// Large logos are also small logos when small version is not set.
@@ -96,19 +115,18 @@ function theme_site_logo()
 
 		foreach ( $logos as $logo ) 
 		{
-			$class = array( 'site-logo' );
+			$atts = array
+			(
+				'src'   => $logo['url'],
+				'class' => 'site-logo'
+			);
 
 			foreach ( $logo['type'] as $type ) 
 			{
-				$class[ $type ] = "logo-$type";
+				$atts['class'] .= " logo-$type";
 			}
 
-			$class = implode( ' ', $class );
-
-			echo wp_get_attachment_image( $logo['attachment'], 'site_logo', false, array
-	        (
-	        	'class' => $class
-	        ));
+			printf( '<img%s>', theme_esc_attr( $atts ) );
 		}
 	}
 

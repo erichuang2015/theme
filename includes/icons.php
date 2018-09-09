@@ -39,13 +39,13 @@ function theme_get_icon( $args )
 {
 	if ( ! is_array( $args ) ) 
 	{
-		$args = array( 'icon' => $args );
+		$args = array( 'name' => $args );
 	}
 
 	// Set defaults.
 	$defaults = array
 	(
-		'icon'     => '',
+		'name'     => '',
 		'title'    => '',
 		'desc'     => '',
 		'fallback' => '',
@@ -56,7 +56,7 @@ function theme_get_icon( $args )
 
 	$atts = array
 	(
-		'class'       => "icon icon-{$args['icon']}",
+		'class'       => "icon icon-{$args['name']}",
 		'aria-hidden' => 'true',
 		'role'        => 'img'
 	);
@@ -66,9 +66,9 @@ function theme_get_icon( $args )
 	 *
 	 * However, child themes can use the title and description to add information to non-decorative SVG icons to improve accessibility.
 	 *
-	 * Example 1 with title: <?php echo theme_get_icon( array( 'icon' => 'arrow-right', 'title' => __( 'This is the title', 'textdomain' ) ) ); ?>
+	 * Example 1 with title: <?php echo theme_get_icon( array( 'name' => 'arrow-right', 'title' => __( 'This is the title', 'textdomain' ) ) ); ?>
 	 *
-	 * Example 2 with title and description: <?php echo theme_get_icon( array( 'icon' => 'arrow-right', 'title' => __( 'This is the title', 'textdomain' ), 'desc' => __( 'This is the description', 'textdomain' ) ) ); ?>
+	 * Example 2 with title and description: <?php echo theme_get_icon( array( 'name' => 'arrow-right', 'title' => __( 'This is the title', 'textdomain' ), 'desc' => __( 'This is the description', 'textdomain' ) ) ); ?>
 	 *
 	 * See https://www.paciellogroup.com/blog/2013/12/using-aria-enhance-svg-accessibility/.
 	 */
@@ -108,12 +108,12 @@ function theme_get_icon( $args )
 	 * See https://core.trac.wordpress.org/ticket/38387.
 	 */
 
-	$svg .= sprintf( ' <use href="#icon-%1$s" xlink:href="#icon-%1$s"></use> ', esc_html( $args['icon'] ) );
+	$svg .= sprintf( ' <use href="#icon-%1$s" xlink:href="#icon-%1$s"></use> ', esc_html( $args['name'] ) );
 
 	// Add some markup to use as a fallback for browsers that do not support SVGs.
 	if ( $args['fallback'] )
 	{
-		$svg .= sprintf( '<span class="svg-fallback icon-%s></span>', esc_attr( $args['icon'] ) );
+		$svg .= sprintf( '<span class="svg-fallback icon-%s></span>', esc_attr( $args['name'] ) );
 	}
 
 	$svg .= '</svg>';
@@ -139,7 +139,7 @@ function theme_menu_item_icon( $title, $item, $args, $depth )
         if ( preg_match( '/^menu-item-icon-([a-z0-9_]+)$/', $class, $matches ) ) 
         {
             // Get icon.
-            $icon = theme_get_icon( $matches[1] );
+            $icon = theme_get_icon( array( 'name' => $matches[1], 'title' => $item->title ) );
 
             // Add icon to title.
             $title = "$icon $title";

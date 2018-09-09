@@ -20,7 +20,7 @@ if ( ! has_nav_menu( 'bottom_left' ) && ! has_nav_menu( 'bottom_right' ) )
 			wp_nav_menu( array
 			(
 				'theme_location' => 'bottom_left', 
-				'menu_class'     => 'nav mr-md-auto flex-column flex-md-row',
+				'menu_class'     => 'nav flex-column flex-md-row mr-md-auto',
 				'container'      => false,
 				'depth'          => 1
 			));
@@ -31,7 +31,7 @@ if ( ! has_nav_menu( 'bottom_left' ) && ! has_nav_menu( 'bottom_right' ) )
 			wp_nav_menu( array
 			(
 				'theme_location' => 'bottom_right', 
-				'menu_class'     => 'nav ml-md-auto flex-column flex-md-row',
+				'menu_class'     => 'nav flex-column flex-md-row ml-md-auto',
 				'container'      => false,
 				'depth'          => 1
 			));
