@@ -4,7 +4,7 @@
  */
 
 /**
- * Get Bootstrap nav type.
+ * Get Bootstrap navigation class.
  *
  * @return string|null
  */
@@ -29,7 +29,7 @@ function theme_is_bootstrap_nav( $menu_args )
 }
 
 /**
- * Bootstrap Menu Item
+ * Bootstrap Nav Menu Item
  */
 function theme_bootstrap_nav_menu_item( $classes, $item, $args, $depth )
 {
@@ -56,7 +56,7 @@ function theme_bootstrap_nav_menu_item( $classes, $item, $args, $depth )
 add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_item', 10, 4 );
 
 /**
- * Bootstrap Submenu
+ * Bootstrap Nav Menu Submenu
  */
 function theme_bootstrap_nav_menu_submenu( $classes, $args, $depth )
 {
@@ -77,7 +77,7 @@ function theme_bootstrap_nav_menu_submenu( $classes, $args, $depth )
 add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu', 10, 3 );
 
 /**
- * Bootstrap Menu Item Link
+ * Bootstrap Nav Menu Link
  */
 function theme_bootstrap_nav_menu_link( $atts, $item, $args, $depth )
 {
@@ -127,7 +127,7 @@ function theme_bootstrap_nav_menu_link( $atts, $item, $args, $depth )
 add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link', 10, 4 );
 
 /**
- * Button
+ * Nav Menu Item Button
  *
  * Usage: Add button CSS classes to item 'CSS Classes' setting by
  * using format `menu-item-{button_class}`.
@@ -137,7 +137,7 @@ add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link', 10, 4 )
  *
  * Note: `btn` class is automatically added.
  */
-function theme_menu_item_button( $atts, $item, $args )
+function theme_nav_menu_item_button( $atts, $item, $args )
 {
     $btn_classes = array();
 
@@ -188,16 +188,16 @@ function theme_menu_item_button( $atts, $item, $args )
     return $atts;
 }
 
-add_filter( 'nav_menu_link_attributes', 'theme_menu_item_button', 10, 3 );
+add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_item_button', 10, 3 );
 
 /**
- * Hide title
+ * Hide Nav Menu Item Title
  *
  * Hides menu item title.
  *
  * Usage: Set menu item CSS class to `menu-item-hide-title`.
  */
-function theme_menu_item_hide_title( $title, $item, $args, $depth )
+function theme_nav_menu_item_hide_title( $title, $item, $args, $depth )
 {
     // Search `hide-title` class
     $class_index = array_search( 'menu-item-hide-title', $item->classes );
@@ -212,16 +212,16 @@ function theme_menu_item_hide_title( $title, $item, $args, $depth )
     return $title;
 }
 
-add_filter( 'nav_menu_item_title', 'theme_menu_item_hide_title', 5, 4 );
+add_filter( 'nav_menu_item_title', 'theme_nav_menu_item_hide_title', 5, 4 );
 
 /**
- * Unlink
+ * Unlink Nav Menu Item
  *
  * Removes link from menu item.
  *
  * Usage: Set menu item CSS class `menu-item-unlink`.
  */
-function theme_menu_item_unlink( $item_output, $item, $depth, $args )
+function theme_nav_menu_item_unlink( $item_output, $item, $depth, $args )
 {
     // Check class
     if ( in_array( 'menu-item-unlink', $item->classes ) ) 
@@ -248,10 +248,10 @@ function theme_menu_item_unlink( $item_output, $item, $depth, $args )
     return $item_output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 4 );
+add_filter( 'walker_nav_menu_start_el', 'theme_nav_menu_item_unlink', 10, 4 );
 
 /**
- * Modal
+ * Nav Menu Item Modal
  *
  * Makes item able to toggle a modal.
  *
@@ -260,7 +260,7 @@ add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_unlink', 10, 4 );
  * Note: Works only with 'Custom Links'. You need to set
  * link to e.g. `#my-modal-id` to refer to the modal.
  */
-function theme_menu_item_modal( $atts, $item, $args )
+function theme_nav_menu_item_modal( $atts, $item, $args )
 {
     if ( in_array( 'menu-item-modal', $item->classes ) ) 
     {
@@ -270,10 +270,10 @@ function theme_menu_item_modal( $atts, $item, $args )
     return $atts;
 }
 
-add_filter( 'nav_menu_link_attributes', 'theme_menu_item_modal', 10, 3 );
+add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_item_modal', 10, 3 );
 
 /**
- * Template
+ * Nav Menu Item Template
  *
  * Replaces item content by use of filter.
  * 
@@ -291,7 +291,7 @@ add_filter( 'nav_menu_link_attributes', 'theme_menu_item_modal', 10, 3 );
  *      return get_search_form();
  * }, 10, 4 );
  */
-function theme_menu_item_template( $item_output, $item, $depth, $args )
+function theme_nav_menu_item_template( $item_output, $item, $depth, $args )
 {
     foreach ( $item->classes as $class ) 
     {
@@ -301,7 +301,7 @@ function theme_menu_item_template( $item_output, $item, $depth, $args )
             // Get template
             $template = $matches[1];
 
-            // Filter
+            // Get content
             $item_output = apply_filters( "theme/render_nav_menu_template/template=$template", $item_output, $item, $depth, $args );
         }
     }
@@ -309,4 +309,4 @@ function theme_menu_item_template( $item_output, $item, $depth, $args )
     return $item_output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'theme_menu_item_template', 10, 4 );
+add_filter( 'walker_nav_menu_start_el', 'theme_nav_menu_item_template', 10, 4 );

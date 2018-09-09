@@ -9,11 +9,9 @@
 
 		$( '.browser-ie .cover-image' ).each( function()
 		{
-			var $img = $( this ).find( 'img' );
-
-			$( this ).css( 'background-image', 'url(' + $img.attr( 'src' ) + ')' );
-
-			$img.hide();
+			$( this ).find( 'img' )
+				.css( 'background-image', 'url(' + $img.attr( 'src' ) + ')' )
+				.hide();
 		});
 	});
 })( jQuery );

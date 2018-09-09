@@ -17,13 +17,10 @@ function theme_setup()
 	// Make theme available for translation.
 	load_theme_textdomain( 'theme', get_template_directory() . '/languages' );
 
-	// This theme styles the visual editor to resemble the theme style.
-	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
-
 	/**
 	 * Register menu locations.
 	 *
-	 * All availabe locations used in templates:
+	 * Available locations used in templates:
 	 * - top_left
 	 * - top_right
 	 * - main_left
@@ -44,22 +41,19 @@ function theme_setup()
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'theme-flexible-content' );
-
+	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
 }
 
 add_action( 'after_setup_theme', 'theme_setup' );
 
-/**
- * Support Init
- */
 function theme_support_init()
 {
-	if ( current_theme_supports( 'theme-flexible-content' ) ) 
+	// Options Page
+	if ( current_theme_supports( 'theme-options-page' ) ) 
 	{
-		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
+		require_once get_parent_theme_file_path( 'includes/options-page.php' );
 	}
 }
 
@@ -74,6 +68,7 @@ function theme_widgets_init()
 	 * Register widget areas.
 	 */
 
+	// Primary Sidebar
 	register_sidebar( array
 	(
 		'id'            => 'sidebar-1',
@@ -85,6 +80,7 @@ function theme_widgets_init()
 		'after_title'   => '</h2>',
 	));
 
+	// Content Sidebar
 	register_sidebar( array
 	(
 		'id'            => 'sidebar-2',
@@ -96,48 +92,40 @@ function theme_widgets_init()
 		'after_title'   => '</h2>',
 	));
 
-	// Create footer sidebars
+	// Footer Sidebars
 
-	$columns = 3; $start_index = 3;
+	register_sidebar( array
+	(
+		'id'            => 'sidebar-3',
+		'name'          => __( 'Footer Column 1', 'theme' ),
+		'description'   => __( 'First column in footer section.', 'theme' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	));
 
-	$ordinals = array
-	( 
-		1 => __( 'first', 'theme' ), 
-		2 => __( 'second', 'theme' ), 
-		3 => __( 'thirth', 'theme' ),  
-		4 => __( 'fourth', 'theme' ), 
-		5 => __( 'fifth', 'theme' ), 
-		6 => __( 'sixth', 'theme' ),
-		7 => __( 'seventh', 'theme' ), 
-		8 => __( 'eighth', 'theme' ), 
-		9 => __( 'ninth', 'theme' ), 
-	);
+	register_sidebar( array
+	(
+		'id'            => 'sidebar-4',
+		'name'          => __( 'Footer Column 2', 'theme' ),
+		'description'   => __( 'Second column in footer section.', 'theme' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	));
 
-	for ( $n = 1; $n <= $columns; $n++ ) 
-	{ 
-		if ( $columns > 1 ) 
-		{
-			$name        = sprintf( __( 'Footer Column %d', 'theme' ), $n );
-			$description = sprintf( __( '%s column in footer section.', 'theme' ), ucfirst( $ordinals[$n] ) );
-		}
-
-		else
-		{
-			$name        = __( 'Footer', 'theme' );
-			$description = __( 'Footer section.', 'theme' );
-		}
-
-		register_sidebar( array
-		(
-			'id'            => sprintf( 'sidebar-%d', $start_index++ ),
-			'name'          => $name,
-			'description'   => $description,
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		));
-	}
+	register_sidebar( array
+	(
+		'id'            => 'sidebar-5',
+		'name'          => __( 'Footer Column 3', 'theme' ),
+		'description'   => __( 'Thirth column in footer section.', 'theme' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	));
 }
 
 add_action( 'widgets_init', 'theme_widgets_init' );
@@ -233,17 +221,20 @@ function theme_scripts()
 
 add_action( 'wp_enqueue_scripts', 'theme_scripts' );
 
-// Settings.
-require_once get_parent_theme_file_path( 'includes/settings.php' );
+// Custom Customizer Settings
+require_once get_parent_theme_file_path( 'includes/customizer.php' );
 
-// Icons.
+// Breadcrumbs
+require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
+	
+// MCE
+require_once get_parent_theme_file_path( 'includes/mce.php' );
+
+// Icons
 require_once get_parent_theme_file_path( 'includes/icons.php' );
 
-// Breadcrumbs.
-require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
-
 // Custom nav menu features.
-require_once get_parent_theme_file_path( 'includes/nav-menu.php' );
+require_once get_parent_theme_file_path( 'includes/nav-menus.php' );
 
 // Custom template tags for this theme.
 require get_parent_theme_file_path( '/includes/template-tags.php' );

@@ -1,0 +1,36 @@
+
+.layout-group
+{
+	padding: 1px 0;
+}
+
+.layout
+{
+	margin-top: map-get( $spacers, 6 );
+	margin-bottom: map-get( $spacers, 6 );
+}
+
+.page-header,
+.page .entry-header
+{
+	margin-top: map-get( $spacers, 7 );
+	margin-bottom: map-get( $spacers, 6 );
+}
+
+#primary-sidebar,
+#content-sidebar
+{
+	padding: map-get( $spacers, 7 ) 0;
+}
+
+.heading
+{
+	margin-top: map-get( $spacers, 6 );
+	margin-bottom: map-get( $spacers, 5 );
+}
+
+.page-header + .layout,
+.heading + .layout
+{
+	margin-top: 0;
+}

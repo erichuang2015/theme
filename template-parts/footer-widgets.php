@@ -4,7 +4,9 @@
  */
 
 // Check if widgets
-if ( ! is_active_sidebar( 'sidebar-3' ) && ! is_active_sidebar( 'sidebar-4' ) && ! is_active_sidebar( 'sidebar-5' ) )
+if ( ! is_active_sidebar( 'sidebar-3' ) 
+  && ! is_active_sidebar( 'sidebar-4' ) 
+  && ! is_active_sidebar( 'sidebar-5' ) )
 {
 	return;
 }

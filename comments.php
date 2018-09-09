@@ -50,7 +50,7 @@ if ( post_password_required() )
 						'avatar_size' => 100,
 						'style'       => 'ol',
 						'short_ping'  => true,
-						'reply_text'  => theme_get_icon( array( 'icon' => 'mail-reply' ) ) . __( 'Reply', 'theme' ),
+						'reply_text'  => theme_get_icon( array( 'name' => 'mail-reply' ) ) . __( 'Reply', 'theme' ),
 					)
 				);
 			?>
@@ -59,8 +59,8 @@ if ( post_password_required() )
 		<?php
 		the_comments_pagination(
 			array(
-				'prev_text' => theme_get_icon( array( 'icon' => 'arrow-left' ) ) . '<span class="sr-only">' . __( 'Previous', 'theme' ) . '</span>',
-				'next_text' => '<span class="sr-only">' . __( 'Next', 'theme' ) . '</span>' . theme_get_icon( array( 'icon' => 'arrow-right' ) ),
+				'prev_text' => theme_get_icon( array( 'name' => 'arrow-left' ) ) . '<span class="sr-only">' . __( 'Previous', 'theme' ) . '</span>',
+				'next_text' => '<span class="sr-only">' . __( 'Next', 'theme' ) . '</span>' . theme_get_icon( array( 'name' => 'arrow-right' ) ),
 			)
 		);
 

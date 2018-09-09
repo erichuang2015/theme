@@ -89,6 +89,11 @@ module.exports = function(grunt) {
         src: '**',
         dest: 'assets/fonts/',
       },
+      js: {
+        files: [
+          { src: ['src/js/mce-plugins.js'], dest: 'assets/js/mce-plugins.js' },
+        ],
+      },
       // copies specific vendor files to assets folder
       vendor: {
         files: [
@@ -140,6 +145,7 @@ module.exports = function(grunt) {
     'postcss:dist',     // adds vendor prefixes
     'copy:images',      // copies src/images to assets/images 
     'copy:fonts',       // copies src/fonts to assets/fonts 
+    'copy:js',          // copies specific JavaScript files 
     'copy:vendor',      // copies vendors to assets/
     'concat:theme',     // creates 1 theme js file in assets/js
     'cssmin:dist',      // minifies css files in assets/css
