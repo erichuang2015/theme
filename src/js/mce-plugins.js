@@ -14,8 +14,10 @@
                 text: 'Button',
                 icon: false,
                 selectedButton : null,
+                stateSelector : 'a.btn',
                 onclick: function() 
                 {
+
                     var _this = this;
 
                     var data = 
@@ -35,24 +37,30 @@
                     {
                         this.selectedButton = node;
 
-                        var typeMatches = $( node ).attr( 'class' ).match( /(?:^| )btn-(outline-)?(primary|secondary|success|warning|danger|info|light|dark|link)(?: |$)/ );
-                        var sizeMatches = $( node ).attr( 'class' ).match( /(?:^| )btn-(sm|md|lg)(?: |$)/ );
-
                         data.text     = $( node ).text() || '';
                         data.link     = $( node ).attr( 'href' ) || '';
                         data.link_tab = $( node ).attr( 'target' ) == '_blank' ? true : false;
 
-                        if ( typeMatches ) 
+                        // Type
+
+                        var matches = $( node ).attr( 'class' ).match( /(?:^| )btn-(outline-)?(primary|secondary|success|warning|danger|info|light|dark|link)(?: |$)/ );
+
+                        if ( matches ) 
                         {
-                            data.outline = typeof typeMatches[1] !== 'undefined' ? true : false;
-                            data.type    = typeMatches[2];
+                            data.outline = typeof matches[1] !== 'undefined' ? true : false;
+                            data.type    = matches[2];
                         }
 
-                        if ( sizeMatches ) 
+                        // Size
+
+                        var matches = $( node ).attr( 'class' ).match( /(?:^| )btn-(sm|md|lg)(?: |$)/ );
+
+                        if ( matches ) 
                         {
-                            data.size = sizeMatches[1];
+                            data.size = matches[1];
                         }
 
+                        // Toggle
                         data.toggle = $( node ).attr( 'data-toggle' ) || '';
                     }   
 
@@ -60,6 +68,7 @@
                     {
                         this.selectedButton = null;
 
+                        // Set button text to selected text
                         data.text = editor.selection.getContent( { format : 'text' } );
                     }
 
@@ -98,10 +107,10 @@
                                 [
                                     { text: 'Primary', value: 'primary' },
                                     { text: 'Secondary', value: 'secondary' },
-                                    { text: 'Success', value: 'success' },
-                                    { text: 'Danger', value: 'danger' },
-                                    { text: 'Warning', value: 'warning' },
-                                    { text: 'Info', value: 'info' },
+                                    //{ text: 'Success', value: 'success' },
+                                    //{ text: 'Danger', value: 'danger' },
+                                    //{ text: 'Warning', value: 'warning' },
+                                    //{ text: 'Info', value: 'info' },
                                     { text: 'Light', value: 'light' },
                                     { text: 'Dark', value: 'dark' },
                                     { text: 'Link', value: 'link' },
