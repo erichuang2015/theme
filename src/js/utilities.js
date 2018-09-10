@@ -44,16 +44,16 @@
 		var div = document.createElement( 'div' );
 		div.innerHTML = '<svg/>';
 		return 'http://www.w3.org/2000/svg' === ( typeof SVGRect !== 'undefined' && div.firstChild && div.firstChild.namespaceURI );
-	}
+	};
 
 	// @link https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
 	theme.isInViewPort = function( elem )
 	{
 		var elem = $( elem ).get( 0 );
 
-		var top = elem.offsetTop;
-		var left = elem.offsetLeft;
-		var width = elem.offsetWidth;
+		var top    = elem.offsetTop;
+		var left   = elem.offsetLeft;
+		var width  = elem.offsetWidth;
 		var height = elem.offsetHeight;
 
 		while( elem.offsetParent ) 

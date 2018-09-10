@@ -17,21 +17,16 @@ function theme_setup()
 	// Make theme available for translation.
 	load_theme_textdomain( 'theme', get_template_directory() . '/languages' );
 
-	/**
-	 * Register menu locations.
-	 *
-	 * Available locations used in templates:
-	 * - top_left
-	 * - top_right
-	 * - main_left
-	 * - main_right
-	 * - bottom_left
-	 * - bottom_right
-	 */
-
-	// Register those needed for the project.
+	// Register menu locations.
 	register_nav_menus( array
 	(
+		//'top_left'     => __( 'Top Menu (left)', 'theme' ),
+		//'top_right'    => __( 'Top Menu (right)', 'theme' ),
+		//'main_left'    => __( 'Main Menu (left)', 'theme' ),
+		//'main_right'   => __( 'Main Menu (right)', 'theme' ),
+		//'bottom_right' => __( 'Bottom Menu (right)', 'theme' ),
+		//'bottom_left'  => __( 'Bottom Menu (left)', 'theme' ),
+
 		'top_right'    => __( 'Top Menu', 'theme' ),
 		'main_right'   => __( 'Main Menu', 'theme' ),
 		'bottom_right' => __( 'Bottom Menu', 'theme' ),
