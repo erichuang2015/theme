@@ -4,6 +4,23 @@
  */
 
 /**
+ * Init
+ */
+function theme_nav_menus_init()
+{
+    add_filter( 'nav_menu_css_class'        , 'theme_nav_menu_bootstrap_item'   , 10, 4 );
+    add_filter( 'nav_menu_submenu_css_class', 'theme_nav_menu_bootstrap_submenu', 10, 3 );
+    add_filter( 'nav_menu_link_attributes'  , 'theme_nav_menu_bootstrap_link'   , 10, 4 );
+    add_filter( 'nav_menu_link_attributes'  , 'theme_nav_menu_item_button'      , 15, 3 );
+    add_filter( 'nav_menu_link_attributes'  , 'theme_nav_menu_item_modal'       , 10, 3 );
+    add_filter( 'nav_menu_item_title'       , 'theme_nav_menu_item_hide_title'  , 05, 4 );
+    add_filter( 'walker_nav_menu_start_el'  , 'theme_nav_menu_item_unlink'      , 10, 4 );
+    add_filter( 'walker_nav_menu_start_el'  , 'theme_nav_menu_item_template'    , 10, 4 );
+}
+
+add_action( 'init', 'theme_nav_menus_init' );
+
+/**
  * Get Bootstrap navigation class.
  *
  * @return string|null
@@ -31,7 +48,7 @@ function theme_is_bootstrap_nav( $menu_args )
 /**
  * Bootstrap Nav Menu Item
  */
-function theme_bootstrap_nav_menu_item( $classes, $item, $args, $depth )
+function theme_nav_menu_bootstrap_item( $classes, $item, $args, $depth )
 {
     // Check Bootstrap nav.
     if ( ! theme_is_bootstrap_nav( $args ) )
@@ -53,12 +70,10 @@ function theme_bootstrap_nav_menu_item( $classes, $item, $args, $depth )
     return $classes;
 }
 
-add_filter( 'nav_menu_css_class' , 'theme_bootstrap_nav_menu_item', 10, 4 );
-
 /**
  * Bootstrap Nav Menu Submenu
  */
-function theme_bootstrap_nav_menu_submenu( $classes, $args, $depth )
+function theme_nav_menu_bootstrap_submenu( $classes, $args, $depth )
 {
     // Check Bootstrap nav.
     if ( ! theme_is_bootstrap_nav( $args ) )
@@ -74,12 +89,10 @@ function theme_bootstrap_nav_menu_submenu( $classes, $args, $depth )
     return $classes;
 }
 
-add_filter( 'nav_menu_submenu_css_class', 'theme_bootstrap_nav_menu_submenu', 10, 3 );
-
 /**
  * Bootstrap Nav Menu Link
  */
-function theme_bootstrap_nav_menu_link( $atts, $item, $args, $depth )
+function theme_nav_menu_bootstrap_link( $atts, $item, $args, $depth )
 {
     // Check Bootstrap nav.
     if ( ! theme_is_bootstrap_nav( $args ) )
@@ -123,8 +136,6 @@ function theme_bootstrap_nav_menu_link( $atts, $item, $args, $depth )
 
     return $atts;
 }
-
-add_filter( 'nav_menu_link_attributes', 'theme_bootstrap_nav_menu_link', 10, 4 );
 
 /**
  * Nav Menu Item Button
@@ -188,8 +199,6 @@ function theme_nav_menu_item_button( $atts, $item, $args )
     return $atts;
 }
 
-add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_item_button', 10, 3 );
-
 /**
  * Hide Nav Menu Item Title
  *
@@ -211,8 +220,6 @@ function theme_nav_menu_item_hide_title( $title, $item, $args, $depth )
 
     return $title;
 }
-
-add_filter( 'nav_menu_item_title', 'theme_nav_menu_item_hide_title', 5, 4 );
 
 /**
  * Unlink Nav Menu Item
@@ -248,8 +255,6 @@ function theme_nav_menu_item_unlink( $item_output, $item, $depth, $args )
     return $item_output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'theme_nav_menu_item_unlink', 10, 4 );
-
 /**
  * Nav Menu Item Modal
  *
@@ -269,8 +274,6 @@ function theme_nav_menu_item_modal( $atts, $item, $args )
 
     return $atts;
 }
-
-add_filter( 'nav_menu_link_attributes', 'theme_nav_menu_item_modal', 10, 3 );
 
 /**
  * Nav Menu Item Template
@@ -308,5 +311,3 @@ function theme_nav_menu_item_template( $item_output, $item, $depth, $args )
 
     return $item_output;
 }
-
-add_filter( 'walker_nav_menu_start_el', 'theme_nav_menu_item_template', 10, 4 );
