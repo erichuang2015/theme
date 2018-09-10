@@ -17,7 +17,6 @@
                 stateSelector : 'a.btn',
                 onclick: function() 
                 {
-
                     var _this = this;
 
                     var data = 
@@ -36,6 +35,10 @@
                     if ( node && node.nodeName == 'A' ) 
                     {
                         this.selectedButton = node;
+
+                        /**
+                         * Read node attributes and set field values
+                         */
 
                         data.text     = $( node ).text() || '';
                         data.link     = $( node ).attr( 'href' ) || '';
@@ -154,13 +157,16 @@
                         // Form submit.
                         onsubmit: function( event ) 
                         {
-                            var data = $.extend( {}, event.data );
+                            var data   = $.extend( {}, event.data ),
+                                node   = editor.selection.getNode(),
+                                update = false,
+                                $button;
 
-                            var $button, update = false;
-
-                            if ( _this.selectedButton ) 
+                            if ( node && node.nodeName == 'A' ) 
                             {
-                                $button = $( _this.selectedButton ).attr( 'class', '' );
+                                $button = $( node ).attr( 'class', '' );
+
+                                update = true;
                             }
 
                             else
@@ -224,7 +230,7 @@
                              * Insert into editor
                              */
 
-                             if ( ! _this.selectedButton ) 
+                             if ( ! update ) 
                              {
                                 editor.insertContent( $( '<div></div>' ).append( $button ).html() );
                              }
