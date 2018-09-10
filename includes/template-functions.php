@@ -28,8 +28,6 @@ if ( ! function_exists( 'theme_is_full_width' ) ) :
  */
 function theme_is_full_width()
 {
-	$return = false;
-
 	if ( ( ! is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) )
 		|| is_page_template( 'page-templates/full-width-fixed.php' ) 
 		|| is_page_template( 'page-templates/full-width.php' ) ) 

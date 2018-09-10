@@ -43,7 +43,7 @@
 		<?php
 
 		/* translators: %s: Name of current post */
-		the_content( sprintf( __( 'Continue reading<span class="sr-only"> "%s"</span>', 'theme' ), get_the_title() ) );
+		the_content( sprintf( '%s<span class="sr-only"> "%s"</span>', __( 'Continue reading', 'theme' ), get_the_title() ) );
 
 		wp_link_pages( array
 		(
