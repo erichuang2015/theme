@@ -1,21 +1,15 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 
 /**
- * Init
+ * Editor Style
  */
-function theme_mce_init()
+function theme_mce_editor_style()
 {
 	// This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
-
-	add_filter( 'tiny_mce_before_init', 'theme_tiny_mce_before_init' );
-	add_filter( 'mce_external_plugins', 'theme_mce_external_plugins' );
-	add_filter( 'mce_buttons_2'		  , 'theme_mce_buttons' );
-	add_filter( 'mce_buttons' 	      , 'theme_mce_remove_buttons', 999 );
-	add_filter( 'mce_buttons_2'	 	  , 'theme_mce_remove_buttons', 999 );
 }
 
-add_action( 'init', 'theme_mce_init' );
+add_action( 'init', 'theme_mce_editor_style' );
 
 /**
  * MCE Before Init
@@ -161,10 +155,12 @@ function theme_tiny_mce_before_init( $init_array )
     //
      
     return $init_array;  
-} 
+}
+
+add_filter( 'tiny_mce_before_init', 'theme_tiny_mce_before_init' );
 
 /**
- * Buttons
+ * Add Buttons
  */
 function theme_mce_buttons( $buttons ) 
 {
@@ -174,6 +170,8 @@ function theme_mce_buttons( $buttons )
 
     return $buttons;
 }
+
+add_filter( 'mce_buttons_2', 'theme_mce_buttons' );
 
 /**
  * Remove Buttons
@@ -197,6 +195,9 @@ function theme_mce_remove_buttons( $buttons )
     return $buttons;
 }
 
+add_filter( 'mce_buttons'  , 'theme_mce_remove_buttons', 999 );
+add_filter( 'mce_buttons_2', 'theme_mce_remove_buttons', 999 );
+
 /**
  * Plugins
  */
@@ -208,3 +209,5 @@ function theme_mce_external_plugins( $plugins )
     
     return $plugins;
 }
+
+add_filter( 'mce_external_plugins', 'theme_mce_external_plugins' );
