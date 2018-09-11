@@ -46,9 +46,8 @@ module.exports = function(grunt) {
       theme: {
         src: [
           'src/js/utilities.js',
-          'src/js/breakpoint.js',
+          'src/js/scroll-to.js',
           'src/js/navbar.js',
-          'src/js/cover-image.js',
           'src/js/common.js',
         ],
         dest: 'assets/js/theme.js',

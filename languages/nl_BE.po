@@ -1,0 +1,308 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: Theme\n"
+"POT-Creation-Date: 2018-09-11 18:08+0200\n"
+"PO-Revision-Date: 2018-09-11 18:16+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: nl_BE\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: 404.php:17
+msgid "Page not found."
+msgstr "Pagina niet gevonden."
+
+#: 404.php:22
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr ""
+"Het lijkt erop dat er niets is gevonden op deze locatie. Probeer de "
+"zoekfunctie?"
+
+#: comments.php:28
+#, php-format
+msgctxt "comments title"
+msgid "One Reply to &ldquo;%s&rdquo;"
+msgstr "Eén antwoord op “%s”"
+
+#: comments.php:33
+#, php-format
+msgctxt "comments title"
+msgid "%1$s Reply to &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s Replies to &ldquo;%2$s&rdquo;"
+msgstr[0] "%1$s antwoord op “%2$s”"
+msgstr[1] "%1$s antwoorden op “%2$s”"
+
+#: comments.php:53
+msgid "Reply"
+msgstr "Beantwoord"
+
+#: comments.php:62 includes/template-tags.php:260
+msgid "Previous"
+msgstr "Vorige"
+
+#: comments.php:63 includes/template-tags.php:265
+msgid "Next"
+msgstr "Volgende"
+
+#: comments.php:73
+msgid "Comments are closed."
+msgstr "Reacties zijn uitgeschakeld."
+
+#: functions.php:30
+msgid "Top Menu"
+msgstr "Topmenu"
+
+#: functions.php:31
+msgid "Main Menu"
+msgstr "Hoofdmenu"
+
+#: functions.php:32
+msgid "Bottom Menu"
+msgstr "Menu onderaan"
+
+#: functions.php:70 sidebar.php:14
+msgid "Primary Sidebar"
+msgstr "Primaire zijbalk"
+
+#: functions.php:71
+msgid "Section on the left side."
+msgstr "Sectie aan de linkerkant."
+
+#: functions.php:82 sidebar-content.php:14
+msgid "Content Sidebar"
+msgstr "Inhoud Zijbalk"
+
+#: functions.php:83
+msgid "Section on the right side."
+msgstr "Sectie aan de rechterkant."
+
+#: functions.php:95
+msgid "Footer Column 1"
+msgstr "Footer Kolom 1"
+
+#: functions.php:96
+msgid "First column in footer section."
+msgstr "Eerste kolom in footer."
+
+#: functions.php:106
+msgid "Footer Column 2"
+msgstr "Footer Kolom 2"
+
+#: functions.php:107
+msgid "Second column in footer section."
+msgstr "Tweede kolom in footer."
+
+#: functions.php:117
+msgid "Footer Column 3"
+msgstr "Footer Kolom 3"
+
+#: functions.php:118
+msgid "Thirth column in footer section."
+msgstr "Derde kolom in footer."
+
+#: includes/customizer.php:21
+msgid "Site Logo (dark)"
+msgstr "Website Logo (donker)"
+
+#: includes/customizer.php:22
+msgid "Used on light backgrounds."
+msgstr "Gebruikt op een lichte achtergronden."
+
+#: includes/customizer.php:32
+msgid "Site Logo (dark, compact)"
+msgstr "Website Logo (donker, compact)"
+
+#: includes/customizer.php:33
+msgid "Compact version for use on light backgrounds. (optional)"
+msgstr ""
+"Compacte versie voor gebruik op een lichte achtergronden. (optioneel)"
+
+#: includes/customizer.php:43
+msgid "Site Logo (light)"
+msgstr "Website Logo (licht)"
+
+#: includes/customizer.php:44
+msgid "Used on dark backgrounds."
+msgstr "Gebruikt op een donkere achtergronden."
+
+#: includes/customizer.php:54
+msgid "Site Logo (light, compact)"
+msgstr "Website Logo (licht, compact)"
+
+#: includes/customizer.php:55
+msgid "Compact version for use on dark backgrounds. (optional)"
+msgstr ""
+"Compacte versie voor gebruik op een donkere achtergronden. (optioneel)"
+
+#: includes/mce.php:23
+msgid "Primary"
+msgstr "Primair"
+
+#: includes/mce.php:24
+msgid "Secondary"
+msgstr "Secondair"
+
+#: includes/mce.php:29 includes/mce.php:92
+msgid "Light"
+msgstr "Licht"
+
+#: includes/mce.php:30
+msgid "Dark"
+msgstr "Donker"
+
+#: includes/mce.php:31
+msgid "Body"
+msgstr "Body"
+
+#: includes/mce.php:32
+msgid "Muted"
+msgstr "Gedempt"
+
+#: includes/mce.php:33 includes/mce.php:35
+msgid "White"
+msgstr "Wit"
+
+#: includes/mce.php:34
+msgid "Black"
+msgstr "Zwart"
+
+#: includes/mce.php:60
+msgid "Size"
+msgstr "Grootte"
+
+#: includes/mce.php:66
+msgid "Large"
+msgstr "Groot"
+
+#: includes/mce.php:75
+msgid "Small"
+msgstr "Small"
+
+#: includes/mce.php:86
+msgid "Weight"
+msgstr "Gewicht"
+
+#: includes/mce.php:101
+msgid "Normal"
+msgstr "Normaal"
+
+#: includes/mce.php:110
+msgid "Bold"
+msgstr "Vet"
+
+#: includes/mce.php:121
+msgid "Font Family"
+msgstr "Lettertype"
+
+#: includes/mce.php:127
+msgid "Serif"
+msgstr "Serif"
+
+#: includes/mce.php:136
+msgid "Sans Serif"
+msgstr "Sans Serif"
+
+#: includes/mce.php:147
+msgid "Colors"
+msgstr "Kleuren"
+
+#: includes/options-page.php:11
+msgid "Theme Options"
+msgstr "Thema Opties"
+
+#. Theme Name of the plugin/theme
+#: includes/options-page.php:14
+msgid "Theme"
+msgstr "Thema"
+
+#: includes/template-tags.php:14
+msgid "Previous page"
+msgstr "Vorige pagina"
+
+#: includes/template-tags.php:15
+msgid "Next page"
+msgstr "Volgende pagina"
+
+#: includes/template-tags.php:16
+msgid "Page"
+msgstr "Pagina"
+
+#: includes/template-tags.php:35
+#, php-format
+msgid "by %s"
+msgstr "door %s"
+
+#: includes/template-tags.php:68
+#, php-format
+msgid "<span class=\"sr-only\">Posted on</span> %s"
+msgstr "<span class=“sr-only”>Gepost op</span> %s"
+
+#: search.php:23
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Zoekresultaten voor: %s"
+
+#: search.php:25 template-parts/content-none.php:11
+msgid "Nothing Found"
+msgstr "Niets gevonden"
+
+#: searchform.php:14
+msgctxt "label"
+msgid "Search for:"
+msgstr "Zoeken naar:"
+
+#: searchform.php:16
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr "Zoek &hellip;"
+
+#: searchform.php:19
+msgid "Search"
+msgstr "Zoeken"
+
+#: template-parts/content-none.php:18
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Klaar om je eerste bericht te publiceren? <a href=“%1$s”>Start hier</a>."
+
+#: template-parts/content-none.php:22
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Het ziet er naar uit dat wat u zoekt, niet kan worden gevonden. Wellicht "
+"kan de zoekfunctie helpen."
+
+#: template-parts/content-page.php:19 template-parts/content.php:50
+msgid "Pages:"
+msgstr "Pagina’s:"
+
+#: template-parts/content.php:46
+msgid "Continue reading"
+msgstr "Verder lezen"
+
+#: template-parts/nav-main.php:15
+msgid "Toggle navigation"
+msgstr "Navigatie in- of uitklappen"
+
+#. Author of the plugin/theme
+msgid "Maarten Menten"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://profiles.wordpress.org/maartenm"
+msgstr ""
