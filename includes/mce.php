@@ -201,7 +201,7 @@ add_filter( 'mce_buttons_2', 'theme_mce_remove_buttons', 999 );
 /**
  * Plugins
  */
-function theme_mce_external_plugins( $plugins ) 
+function theme_mce_plugins( $plugins ) 
 {
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
@@ -210,4 +210,4 @@ function theme_mce_external_plugins( $plugins )
     return $plugins;
 }
 
-add_filter( 'mce_external_plugins', 'theme_mce_external_plugins' );
+add_filter( 'mce_external_plugins', 'theme_mce_plugins' );
