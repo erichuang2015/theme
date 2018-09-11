@@ -1,0 +1,301 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Theme\n"
+"POT-Creation-Date: 2018-09-11 18:08+0200\n"
+"PO-Revision-Date: 2018-09-11 18:07+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: 404.php:17
+msgid "Page not found."
+msgstr ""
+
+#: 404.php:22
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr ""
+
+#: comments.php:28
+#, php-format
+msgctxt "comments title"
+msgid "One Reply to &ldquo;%s&rdquo;"
+msgstr ""
+
+#: comments.php:33
+#, php-format
+msgctxt "comments title"
+msgid "%1$s Reply to &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s Replies to &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:53
+msgid "Reply"
+msgstr ""
+
+#: comments.php:62 includes/template-tags.php:260
+msgid "Previous"
+msgstr ""
+
+#: comments.php:63 includes/template-tags.php:265
+msgid "Next"
+msgstr ""
+
+#: comments.php:73
+msgid "Comments are closed."
+msgstr ""
+
+#: functions.php:30
+msgid "Top Menu"
+msgstr ""
+
+#: functions.php:31
+msgid "Main Menu"
+msgstr ""
+
+#: functions.php:32
+msgid "Bottom Menu"
+msgstr ""
+
+#: functions.php:70 sidebar.php:14
+msgid "Primary Sidebar"
+msgstr ""
+
+#: functions.php:71
+msgid "Section on the left side."
+msgstr ""
+
+#: functions.php:82 sidebar-content.php:14
+msgid "Content Sidebar"
+msgstr ""
+
+#: functions.php:83
+msgid "Section on the right side."
+msgstr ""
+
+#: functions.php:95
+msgid "Footer Column 1"
+msgstr ""
+
+#: functions.php:96
+msgid "First column in footer section."
+msgstr ""
+
+#: functions.php:106
+msgid "Footer Column 2"
+msgstr ""
+
+#: functions.php:107
+msgid "Second column in footer section."
+msgstr ""
+
+#: functions.php:117
+msgid "Footer Column 3"
+msgstr ""
+
+#: functions.php:118
+msgid "Thirth column in footer section."
+msgstr ""
+
+#: includes/customizer.php:21
+msgid "Site Logo (dark)"
+msgstr ""
+
+#: includes/customizer.php:22
+msgid "Used on light backgrounds."
+msgstr ""
+
+#: includes/customizer.php:32
+msgid "Site Logo (dark, compact)"
+msgstr ""
+
+#: includes/customizer.php:33
+msgid "Compact version for use on light backgrounds. (optional)"
+msgstr ""
+
+#: includes/customizer.php:43
+msgid "Site Logo (light)"
+msgstr ""
+
+#: includes/customizer.php:44
+msgid "Used on dark backgrounds."
+msgstr ""
+
+#: includes/customizer.php:54
+msgid "Site Logo (light, compact)"
+msgstr ""
+
+#: includes/customizer.php:55
+msgid "Compact version for use on dark backgrounds. (optional)"
+msgstr ""
+
+#: includes/mce.php:23
+msgid "Primary"
+msgstr ""
+
+#: includes/mce.php:24
+msgid "Secondary"
+msgstr ""
+
+#: includes/mce.php:29 includes/mce.php:92
+msgid "Light"
+msgstr ""
+
+#: includes/mce.php:30
+msgid "Dark"
+msgstr ""
+
+#: includes/mce.php:31
+msgid "Body"
+msgstr ""
+
+#: includes/mce.php:32
+msgid "Muted"
+msgstr ""
+
+#: includes/mce.php:33 includes/mce.php:35
+msgid "White"
+msgstr ""
+
+#: includes/mce.php:34
+msgid "Black"
+msgstr ""
+
+#: includes/mce.php:60
+msgid "Size"
+msgstr ""
+
+#: includes/mce.php:66
+msgid "Large"
+msgstr ""
+
+#: includes/mce.php:75
+msgid "Small"
+msgstr ""
+
+#: includes/mce.php:86
+msgid "Weight"
+msgstr ""
+
+#: includes/mce.php:101
+msgid "Normal"
+msgstr ""
+
+#: includes/mce.php:110
+msgid "Bold"
+msgstr ""
+
+#: includes/mce.php:121
+msgid "Font Family"
+msgstr ""
+
+#: includes/mce.php:127
+msgid "Serif"
+msgstr ""
+
+#: includes/mce.php:136
+msgid "Sans Serif"
+msgstr ""
+
+#: includes/mce.php:147
+msgid "Colors"
+msgstr ""
+
+#: includes/options-page.php:11
+msgid "Theme Options"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+#: includes/options-page.php:14
+msgid "Theme"
+msgstr ""
+
+#: includes/template-tags.php:14
+msgid "Previous page"
+msgstr ""
+
+#: includes/template-tags.php:15
+msgid "Next page"
+msgstr ""
+
+#: includes/template-tags.php:16
+msgid "Page"
+msgstr ""
+
+#: includes/template-tags.php:35
+#, php-format
+msgid "by %s"
+msgstr ""
+
+#: includes/template-tags.php:68
+#, php-format
+msgid "<span class=\"sr-only\">Posted on</span> %s"
+msgstr ""
+
+#: search.php:23
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: search.php:25 template-parts/content-none.php:11
+msgid "Nothing Found"
+msgstr ""
+
+#: searchform.php:14
+msgctxt "label"
+msgid "Search for:"
+msgstr ""
+
+#: searchform.php:16
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr ""
+
+#: searchform.php:19
+msgid "Search"
+msgstr ""
+
+#: template-parts/content-none.php:18
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: template-parts/content-none.php:22
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: template-parts/content-page.php:19 template-parts/content.php:50
+msgid "Pages:"
+msgstr ""
+
+#: template-parts/content.php:46
+msgid "Continue reading"
+msgstr ""
+
+#: template-parts/nav-main.php:15
+msgid "Toggle navigation"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Maarten Menten"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://profiles.wordpress.org/maartenm"
+msgstr ""
