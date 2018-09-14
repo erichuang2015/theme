@@ -4,11 +4,11 @@
 
 // Per Breakpoint
 
-@each $breakpoint in map-keys($grid-breakpoints) 
+@each $breakpoint in map-keys( $grid-breakpoints ) 
 {
-	@include media-breakpoint-up($breakpoint) 
+	@include media-breakpoint-up( $breakpoint ) 
 	{
-		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+		$infix: breakpoint-infix( $breakpoint, $grid-breakpoints );
 
 		$n: $vh-from;
 

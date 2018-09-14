@@ -17,3 +17,5 @@
 		</header><!-- #masthead -->
 
 		<div id="content" class="site-content">
+
+			<?php theme_main_visual(); ?>

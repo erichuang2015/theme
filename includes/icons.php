@@ -1,6 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * Icons
+ *
+ * Based on theme Twentyseventeen.
+ *
+ * @link https://wordpress.com/theme/twentyseventeen/
  */
 
 /**

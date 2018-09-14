@@ -3,7 +3,7 @@
  * Template Tags
  */
 
-if ( ! function_exists( 'theme_posted_on' ) ) :
+if ( ! function_exists( 'theme_the_posts_pagination' ) ) :
 /**
  * The Posts Pagination
  */
@@ -160,7 +160,7 @@ function theme_carousel( $args )
 	 *
 	 * @param id 		 string The carousel id (optional) 
 	 * @param query 	 string|array|WP_Query WP Query arguments (required) 
-	 * @param items 	 integer|string|array The number of items to see on the screen. (optional, default: 3)
+	 * @param items 	 integer|array The number of items to see on the screen. (optional, default: 3)
 	 *					 e.g.: `3` or per grid breakpoint: `array( 'xs' => 1,'sm' => 3 )`
 	 * @param autoplay 	 boolean (optional, default: true)
 	 * @param loop 		 boolean (optional, default: true)
@@ -186,7 +186,7 @@ function theme_carousel( $args )
 
 	extract( $args, EXTR_SKIP );
 
-	// Sanitizes arguments
+	// Sanitize arguments
 
 	if ( ! is_array( $items ) ) 
 	{
@@ -208,14 +208,14 @@ function theme_carousel( $args )
 		$the_query = new WP_Query( $query );
 	}
 
-	// Stops when no posts are found
+	// Stop when no posts are found
 
 	if ( ! $the_query->have_posts() ) 
 	{
 		return;
 	}
 
-	// Sets the amount of items to show per grid breakpoint
+	// Set the amount of items to show per grid breakpoint
 
 	$breakpoints = theme_get_grid_breakpoints();
 
@@ -282,6 +282,8 @@ function theme_carousel( $args )
 				'dots'       => $indicators ? 1 : 0
 			);
 
+			// TODO : js file
+
 		?>
 
 		jQuery( document ).ready( function( $ )
@@ -290,8 +292,6 @@ function theme_carousel( $args )
 
 	  		$elem.find( '.owl-carousel' ).owlCarousel( <?php echo json_encode( $options ); ?> );
 			
-			// TODO : js file
-
 			$elem.on( 'click', '.carousel-control-next', function( event )
 			{
 				event.preventDefault();

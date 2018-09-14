@@ -17,12 +17,6 @@
 	margin-bottom: map-get( $spacers, 6 );
 }
 
-#primary-sidebar,
-#content-sidebar
-{
-	padding: map-get( $spacers, 7 ) 0;
-}
-
 .heading
 {
 	margin-top: map-get( $spacers, 6 );

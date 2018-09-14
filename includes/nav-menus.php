@@ -158,7 +158,7 @@ function theme_nav_menu_item_button( $atts, $item, $args )
     if ( $btn_classes ) 
     {
         // Make sure `btn` class is added.
-        $btn_classes = array( 'btn' => 'btn') + $btn_classes;
+        $btn_classes['btn'] = 'btn';
 
         // Convert to string.
         $btn_classes = implode( ' ', $btn_classes );

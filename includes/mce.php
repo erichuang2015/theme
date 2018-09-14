@@ -1,4 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+/**
+ * MCE
+ */
 
 /**
  * Editor Style
