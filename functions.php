@@ -3,10 +3,10 @@
  * Theme functions and definitions
  */
 
-// Load constants.
+// Constants
 require get_theme_file_path( 'includes/constants.php' );
 
-// Load common helper functions
+// Common helper functions
 require get_parent_theme_file_path( 'includes/common.php' );
 
 /**
@@ -26,7 +26,6 @@ function theme_setup()
 		//'main_right'   => __( 'Main Menu (right)', 'theme' ),
 		//'bottom_right' => __( 'Bottom Menu (right)', 'theme' ),
 		//'bottom_left'  => __( 'Bottom Menu (left)', 'theme' ),
-
 		'top_right'    => __( 'Top Menu', 'theme' ),
 		'main_right'   => __( 'Main Menu', 'theme' ),
 		'bottom_right' => __( 'Bottom Menu', 'theme' ),
@@ -36,6 +35,10 @@ function theme_setup()
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
+
+	add_theme_support( 'theme-sections' );
+	add_theme_support( 'theme-main-visuals' );
+	add_theme_support( 'theme-flexible-content' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -49,6 +52,24 @@ function theme_support_init()
 	if ( current_theme_supports( 'theme-options-page' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/options-page.php' );
+	}
+
+	// Sections
+	if ( current_theme_supports( 'theme-sections' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/sections.php' );
+	}
+
+	// Main Visuals
+	if ( current_theme_supports( 'theme-main-visuals' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/main-visuals.php' );
+	}
+
+	// Flexible Content
+	if ( current_theme_supports( 'theme-flexible-content' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
 	}
 }
 

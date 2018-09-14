@@ -1,5 +1,13 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+/**
+ * Options Page
+ *
+ * Dependency: Advanced Custom Fields PRO
+ *
+ * @link https://www.advancedcustomfields.com/
+ */
 
+// Define option name
 defined( 'THEME_OPTION_NAME' ) or define( 'THEME_OPTION_NAME', 'theme_options' );
 
 // Check dependency
