@@ -66,6 +66,9 @@ function theme_layouts_component_init()
 	theme_register_layout( 'Theme\Component\Layouts\Layout\PageHeaderLayout' );
 	theme_register_layout( 'Theme\Component\Layouts\Layout\HeadingLayout' );
 	theme_register_layout( 'Theme\Component\Layouts\Layout\ContentLayout' );
+
+	theme_register_layout( 'Theme\Component\Layouts\Layout\ModalLayout' );
+	theme_register_layout( 'Theme\Component\Layouts\Layout\TextImageColumnLayout' );
 }
 
 add_action( 'init', 'theme_layouts_component_init' );

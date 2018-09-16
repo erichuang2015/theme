@@ -6,6 +6,16 @@
 // Define post type.
 defined( 'THEME_SECTIONS_POST_TYPE' ) or define( 'THEME_SECTIONS_POST_TYPE', 'section' );
 
+function theme_sections_init()
+{
+	if ( current_theme_supports( 'theme-flexible-content' ) ) 
+	{
+		theme_register_layout( 'Theme\Component\Layouts\Layout\SectionLayout' );
+	}
+}
+
+add_action( 'init', 'theme_sections_init' );
+
 /**
  * Register Post Type
  */

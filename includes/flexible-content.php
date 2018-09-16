@@ -9,12 +9,15 @@
 
 // Define flexible content field name.
 defined( 'THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD', 'content' );
+defined( 'THEME_LAYOUTS_POST_TYPE_FEATURE' ) or define( 'THEME_LAYOUTS_POST_TYPE_FEATURE', 'theme-flexible-content' );
 
 /**
  * Init
  */
 function theme_layouts_init()
 {
+	add_post_type_support( 'page', THEME_LAYOUTS_POST_TYPE_FEATURE );
+	
 	$layout_manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
 	$layout_manager->init();
 }
