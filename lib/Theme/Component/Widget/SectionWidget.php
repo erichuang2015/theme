@@ -1,6 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+<?php
 
-class Theme_Section_Widget extends WP_Widget
+namespace Theme\Component\Widget;
+
+class SectionWidget extends \WP_Widget
 {
 	public function __construct()
 	{
@@ -18,7 +20,7 @@ class Theme_Section_Widget extends WP_Widget
 			return;
 		}
 
-		$the_query = new WP_Query( array
+		$the_query = new \WP_Query( array
 		(
 			'p'         => $instance['section'],
 			'post_type' => THEME_SECTIONS_POST_TYPE

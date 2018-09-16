@@ -51,9 +51,7 @@ add_action( 'init', 'theme_sections_register_post_type' );
  */
 function theme_sections_widgets_init()
 {
-	require_once get_parent_theme_file_path( 'includes/widgets/section.php' );
-
-	register_widget( 'Theme_Section_Widget' );
+	register_widget( 'Theme\Component\Widget\SectionWidget' );
 }
 
 add_action( 'widgets_init', 'theme_sections_widgets_init' );
