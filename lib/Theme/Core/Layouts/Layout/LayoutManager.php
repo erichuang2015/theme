@@ -250,6 +250,23 @@ class LayoutManager
 		));
 
 		/**
+		 * Location
+		 */
+
+		$location = array();
+
+		foreach ( get_post_types() as $post_type ) 
+		{
+			if ( post_type_supports( $post_type, THEME_LAYOUTS_POST_TYPE_FEATURE ) ) 
+			{
+				$location[] = array
+				(
+					array( 'param' => 'post_type', 'operator' => '==', 'value' => $post_type ),
+				);
+			}
+		}
+
+		/**
 		 * Layouts
 		 */
 
@@ -334,13 +351,7 @@ class LayoutManager
 					'button_label' => __( 'Add Layout', 'theme' ),
 				),
 			),
-			'location' => array
-			(
-				array
-				(
-					array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ),
-				),
-			),
+			'location'              => $location,
 			'menu_order'            => 0,
 			'position'              => 'normal',
 			'style'                 => 'seamless',
