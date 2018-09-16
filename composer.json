@@ -8,5 +8,8 @@
             "email": "mentenmaarten@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {"Theme\\": "lib/Theme/"}
+    },
     "require": {}
 }

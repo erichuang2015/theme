@@ -4,10 +4,13 @@
  */
 
 // Constants
-require get_theme_file_path( 'includes/constants.php' );
+require_once get_theme_file_path( 'includes/constants.php' );
+
+// Autoloader
+require_once get_theme_file_path( 'includes/autoload.php' );
 
 // Common helper functions
-require get_parent_theme_file_path( 'includes/common.php' );
+require_once get_parent_theme_file_path( 'includes/common.php' );
 
 /**
  * Setup
@@ -46,6 +49,30 @@ function theme_setup()
 
 add_action( 'after_setup_theme', 'theme_setup' );
 
+/**
+ * Layouts Components Init
+ */
+function theme_layouts_component_init()
+{
+	if ( ! current_theme_supports( 'theme-flexible-content' ) ) 
+	{
+		return;
+	}
+
+	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\IDFeature' );
+	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\ClassFeature' );
+	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\BGColorFeature' );
+
+	theme_register_layout( 'Theme\Component\Layouts\Layout\PageHeaderLayout' );
+	theme_register_layout( 'Theme\Component\Layouts\Layout\HeadingLayout' );
+	theme_register_layout( 'Theme\Component\Layouts\Layout\ContentLayout' );
+}
+
+add_action( 'init', 'theme_layouts_component_init' );
+
+/**
+ * Support Init
+ */
 function theme_support_init()
 {
 	// Options Page
@@ -253,7 +280,7 @@ require_once get_parent_theme_file_path( 'includes/icons.php' );
 require_once get_parent_theme_file_path( 'includes/nav-menus.php' );
 
 // Custom template tags for this theme.
-require get_parent_theme_file_path( '/includes/template-tags.php' );
+require_once get_parent_theme_file_path( '/includes/template-tags.php' );
 
 // Additional features to allow styling of the templates.
-require get_parent_theme_file_path( '/includes/template-functions.php' );
+require_once get_parent_theme_file_path( '/includes/template-functions.php' );

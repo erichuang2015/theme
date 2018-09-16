@@ -1,6 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+<?php
 
-class Theme_Main_Visual_Widget extends WP_Widget
+namespace Theme\Component\Widget;
+
+class MainVisualWidget extends \WP_Widget
 {
 	public function __construct()
 	{
@@ -30,5 +32,3 @@ class Theme_Main_Visual_Widget extends WP_Widget
 		printf( '<p>%s</p>', __( 'Settings are available on post/page edit screens.', 'theme' ) );
 	}
 }
-
-register_widget( 'Theme_Main_Visual_Widget' );
