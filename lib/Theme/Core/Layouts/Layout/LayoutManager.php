@@ -255,7 +255,7 @@ class LayoutManager
 
 		$layouts = array();
 		
-		foreach ( theme_get_layouts() as $instance ) 
+		foreach ( $this->get_layouts() as $instance ) 
 		{
 			$fields = array();
 
