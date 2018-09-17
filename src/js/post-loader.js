@@ -7,7 +7,7 @@
 		this.$elem   = $( elem );
 		this.options = $.extend( {}, Plugin.defaultOptions, options );
 
-		$( document ).trigger( 'postFilter.init', this );
+		this.$elem.trigger( 'postLoader.init', this );
 
 		this.load();
 	}
@@ -17,18 +17,15 @@
 	Plugin.prototype.$elem   = null;
 	Plugin.prototype.options = {};
 
-	Plugin.prototype.load = function( page )
+	Plugin.prototype.load = function()
 	{
-		// Check page
-		if ( typeof page !== 'undefined' ) 
-		{
-			// Set page
-			this.$elem.find( 'form :input[name="paged"]' ).val( page );
-		};
-
 		// Get form data
 
 		var data = this.$elem.find( 'form' ).serialize();
+
+		// Set loading
+
+		this.$elem.addClass( 'loading' );
 
 		// Disable fields
 
@@ -36,40 +33,36 @@
 
 		$fields.prop( 'disabled', true );
 
-		// Set Loading
-
-		this.$elem.addClass( 'loading' );
-
 		// Ajax
 
 		$.ajax(
 		{
+			url : theme.ajaxurl,
 			method : 'POST',
-			url : pandafish.ajaxurl,
 			data : data,
 			context : this,
 
 			beforeSend : function()
 			{
-				this.$elem.trigger( 'postFilter.loadBeforeSend' );
+				this.$elem.trigger( 'postLoader.beforeSend' );
 			},
 
 			success : function( response )
 			{
 				console.log( response );
 
-				this.$elem.find( '.post-filter-result' )
+				this.$elem.find( '.post-loader-result .post-loader-content' )
 					.html( response.content );
 
-				this.$elem.trigger( 'postFilter.loadSuccess' );
+				this.$elem.trigger( 'postLoader.success' );
 			},
 
 			error : function()
 			{
-				this.$elem.trigger( 'postFilter.loadError' );
+				this.$elem.trigger( 'postLoader.error' );
 			},
 
-			complete: function()
+			complete : function()
 			{
 				// Enable fields
 				$fields.prop( 'disabled', false );
@@ -77,33 +70,27 @@
 				// Unset loading
 				this.$elem.removeClass( 'loading' );
 
-				this.$elem.trigger( 'postFilter.loadComplete' );
-			}    
+				this.$elem.trigger( 'postLoader.complete' );
+			}
 		})
 	};
 
-	$.fn.postFilter = function( options )
+	/**
+	 * jQuery Plugin
+	 */
+	$.fn.postLoader = function( options )
 	{
 		return this.each( function()
 		{
-			if ( typeof $( this ).data( 'postFilter' ) === 'undefined' ) 
+			if ( typeof $( this ).data( 'postLoader' ) === 'undefined' ) 
 			{
 				var instance = new Plugin( this, options );
 
-				$( this ).data( 'postFilter', instance );
+				$( this ).data( 'postLoader', instance );
 			}
 		});
-	};
+	}
 
-	window.postFilter = Plugin;
-
-})( jQuery );
-
-(function( $ )
-{
-	$( document ).on( 'ready', function()
-	{
-		$( '.post-filter' ).postFilter();
-	});
+	window.postLoader = Plugin;
 
 })( jQuery );

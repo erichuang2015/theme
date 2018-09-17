@@ -42,6 +42,7 @@ function theme_setup()
 	add_theme_support( 'theme-sections' );
 	add_theme_support( 'theme-main-visuals' );
 	add_theme_support( 'theme-flexible-content' );
+	add_theme_support( 'theme-post-loader' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -102,10 +103,10 @@ function theme_support_init()
 		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
 	}
 
-	// Post Filter
-	if ( current_theme_supports( 'theme-post-filter' ) ) 
+	// Post Loader
+	if ( current_theme_supports( 'theme-post-loader' ) ) 
 	{
-		require_once get_parent_theme_file_path( 'includes/theme-post-filter.php' );
+		require_once get_parent_theme_file_path( 'includes/post-loader.php' );
 	}
 }
 
