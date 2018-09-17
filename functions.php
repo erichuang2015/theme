@@ -101,6 +101,12 @@ function theme_support_init()
 	{
 		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
 	}
+
+	// Post Filter
+	if ( current_theme_supports( 'theme-post-filter' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/theme-post-filter.php' );
+	}
 }
 
 add_action( 'after_setup_theme', 'theme_support_init', 999 );
