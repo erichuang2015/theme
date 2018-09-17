@@ -42,6 +42,7 @@ function theme_setup()
 	add_theme_support( 'theme-sections' );
 	add_theme_support( 'theme-main-visuals' );
 	add_theme_support( 'theme-flexible-content' );
+	add_theme_support( 'theme-post-loader' );
 	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
@@ -100,6 +101,12 @@ function theme_support_init()
 	if ( current_theme_supports( 'theme-flexible-content' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
+	}
+
+	// Post Loader
+	if ( current_theme_supports( 'theme-post-loader' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/post-loader.php' );
 	}
 }
 
