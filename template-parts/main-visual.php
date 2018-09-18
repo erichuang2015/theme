@@ -2,7 +2,7 @@
 /**
  * Main Visual
  *
- * Use `theme_main_visual()` to load this template.
+ * Use `theme_main_visual()` to include this template.
  */
 
 // To Get field data other than pages and posts. e.g. terms, …
