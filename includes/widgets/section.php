@@ -1,8 +1,6 @@
-<?php
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 
-namespace Theme\Component\Widget;
-
-class SectionWidget extends \WP_Widget
+class Theme_Section_Widget extends WP_Widget
 {
 	public function __construct()
 	{
@@ -94,3 +92,6 @@ class SectionWidget extends \WP_Widget
 		return $instance;
 	}
 }
+
+register_widget( 'Theme_Section_Widget' );
+

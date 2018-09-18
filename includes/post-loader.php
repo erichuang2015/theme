@@ -1,7 +1,15 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * Post Loader
+ *
+ * Loads posts via ajax.
  */
+
+do_action( 'theme/post_loader' );
+do_action( 'theme/post_form' );
+do_action( 'theme/post_form_inner' );
+do_action( 'theme/post_result' );
+do_action( 'theme/post_item' );
 
 /**
  * Render
@@ -25,7 +33,7 @@ function theme_post_loader( $id )
 
 		<div class="post-loader-result">
 			<?php theme_post_loader_result( $id ); ?>
-		</div>
+		</div><!-- .post-loader-result -->
 
 		<div class="post-loader-loader">
 			<?php echo theme_get_icon( 'spinner' ); ?>
@@ -50,25 +58,6 @@ function theme_post_loader( $id )
  */
 function theme_post_loader_result( $id, &$the_query = null )
 {
-	/**
-	 * Arguments
-	 * ---------------------------------------------------------------
-	 */
-
-	// Defaults
-	$args = array
-	(
-		'before'        => '<div class="row">',
-		'before_item'   => '<div class="col-12">',
-		'item_template' => 'card',
-		'after_item'    => '</div>',
-		'after'         => '</div>',
-	);
-
-	// Filter
-	$args = (array) apply_filters( "theme/post_loader_result_args/id=$id", $args, $id );
-	$args = (array) apply_filters( 'theme/post_loader_result_args'		 , $args, $id );
-
 	/**
 	 * WP Query
 	 * ---------------------------------------------------------------
@@ -96,20 +85,12 @@ function theme_post_loader_result( $id, &$the_query = null )
 
 	if ( $the_query->have_posts() ) 
 	{
-		echo $args['before'];
-
 		while ( $the_query->have_posts() ) 
 		{
 			$the_query->the_post();
 
-			echo $args['before_item'];
-
-			locate_template( "template-parts/{$args['item_template']}.php", true, false );
-
-			echo $args['after_item'];
+			get_template_part( 'template-parts/card', '' );
 		}
-
-		echo $args['after'];
 
 		return;
 	}
@@ -136,12 +117,11 @@ function theme_post_loader_result( $id, &$the_query = null )
 	}
 
 	// Filter
-	$wrap = sprintf( '<div class="alert alert-info">%s</div>', $message );
-	$wrap = apply_filters( "theme/post_loader_not_found_message/id=$id", $wrap, $id );
-	$wrap = apply_filters( 'theme/post_loader_not_found_message'	   , $wrap, $id );
+	$message = apply_filters( 'theme/post_loader_not_found_message'	      , $message, $id );
+	$message = apply_filters( "theme/post_loader_not_found_message/id=$id", $message, $id );
 
 	// Output
-	echo $wrap;
+	printf( '<div class="alert alert-info">%s</div>', $message );
 }
 
 /**
@@ -223,6 +203,7 @@ function theme_post_loader_shortcode( $atts )
 
 add_shortcode( 'post-loader', 'theme_post_loader_shortcode' );
 
+
 /*
 ----------------------------------------------------------------------
  Test
@@ -282,17 +263,3 @@ function theme_post_loader_test_query_args()
 }
 
 add_filter( 'theme/post_loader_query_args/id=my-post-loader', 'theme_post_loader_test_query_args' );
-
-function theme_post_loader_test_result_args( $args )
-{
-	return array_merge( $args, array
-	(
-		'before'        => '<div class="row">',
-		'before_item'   => '<div class="col-md-4">',
-		'item_template' => 'card',
-		'after_item'    => '</div>',
-		'after'         => '</div>',
-	));
-}
-
-add_filter( 'theme/post_loader_result_args/id=my-post-loader', 'theme_post_loader_test_result_args' );
