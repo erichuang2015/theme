@@ -3,6 +3,18 @@
  * Common functions.
  */
 
+function theme_has_shortcode( $tag, $post_id = 0 )
+{
+	$post = get_post( $post_id );
+
+	if ( ! $post ) 
+	{
+		return false;
+	}
+
+	return has_shortcode( $post->post_content, $tag );
+}
+
 function theme_is_localhost()
 {
 	$whitelist = array
