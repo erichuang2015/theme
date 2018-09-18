@@ -2,17 +2,15 @@
 .post-loader-result
 {
 	position: relative;
-
-	// Make room for loader
-	min-height: 150px;
 }
 
-.post-loader-loader
+// Loader
+.post-loader:last-of-type .post-loader-loader
 {
 	opacity: 0;
-	z-index : -100;
+	z-index : -999;
 
-	position: absolute;
+	position: fixed;
     top: 0;
     left: 0;
 
@@ -35,11 +33,14 @@
 
     	animation: spin 1.5s infinite linear;
     }
+}
 
-    .post-loader.loading &
+.post-loader.loading:last-of-type
+{
+    .post-loader-loader
     {
-    	opacity: 1;
+        opacity: 1;
 
-		z-index : $zindex-sticky - 5;
+        z-index : $zindex-fixed;
     }
 }

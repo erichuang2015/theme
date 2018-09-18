@@ -6,12 +6,8 @@
 /**
  * Render
  */
-function theme_post_loader( $context )
+function theme_post_loader( $id )
 {
-	$id = "$context-post-loader";
-
-	$options = array();
-
 	?>
 
 	<div id="<?php echo esc_attr( $id ); ?>" class="post-loader">
@@ -20,22 +16,20 @@ function theme_post_loader( $context )
 			
 			<?php wp_nonce_field( 'post_loader', THEME_NONCE_NAME ); ?>
 			<input type="hidden" name="action" value="theme_post_loader_process">
-			<input type="hidden" name="context" value="<?php echo esc_attr( $context ); ?>">
+			<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>">
 
-			<?php do_action( "theme/post_loader_form/context=$context", $context ); ?>
-			<?php do_action( 'theme/post_loader_form/', $context ); ?>
+			<?php do_action( "theme/post_loader_form/id=$id", $id ); ?>
+			<?php do_action( 'theme/post_loader_form'		, $id ); ?>
 
 		</form>
 
 		<div class="post-loader-result">
-
-			<div class="post-loader-content"></div>
-
-			<div class="post-loader-loader">
-				<?php echo theme_get_icon( 'spinner' ); ?>
-			</div>
-
+			<?php theme_post_loader_result( $id ); ?>
 		</div>
+
+		<div class="post-loader-loader">
+			<?php echo theme_get_icon( 'spinner' ); ?>
+		</div><!-- .post-loader-loader -->
 
 	</div><!-- .post-loader -->
 
@@ -43,7 +37,7 @@ function theme_post_loader( $context )
 		
 		jQuery( document ).ready( function( $ )
 		{
-			$( '#<?php echo esc_js( $id ) ?>.post-loader' ).postLoader( <?php echo json_encode( $options ); ?> );
+			$( '#<?php echo esc_js( $id ) ?>.post-loader' ).postLoader();
 		});
 
 	</script>
@@ -52,31 +46,114 @@ function theme_post_loader( $context )
 }
 
 /**
- * Shortcode
+ * Result
  */
-function theme_post_loader_shortcode( $atts )
+function theme_post_loader_result( $id, &$the_query = null )
 {
-	$defaults = array
+	/**
+	 * Arguments
+	 * ---------------------------------------------------------------
+	 */
+
+	// Defaults
+	$args = array
 	(
-		'context' => ''
+		'before'        => '<div class="row">',
+		'before_item'   => '<div class="col-12">',
+		'item_template' => 'card',
+		'after_item'    => '</div>',
+		'after'         => '</div>',
 	);
 
-	$atts = shortcode_atts( $defaults, $atts );
+	// Filter
+	$args = (array) apply_filters( "theme/post_loader_result_args/id=$id", $args, $id );
+	$args = (array) apply_filters( 'theme/post_loader_result_args'		 , $args, $id );
 
-	ob_start();
+	/**
+	 * WP Query
+	 * ---------------------------------------------------------------
+	 */
 
-	theme_post_loader( $atts['context'] );
+	// Defaults
+	$query_args = array
+	(
+		'post_type' => 'post',
+	);
 
-	return ob_get_clean();
+	// Filter
+	$query_args = apply_filters( "theme/post_loader_query_args/id=$id", $query_args, $id );
+	$query_args = apply_filters( 'theme/post_loader_query_args'		  , $query_args, $id );
+ 	
+ 	//
+	$the_query = new WP_Query( $query_args );
+
+	/**
+	 * Output
+	 * ---------------------------------------------------------------
+	 */
+
+	// Posts found
+
+	if ( $the_query->have_posts() ) 
+	{
+		echo $args['before'];
+
+		while ( $the_query->have_posts() ) 
+		{
+			$the_query->the_post();
+
+			echo $args['before_item'];
+
+			locate_template( "template-parts/{$args['item_template']}.php", true, false );
+
+			echo $args['after_item'];
+		}
+
+		echo $args['after'];
+
+		return;
+	}
+
+	// No posts found
+
+	// post-type-specific message
+
+	$post_type = $the_query->get( 'post_type' );
+
+	if ( $post_type && ! is_array( $post_type ) ) 
+	{
+		// Get object
+		$post_type = get_post_type_object( $post_type );
+
+		$message = sprintf( __( 'No %s found.', 'theme' ), strtolower( $post_type->labels->name ) );
+	}
+
+	// general message
+
+	else
+	{
+		$message = __( 'No items found.', 'theme' );
+	}
+
+	// Filter
+	$wrap = sprintf( '<div class="alert alert-info">%s</div>', $message );
+	$wrap = apply_filters( "theme/post_loader_not_found_message/id=$id", $wrap, $id );
+	$wrap = apply_filters( 'theme/post_loader_not_found_message'	   , $wrap, $id );
+
+	// Output
+	echo $wrap;
 }
-
-add_shortcode( 'post-loader', 'theme_post_loader_shortcode' );
 
 /**
  * Process
  */
 function theme_post_loader_process()
 {
+	/**
+	 * Check
+	 * ---------------------------------------------------------------
+	 */
+
 	// Check ajax
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) 
 	{
@@ -86,29 +163,36 @@ function theme_post_loader_process()
 	// Check referer
 	check_ajax_referer( 'post_loader', THEME_NONCE_NAME );
 
-	//
+	/**
+	 * Form data
+	 * ---------------------------------------------------------------
+	 */
 
-	$context = isset( $_POST['context'] ) ? $_POST['context'] : '';
+	$id = isset( $_POST['id'] ) ? $_POST['id'] : '';
 
-	$the_query = new WP_Query( array
-	(
-		'post_type' => 'post',
-	));
+	/**
+	 * Result
+	 * ---------------------------------------------------------------
+	 */
 
-	// Render result
-
+	// Start output buffer
 	ob_start();
 
-	do_action_ref_array( "theme/post_loader_result/context=$context", array( &$the_query, $context ) );
-	do_action_ref_array( 'theme/post_loader_result'		            , array( &$the_query, $context ) );
-
+	// Render result
+	theme_post_loader_result( $id, $the_query );
+	
+	// Fetch output
 	$content = ob_get_clean();
 
-	// Response
+	/**
+	 * Response
+	 * ---------------------------------------------------------------
+	 */
+
 	wp_send_json( array
 	(
 		'content'       => $content,
-		'found_posts'   => $the_query->found_posts,
+		'found_posts'   => intval( $the_query->found_posts ),
 		'post_count'    => $the_query->post_count,
 		'max_num_pages' => $the_query->max_num_pages,
 		'paged'         => $the_query->get( 'paged' ),
@@ -119,36 +203,96 @@ add_action( 'wp_ajax_theme_post_loader_process'		  , 'theme_post_loader_process'
 add_action( 'wp_ajax_nopriv_theme_post_loader_process', 'theme_post_loader_process' );
 
 /**
- * Test
+ * Shortcode
  */
-add_action( 'theme/post_loader_result/context=test', function( $the_query )
+function theme_post_loader_shortcode( $atts )
 {
-	// Check posts
-	if ( ! $the_query->have_posts() ) 
-	{
-		printf( '<div class="alert alert-info">%s</div>', __( 'No posts found.', 'theme' ) );
+	$defaults = array
+	(
+		'id' => ''
+	);
 
-		return;
+	$atts = shortcode_atts( $defaults, $atts );
+
+	ob_start();
+
+	theme_post_loader( $atts['id'] );
+
+	return ob_get_clean();
+}
+
+add_shortcode( 'post-loader', 'theme_post_loader_shortcode' );
+
+/*
+----------------------------------------------------------------------
+ Test
+----------------------------------------------------------------------
+*/
+
+function theme_post_loader_test_form()
+{
+	// Render category filter
+
+	$terms = get_terms( array
+	(
+		'taxonomy' => 'category',
+	));
+
+	echo '<div class="terms">';
+
+	foreach ( $terms as $term ) 
+	{
+		printf( '<label><input type="checkbox" class="autoload" name="terms[]" value="%s"> %s</label>', esc_attr( $term->term_id ), esc_html__( $term->name ) );
 	}
 
-	// Render posts
+	echo '</div>';
+}
 
-	echo '<div class="row">';
+add_action( 'theme/post_loader_form/id=my-post-loader', 'theme_post_loader_test_form' );
 
-	// The loop
-	while ( $the_query->have_posts() ) 
+function theme_post_loader_test_query_args()
+{
+	$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
+
+	$query_args = array
+	(
+		'post_type' => 'post',
+	);
+
+	if ( $terms ) 
 	{
-		$the_query->the_post();
+		$query_args['tax_query'] = array
+		(
+			'relation' => 'AND',
+		);
 
-		echo '<div class="col-md-4">';
-
-		// Include the Post-Type-specific template
-		get_template_part( 'template-parts/card', get_post_type() );
-
-		echo '</div>';
+		foreach ( $terms as $term_id ) 
+		{
+			$query_args['tax_query'][] = array
+			( 
+				'taxonomy' => 'category',
+				'field'    => 'term_id',
+				'terms'    => (array) intval( $term_id ),
+				'operator' => 'IN',
+			);
+		}
 	}
 
-	echo '</div>'; // .row
+	return $query_args;
+}
 
-	wp_reset_postdata();
-});
+add_filter( 'theme/post_loader_query_args/id=my-post-loader', 'theme_post_loader_test_query_args' );
+
+function theme_post_loader_test_result_args( $args )
+{
+	return array_merge( $args, array
+	(
+		'before'        => '<div class="row">',
+		'before_item'   => '<div class="col-md-4">',
+		'item_template' => 'card',
+		'after_item'    => '</div>',
+		'after'         => '</div>',
+	));
+}
+
+add_filter( 'theme/post_loader_result_args/id=my-post-loader', 'theme_post_loader_test_result_args' );
