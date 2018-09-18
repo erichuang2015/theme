@@ -36,7 +36,6 @@ if ( ! has_nav_menu( 'bottom_left' ) && ! has_nav_menu( 'bottom_right' ) )
 				'depth'          => 1
 			));
 		}
-		
 
 	?>
 	</div><!-- .container -->
