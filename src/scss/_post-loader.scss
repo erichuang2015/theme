@@ -4,7 +4,7 @@
 	position: relative;
 }
 
-.post-loader-loader
+.post-loader-progress
 {
     opacity: 0;
     z-index : -999;
@@ -36,7 +36,7 @@
 
 .post-loader.loading
 {
-    .post-loader-loader
+    .post-loader-progress
     {
         opacity: 1;
 

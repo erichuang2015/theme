@@ -90,15 +90,23 @@
 				this.$elem.trigger( 'postLoader.loadBeforeSend', [ jqXHR, settings ] );
 			},
 
-			success : function( data, textStatus, jqXHR )
+			success : function( response, textStatus, jqXHR )
 			{
-				console.log( 'success', data );
+				console.log( 'success', response );
 
-				// Set result html
-				this.$elem.find( '.post-loader-result' )
-					.html( data.content );
+				if ( response.success ) 
+				{
+					// Set result html
+					this.$elem.find( '.post-loader-result' )
+						.html( response.data.content );
 
-				this.$elem.trigger( 'postLoader.loadSuccess', [ data, textStatus, jqXHR ] );
+					this.$elem.trigger( 'postLoader.loadSuccess', [ response, textStatus, jqXHR ] );
+				}
+
+				else
+				{
+					console.warn( response.data );
+				}
 			},
 
 			error : function( jqXHR, textStatus, errorThrown )
@@ -139,5 +147,14 @@
 
 	// Assign to global scope
 	window.postLoader = Plugin;
+
+})( jQuery );
+
+(function( $ )
+{
+	$( document ).on( 'ready', function()
+	{
+		$( '.post-loader' ).postLoader();
+	});
 
 })( jQuery );

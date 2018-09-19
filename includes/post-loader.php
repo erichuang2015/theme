@@ -1,127 +1,47 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * Post Loader
- *
- * Loads posts via ajax.
  */
-
-do_action( 'theme/post_loader' );
-do_action( 'theme/post_form' );
-do_action( 'theme/post_form_inner' );
-do_action( 'theme/post_result' );
-do_action( 'theme/post_item' );
 
 /**
- * Render
+ * Render Post Loader
  */
-function theme_post_loader( $id )
+function theme_post_loader( $loader_id )
 {
 	?>
 
-	<div id="<?php echo esc_attr( $id ); ?>" class="post-loader">
-		
+	<div id="<?php echo esc_attr( $loader_id ); ?>-post-loader" class="post-loader" data-id="<?php echo esc_attr( $loader_id ); ?>">
+
 		<form class="post-loader-form" method="post">
 			
 			<?php wp_nonce_field( 'post_loader', THEME_NONCE_NAME ); ?>
+
 			<input type="hidden" name="action" value="theme_post_loader_process">
-			<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>">
+			<input type="hidden" name="loader" value="<?php echo esc_attr( $loader_id ); ?>">
 
-			<?php do_action( "theme/post_loader_form/id=$id", $id ); ?>
-			<?php do_action( 'theme/post_loader_form'		, $id ); ?>
+			<?php do_action( "theme/post_loader_form/loader=$loader_id" ); ?>
 
-		</form>
+		</form><!-- .post-loader-form -->
 
 		<div class="post-loader-result">
-			<?php theme_post_loader_result( $id ); ?>
+			<?php theme_post_loader_result( $loader_id ); ?>
 		</div><!-- .post-loader-result -->
 
-		<div class="post-loader-loader">
+		<div class="post-loader-progress">
 			<?php echo theme_get_icon( 'spinner' ); ?>
-		</div><!-- .post-loader-loader -->
+		</div><!-- .post-loader-progress -->
 
 	</div><!-- .post-loader -->
-
-	<script type="text/javascript">
-		
-		jQuery( document ).ready( function( $ )
-		{
-			$( '#<?php echo esc_js( $id ) ?>.post-loader' ).postLoader();
-		});
-
-	</script>
 
 	<?php
 }
 
 /**
- * Result
+ * Render Result
  */
-function theme_post_loader_result( $id, &$the_query = null )
+function theme_post_loader_result( $loader_id, &$wp_query = null )
 {
-	/**
-	 * WP Query
-	 * ---------------------------------------------------------------
-	 */
-
-	// Defaults
-	$query_args = array
-	(
-		'post_type' => 'post',
-	);
-
-	// Filter
-	$query_args = apply_filters( "theme/post_loader_query_args/id=$id", $query_args, $id );
-	$query_args = apply_filters( 'theme/post_loader_query_args'		  , $query_args, $id );
- 	
- 	//
-	$the_query = new WP_Query( $query_args );
-
-	/**
-	 * Output
-	 * ---------------------------------------------------------------
-	 */
-
-	// Posts found
-
-	if ( $the_query->have_posts() ) 
-	{
-		while ( $the_query->have_posts() ) 
-		{
-			$the_query->the_post();
-
-			get_template_part( 'template-parts/card', '' );
-		}
-
-		return;
-	}
-
-	// No posts found
-
-	// post-type-specific message
-
-	$post_type = $the_query->get( 'post_type' );
-
-	if ( $post_type && ! is_array( $post_type ) ) 
-	{
-		// Get object
-		$post_type = get_post_type_object( $post_type );
-
-		$message = sprintf( __( 'No %s found.', 'theme' ), strtolower( $post_type->labels->name ) );
-	}
-
-	// general message
-
-	else
-	{
-		$message = __( 'No items found.', 'theme' );
-	}
-
-	// Filter
-	$message = apply_filters( 'theme/post_loader_not_found_message'	      , $message, $id );
-	$message = apply_filters( "theme/post_loader_not_found_message/id=$id", $message, $id );
-
-	// Output
-	printf( '<div class="alert alert-info">%s</div>', $message );
+	do_action_ref_array( "theme/post_loader_result/loader=$loader_id", array( &$wp_query, $loader_id ) );
 }
 
 /**
@@ -144,23 +64,23 @@ function theme_post_loader_process()
 	check_ajax_referer( 'post_loader', THEME_NONCE_NAME );
 
 	/**
-	 * Form data
+	 * Post data
 	 * ---------------------------------------------------------------
 	 */
 
-	$id = isset( $_POST['id'] ) ? $_POST['id'] : '';
+	$loader_id = isset( $_POST['loader'] ) ? $_POST['loader'] : null;
 
 	/**
-	 * Result
+	 * Content
 	 * ---------------------------------------------------------------
 	 */
 
 	// Start output buffer
 	ob_start();
 
-	// Render result
-	theme_post_loader_result( $id, $the_query );
-	
+	// Print result
+	theme_post_loader_result( $loader_id, $wp_query );
+
 	// Fetch output
 	$content = ob_get_clean();
 
@@ -169,13 +89,18 @@ function theme_post_loader_process()
 	 * ---------------------------------------------------------------
 	 */
 
-	wp_send_json( array
+	if ( ! $wp_query instanceof WP_Query ) 
+	{
+		wp_send_json_error( __( 'WP query is required.', 'theme' ) );
+	}
+
+	wp_send_json_success( array
 	(
 		'content'       => $content,
-		'found_posts'   => intval( $the_query->found_posts ),
-		'post_count'    => $the_query->post_count,
-		'max_num_pages' => $the_query->max_num_pages,
-		'paged'         => $the_query->get( 'paged' ),
+		'found_posts'   => intval( $wp_query->found_posts ),
+		'post_count'    => $wp_query->post_count,
+		'max_num_pages' => $wp_query->max_num_pages,
+		'paged'         => $wp_query->get( 'paged' ),
 	));
 }
 
@@ -185,14 +110,14 @@ add_action( 'wp_ajax_nopriv_theme_post_loader_process', 'theme_post_loader_proce
 /**
  * Shortcode
  */
-function theme_post_loader_shortcode( $atts )
+function theme_post_loader_shortcode( $atts, $content = null, $tag )
 {
 	$defaults = array
 	(
-		'id' => ''
+		'id' => '',
 	);
 
-	$atts = shortcode_atts( $defaults, $atts );
+	$atts = shortcode_atts( $defaults, $atts, $tag );
 
 	ob_start();
 
@@ -203,14 +128,13 @@ function theme_post_loader_shortcode( $atts )
 
 add_shortcode( 'post-loader', 'theme_post_loader_shortcode' );
 
-
 /*
 ----------------------------------------------------------------------
- Test
+ Example
 ----------------------------------------------------------------------
 */
 
-function theme_post_loader_test_form()
+add_action( 'theme/post_loader_form/loader=example', function()
 {
 	// Render category filter
 
@@ -227,13 +151,16 @@ function theme_post_loader_test_form()
 	}
 
 	echo '</div>';
-}
+});
 
-add_action( 'theme/post_loader_form/id=my-post-loader', 'theme_post_loader_test_form' );
-
-function theme_post_loader_test_query_args()
+add_action( 'theme/post_loader_result/loader=example', function( &$wp_query )
 {
 	$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
+
+	/**
+	 * WP Query
+	 * ---------------------------------------------------------------
+	 */
 
 	$query_args = array
 	(
@@ -259,7 +186,33 @@ function theme_post_loader_test_query_args()
 		}
 	}
 
-	return $query_args;
-}
+	$wp_query = new WP_Query( $query_args );
 
-add_filter( 'theme/post_loader_query_args/id=my-post-loader', 'theme_post_loader_test_query_args' );
+	/**
+	 * Output
+	 * ---------------------------------------------------------------
+	 */
+
+	if ( $wp_query->have_posts() ) 
+	{
+		echo '<div class="row">';
+
+		while ( $wp_query->have_posts() ) 
+		{
+			$wp_query->the_post();
+
+			echo '<div class="col-md-4">';
+
+			get_template_part( 'template-parts/card', get_post_type() );
+
+			echo '</div>';
+		}
+
+		echo '</div>'; // .row
+	}
+
+	else
+	{
+		printf( '<div class="alert alert-info">%s</div>', __( 'No posts found.', 'theme' ) );
+	}
+});
