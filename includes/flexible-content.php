@@ -9,120 +9,113 @@
 
 // Define flexible content field name.
 defined( 'THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD' ) or define( 'THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD', 'content' );
-defined( 'THEME_LAYOUTS_POST_TYPE_FEATURE' ) or define( 'THEME_LAYOUTS_POST_TYPE_FEATURE', 'theme-flexible-content' );
 
 /**
- * Init
+ * Render Layouts
  */
-function theme_layouts_init()
-{
-	add_post_type_support( 'page', THEME_LAYOUTS_POST_TYPE_FEATURE );
-	
-	$layout_manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
-	$layout_manager->init();
-}
-
-add_action( 'init', 'theme_layouts_init' );
-
-/*
-----------------------------------------------------------------------
- Layouts
-----------------------------------------------------------------------
-*/
-
-function theme_register_layout( $layout )
-{
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
-
-	$manager->register_layout( $layout );
-}
-
-function theme_unregister_layout( $name )
-{
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
-
-	$manager->unregister_layout( $name );
-}
-
-function theme_get_layouts()
-{
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
-
-	return $manager->get_layouts();
-}
-
-function theme_get_layout( $name )
-{
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
-
-	return $manager->get_layout( $name );
-}
-
 function theme_render_layouts( $post_id = 0 )
 {
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
+	// Check dependency
+	if ( ! function_exists( 'have_rows' ) 
+	  || ! function_exists( 'the_row' ) 
+	  || ! function_exists( 'get_row_layout' ) ) 
+	{
+		return;
+	}
 
-	$manager->render_layouts( $post_id );
+	// Loop layouts
+	while ( have_rows( THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
+	{
+		the_row();
+
+		// Include layout-specific template
+		get_template_part( 'template-parts/layout', get_row_layout() );
+	}
 }
 
-function theme_render_layout( $name, $instance )
+/**
+ * Auto Render Layouts
+ */
+function theme_auto_render_layouts( $content )
 {
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
+	// Check dependency
+	if ( ! function_exists( 'have_rows' ) ) 
+	{
+		return $content;
+	}
 
-	$manager->render_layout( $name, $instance );
+	if ( is_main_query() 
+	  && in_the_loop() 
+	  && ( is_page() || is_single() ) 
+	  && have_rows( THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD ) ) 
+	{
+		ob_start();
+
+		theme_render_layouts();
+
+		$content = ob_get_clean();
+	}
+
+	return $content;
 }
 
+add_filter( 'the_content', 'theme_auto_render_layouts' );
+
+/**
+ * Has Layouts
+ */
 function theme_has_layouts( $post_id = 0 )
 {
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
+	// Check dependency
+	if ( ! function_exists( 'have_rows' ) ) 
+	{
+		return false;
+	}
 
-	$manager->has_layouts( $post_id );
+	return have_rows( THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD, $post_id );
 }
 
-function theme_has_layout( $name, $post_id = 0 )
+/**
+ * Has Layout
+ */
+function theme_has_layout( $layout, $post_id = 0 )
 {
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
+	// Check dependency
+	if ( ! function_exists( 'have_rows' ) 
+	  || ! function_exists( 'the_row' ) 
+	  || ! function_exists( 'get_row_layout' ) ) 
+	{
+		return false;
+	}
 
-	return $manager->render_layout( $name, $post_id );
+	$return = false;
+
+	// Loop layouts
+	while ( have_rows( THEME_LAYOUTS_FLEXIBLE_CONTENT_FIELD, $post_id ) ) 
+	{
+		the_row();
+
+		if ( get_row_layout() == $layout ) 
+		{
+			$return = true;
+
+			// Don't break loop
+		}
+	}
+
+	return $return;
 }
 
-function theme_enqueue_layout_scripts( $name )
+add_filter( 'the_content', 'theme_auto_render_layouts' );
+
+function theme_flexible_content_body_class( $classes )
 {
-	$manager = Theme\Core\Layouts\Layout\LayoutManager::get_instance();
+	if ( theme_has_layouts() ) 
+	{
+		$classes[] = 'has-flexible-content';
+	}
 
-	$manager->enqueue_layout_scripts( $name );
+	return $classes;
 }
 
-/*
-----------------------------------------------------------------------
- Features
-----------------------------------------------------------------------
-*/
-
-function theme_register_layout_feature( $feature )
-{
-	$manager = Theme\Core\Layouts\Feature\FeatureManager::get_instance();
-
-	$manager->register_feature( $feature );
-}
-
-function theme_unregister_layout_feature( $id )
-{
-	$manager = Theme\Core\Layouts\Feature\FeatureManager::get_instance();
-
-	$manager->unregister_feature( $id );
-}
-
-function theme_get_layout_features()
-{
-	$manager = Theme\Core\Layouts\Feature\FeatureManager::get_instance();
-
-	return $manager->get_features();
-}
-
-function theme_get_layout_feature( $id )
-{
-	$manager = Theme\Core\Layouts\Feature\FeatureManager::get_instance();
-
-	return $manager->get_feature( $id );
-}
+add_filter( 'body_class', 'theme_flexible_content_body_class' );

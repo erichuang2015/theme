@@ -1,6 +1,6 @@
 <?php
 /**
- * Template part for displaying post contentinside a Bootstrap Card.
+ * Template part for displaying post content inside a Bootstrap Card.
  *
  * @link http://getbootstrap.com/docs/4.1/components/card/
  */

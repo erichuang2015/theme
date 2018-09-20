@@ -6,16 +6,6 @@
 // Define post type.
 defined( 'THEME_SECTIONS_POST_TYPE' ) or define( 'THEME_SECTIONS_POST_TYPE', 'section' );
 
-function theme_sections_init()
-{
-	if ( current_theme_supports( 'theme-flexible-content' ) ) 
-	{
-		theme_register_layout( 'Theme\Component\Layouts\Layout\SectionLayout' );
-	}
-}
-
-add_action( 'init', 'theme_sections_init' );
-
 /**
  * Register Post Type
  */
@@ -61,7 +51,7 @@ add_action( 'init', 'theme_sections_register_post_type' );
  */
 function theme_sections_widgets_init()
 {
-	register_widget( 'Theme\Component\Widget\SectionWidget' );
+	require_once get_parent_theme_file_path( 'includes/widgets/section.php' );
 }
 
 add_action( 'widgets_init', 'theme_sections_widgets_init' );

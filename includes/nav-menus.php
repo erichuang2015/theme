@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly
 /**
- * Nav menu related functions
+ * Nav menus
  */
 
 /**

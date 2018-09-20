@@ -51,30 +51,6 @@ function theme_setup()
 add_action( 'after_setup_theme', 'theme_setup' );
 
 /**
- * Layouts Components Init
- */
-function theme_layouts_component_init()
-{
-	if ( ! current_theme_supports( 'theme-flexible-content' ) ) 
-	{
-		return;
-	}
-
-	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\IDFeature' );
-	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\ClassFeature' );
-	theme_register_layout_feature( 'Theme\Component\Layouts\Feature\BGColorFeature' );
-
-	theme_register_layout( 'Theme\Component\Layouts\Layout\PageHeaderLayout' );
-	theme_register_layout( 'Theme\Component\Layouts\Layout\HeadingLayout' );
-	theme_register_layout( 'Theme\Component\Layouts\Layout\ContentLayout' );
-
-	theme_register_layout( 'Theme\Component\Layouts\Layout\ModalLayout' );
-	theme_register_layout( 'Theme\Component\Layouts\Layout\TextImageColumnLayout' );
-}
-
-add_action( 'init', 'theme_layouts_component_init' );
-
-/**
  * Support Init
  */
 function theme_support_init()
