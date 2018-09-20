@@ -33,11 +33,24 @@
 			}
 		});
 
-		// .autoload field change
+		// `.autoload` field change
 		this.$elem.on( 'change', 'form :input.autoload', function( event )
 		{
 			// Load
 			_this.load();
+		});
+
+		// Pagination item click
+		this.$elem.on( 'click', '.pagination .page-link', function( event )
+		{
+			event.preventDefault();
+
+			// Load
+			_this.load( 
+			{
+				page : $( this ).data( 'page' ),
+				animate : true,
+			});
 		});
 
 		// Form submit
@@ -49,32 +62,39 @@
 			_this.load();
 		});
 
-		this.$elem.trigger( 'postLoader.init', this );
+		// Notify initialisation
+		this.$elem.trigger( 'postLoader.init', [ this ] );
 	}
 
-	Plugin.defaultOptions = {};
+	Plugin.defaultOptions = 
+	{
+		animationSpeed : 400,
+	};
 
 	Plugin.prototype.$elem   = null;
 	Plugin.prototype.options = {};
+	Plugin.prototype.data    = {};
 
 	/**
 	 * Load
 	 */
-	Plugin.prototype.load = function()
+	Plugin.prototype.load = function( args )
 	{
-		// Get form data
+		// Arguments
 
-		var data = this.$elem.find( 'form' ).serialize();
+		var defaults = 
+		{
+			page    : 1,
+			animate : false,
+		};
 
-		// Set loading
+		args = $.extend( {}, defaults, args );
 
-		this.$elem.addClass( 'loading' );
+		// Set page
+		this.$elem.find( 'form :input[name="paged"]' ).val( args.page );
 
-		// Disable fields
-
+		// Get fields
 		var $fields = this.$elem.find( 'form :input:not([disabled])' );
-
-		$fields.prop( 'disabled', true );
 
 		// Ajax
 
@@ -82,38 +102,51 @@
 		{
 			url : theme.ajaxurl,
 			method : 'POST',
-			data : data,
+			data : this.$elem.find( 'form' ).serialize(),
 			context : this,
 
 			beforeSend : function( jqXHR, settings )
 			{
-				this.$elem.trigger( 'postLoader.loadBeforeSend', [ jqXHR, settings ] );
+				// Set loading
+				this.$elem.addClass( 'loading' );
+
+				// Disable fields
+				$fields.prop( 'disabled', true );
+
+				// Dispatch event
+				this.$elem.trigger( 'postLoader.loadBeforeSend', [ this, jqXHR, settings ] );
 			},
 
 			success : function( response, textStatus, jqXHR )
 			{
-				console.log( 'success', response );
+				console.log( response );
 
-				if ( response.success ) 
+				this.data = response;
+
+				// Set content
+				this.$elem.find( '.post-loader-result' ).html( this.data.content );
+
+				// Animation
+				if ( args.animate ) 
 				{
-					// Set result html
-					this.$elem.find( '.post-loader-result' )
-						.html( response.data.content );
+					// Scroll to result top
+					$( [ document.documentElement, document.body ] ).stop().animate(
+					{
+        				scrollTop: this.$elem.find( '.post-loader-result' ).offset().top,
 
-					this.$elem.trigger( 'postLoader.loadSuccess', [ response, textStatus, jqXHR ] );
+    				}, this.options.animationSpeed );
 				}
 
-				else
-				{
-					console.warn( response.data );
-				}
+				// Dispatch event
+				this.$elem.trigger( 'postLoader.loadSuccess', [ this, response, textStatus, jqXHR ] );
 			},
 
 			error : function( jqXHR, textStatus, errorThrown )
 			{
 				console.warn( 'error', errorThrown );
 
-				this.$elem.trigger( 'postLoader.loadError', [ jqXHR, textStatus, errorThrown ] );
+				// Dispatch event
+				this.$elem.trigger( 'postLoader.loadError', [ this, jqXHR, textStatus, errorThrown ] );
 			},
 
 			complete : function( jqXHR, textStatus )
@@ -124,7 +157,8 @@
 				// Unset loading
 				this.$elem.removeClass( 'loading' );
 
-				this.$elem.trigger( 'postLoader.loadComplete',[ jqXHR, textStatus ] );
+				// Dispatch event
+				this.$elem.trigger( 'postLoader.loadComplete', [ this, jqXHR, textStatus ] );
 			}
 		})
 	};
@@ -134,12 +168,16 @@
 	 */
 	$.fn.postLoader = function( options )
 	{
+		// Loop elements
 		return this.each( function()
 		{
+			// Check if already instantiated
 			if ( typeof $( this ).data( 'postLoader' ) === 'undefined' ) 
 			{
+				// Create instance
 				var instance = new Plugin( this, options );
 
+				// Attach instance to element
 				$( this ).data( 'postLoader', instance );
 			}
 		});
