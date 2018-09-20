@@ -1,6 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
 /**
  * Post Loader
+ *
+ * Render posts via ajax.
  */
 
 /**
