@@ -3,6 +3,12 @@
 
 // the_posts_pagination()
 
+.pagination .icon
+{
+	top: 0;
+	height: $pagination-line-height * 1em;
+}
+
 .pagination .nav-links
 {
 	display: flex;
