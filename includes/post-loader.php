@@ -144,7 +144,10 @@ function theme_post_loader_result( $loader_id, &$wp_query = null )
 
 		echo $args['after_items'];
 
-		theme_posts_ajax_pagination( $wp_query );
+		theme_posts_ajax_pagination( $wp_query, array
+		(
+			'mid_size' => $args['pagination_mid_size'],
+		));
 	}
 
 	else
@@ -247,19 +250,20 @@ function theme_post_loader_example_args( $args )
 {
 	return array_merge( $args, array
 	(
-		'before'            => '<div class="row">',
-		'before_form'       => '<div class="col-md-3">',
-		'after_form'        => '</div>',
-		'before_result'     => '<div class="col">',
-		'before_items'      => '<div class="row">',
-		'before_item'       => '<div class="col-md-4">',
-		'item'              => 'card',
-		'after_item'        => '</div>',
-		'after_items'       => '</div>',
-		'after_result'      => '</div>',
-		'after'             => '</div>',
-		'not_found_wrap'    => '<div class="alert alert-warning">%1$s</div>',
-		'not_found_message' => __( 'No posts found.', 'theme' ),
+		'before'              => '<div class="row">',
+		'before_form'         => '<div class="col-md-3">',
+		'after_form'          => '</div>',
+		'before_result'       => '<div class="col">',
+		'before_items'        => '<div class="row">',
+		'before_item'         => '<div class="col-md-4">',
+		'item'                => 'card',
+		'after_item'          => '</div>',
+		'after_items'         => '</div>',
+		'after_result'        => '</div>',
+		'after'               => '</div>',
+		'not_found_wrap'      => '<div class="alert alert-warning">%1$s</div>',
+		'not_found_message'   => __( 'No posts found.', 'theme' ),
+		'pagination_mid_size' => 1,
 	));
 }
 
