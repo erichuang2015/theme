@@ -3,6 +3,83 @@
  * Template Tags
  */
 
+if ( ! function_exists( 'theme_posts_ajax_pagination' ) ) :
+
+function theme_posts_ajax_pagination( $wp_query, $args = array() )
+{
+	// Arguments
+
+	$defaults = array
+	(
+		'mid_size'  => 1,
+		'prev_text' => sprintf( '%2$s<span class="sr-only">%1$s</span>', __( 'Previous page', 'theme' ), theme_get_icon( 'arrow-left' ) ),
+		'next_text' => sprintf( '<span class="sr-only">%1$s</span>%2$s', __( 'Next page', 'theme' ), theme_get_icon( 'arrow-right' ) ),
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	// Check if pagination is needed
+
+	$paged = $wp_query->get( 'paged' );
+
+	if ( ! $paged || $wp_query->max_num_pages == 1 ) 
+	{
+		return;
+	}
+
+	// Set size
+
+	$size_start = $paged - $args['mid_size'];
+	$size_end   = $paged + $args['mid_size'];
+
+	if ( $size_start < 1 ) 
+	{
+		$size_start = 1;
+	}
+
+	if ( $size_end > $wp_query->max_num_pages ) 
+	{
+		$size_end = $wp_query->max_num_pages;
+	}
+
+	// Output
+
+	?>
+
+	<nav class="pagination-nav">
+		<ul class="pagination">
+
+			<?php if ( $paged > 1 ) : ?>
+			<li class="page-item"><a class="page-link" data-page="<?php echo $paged - 1; ?>" href="#" tabindex="-1"><?php echo $args['prev_text']; ?></a></li>
+			<?php endif; ?>
+
+			<?php for ( $page = $size_start; $page <= $size_end; $page++ ) : 
+
+				$class   = 'page-item';
+				$content = $page;
+
+				if ( $page == $paged ) 
+				{
+					$class   .= ' active';
+					$content = sprintf( '%d <span class="sr-only">%s</span>', $page, esc_html__( '(current)', 'theme' ) );
+				}
+
+			?>
+			<li class="<?php echo $class; ?>"><a class="page-link" href="#" data-page="<?php echo $page; ?>"><?php echo $content; ?></a></li>
+			<?php endfor; ?>
+			
+			<?php if ( $paged < $wp_query->max_num_pages ) : ?>
+			<li class="page-item"><a class="page-link" data-page="<?php echo $paged + 1; ?>" href="#" tabindex="-1"><?php echo $args['next_text']; ?></a></li>
+			<?php endif; ?>
+
+		</ul><!-- .pagination -->
+	</nav><!-- .pagination-nav -->
+
+	<?php
+}
+
+endif; // theme_posts_ajax_pagination
+
 if ( ! function_exists( 'theme_the_posts_pagination' ) ) :
 /**
  * The Posts Pagination
