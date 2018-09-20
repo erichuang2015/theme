@@ -19,13 +19,13 @@ function theme_post_loader_get_args( $loader_id = null )
 		'before_result'     => '',
 		'before_items'      => '',
 		'before_item'       => '',
-		'item'              => 'card',
+		'item'              => 'card', // item template name.
 		'after_item'        => '',
 		'after_items'       => '',
 		'after_result'      => '',
 		'after'             => '',
 		'not_found_wrap'    => '<div class="alert alert-warning">%1$s</div>',
-		'not_found_message' => __( 'No posts found.', 'theme' ),
+		'not_found_message' => null,
 		'progress_content'  => theme_get_icon( 'spinner' ),
 	));
 
@@ -87,26 +87,6 @@ function theme_post_loader( $loader_id )
  */
 function theme_post_loader_result( $loader_id, &$wp_query = null )
 {
-	/**
-	 * Callback
-	 * ---------------------------------------------------------------
-	 */
-
-	$tag = "theme/post_loader_result/loader=$loader_id";
-
-	// Check if callback
-	if ( has_action( $tag ) ) 
-	{
-		// Let callback render result
-		do_action_ref_array( $tag, array( &$wp_query, $loader_id ) );
-
-		return;
-	}
-
-	/* ------------------------------------------------------------ */
-
-	$args = theme_post_loader_get_args( $loader_id );
-
 	$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 
 	/**
@@ -116,18 +96,34 @@ function theme_post_loader_result( $loader_id, &$wp_query = null )
 
 	$query_args = array
 	(
-		'post_type' => 'post',
-		'paged'     => $paged,
+		'post_type'         => 'post',
+		'paged'             => $paged,
+		'post_status'       => 'publish',
+		'theme_post_loader' => $loader_id, 
 	);
 
-	$query_args = (array) apply_filters( "theme/post_loader_query_args/loader=$loader_id", $query_args, $loader_id );
-	
 	$wp_query = new WP_Query( $query_args );
 
 	/**
-	 * Output
+	 * Custom result
 	 * ---------------------------------------------------------------
 	 */
+
+	$tag = "theme/post_loader_result/loader=$loader_id";
+
+	if ( has_action( $tag ) ) 
+	{
+		do_action_ref_array( $tag, array( &$wp_query, $loader_id ) );
+
+		return;
+	}
+
+	/**
+	 * Result
+	 * ---------------------------------------------------------------
+	 */
+
+	$args = theme_post_loader_get_args( $loader_id );
 
 	if ( $wp_query->have_posts() ) 
 	{
@@ -146,17 +142,49 @@ function theme_post_loader_result( $loader_id, &$wp_query = null )
 
 		echo $args['after_items'];
 
-		theme_posts_ajax_pagination( $wp_query, array
-		(
-			'mid_size' => $args['pagination_mid_size'],
-		));
+		theme_posts_ajax_pagination( $wp_query );
 	}
 
 	else
 	{
-		printf( $args['not_found_wrap'], $args['not_found_message'] );
+		if ( is_null( $args['not_found_message'] ) ) 
+		{
+			$post_type  = get_post_type_object( $wp_query->get( 'post_type' ) );
+			$post_count = wp_count_posts( $post_type->name );
+
+			if ( $post_count->publish ) 
+			{
+				$message = sprintf( __( 'No %s found that match the chosen search criteria.', 'theme' ), strtolower( $post_type->labels->name ) );
+			}
+
+			else
+			{
+				$message = sprintf( __( 'No %s available.', 'theme' ), strtolower( $post_type->labels->name ) );
+			}
+		}
+
+		else
+		{
+			$message = $args['not_found_message'];
+		}
+
+		printf( $args['not_found_wrap'], $message );
 	}
 }
+
+function theme_post_loader_pre_get_posts( $wp_query ) 
+{
+	$loader_id = $wp_query->get( 'theme_post_loader' );
+
+	if ( ! $loader_id )
+	{
+		return;
+	}
+
+	do_action_ref_array( "theme/post_loader_wp_query/loader=$loader_id", array( &$wp_query, $loader_id ) );
+}
+
+add_action( 'pre_get_posts', 'theme_post_loader_pre_get_posts' );
 
 /**
  * Process
@@ -250,6 +278,7 @@ add_shortcode( 'post-loader', 'theme_post_loader_shortcode' );
 
 function theme_post_loader_example_args( $args )
 {
+	// Create grid
 	return array_merge( $args, array
 	(
 		'before'              => '<div class="row">',
@@ -258,14 +287,10 @@ function theme_post_loader_example_args( $args )
 		'before_result'       => '<div class="col">',
 		'before_items'        => '<div class="row">',
 		'before_item'         => '<div class="col-md-4">',
-		'item'                => 'card',
 		'after_item'          => '</div>',
 		'after_items'         => '</div>',
 		'after_result'        => '</div>',
 		'after'               => '</div>',
-		'not_found_wrap'      => '<div class="alert alert-warning">%1$s</div>',
-		'not_found_message'   => __( 'No posts found.', 'theme' ),
-		'pagination_mid_size' => 1,
 	));
 }
 
@@ -293,20 +318,20 @@ function theme_post_loader_example_form()
 
 add_action( 'theme/post_loader_form/loader=example', 'theme_post_loader_example_form' );
 
-function theme_post_loader_example_query_args( $query_args )
+function theme_post_loader_example_wp_query( &$wp_query )
 {
 	$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
 
 	if ( $terms ) 
 	{
-		$query_args['tax_query'] = array
+		$tax_query = array
 		(
 			'relation' => 'AND',
 		);
 
 		foreach ( $terms as $term_id ) 
 		{
-			$query_args['tax_query'][] = array
+			$tax_query[] = array
 			( 
 				'taxonomy' => 'category',
 				'field'    => 'term_id',
@@ -314,9 +339,9 @@ function theme_post_loader_example_query_args( $query_args )
 				'operator' => 'IN',
 			);
 		}
-	}
 
-	return $query_args;
+		$wp_query->set( 'tax_query', $tax_query );
+	}
 }
 
-add_filter( 'theme/post_loader_query_args/loader=example', 'theme_post_loader_example_query_args' );
+add_action( 'theme/post_loader_wp_query/loader=example', 'theme_post_loader_example_wp_query' );
