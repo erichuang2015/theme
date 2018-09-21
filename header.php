@@ -18,4 +18,11 @@
 
 		<div id="content" class="site-content">
 
-			<?php theme_main_visual(); ?>
+			<?php 
+
+				if ( function_exists( 'theme_main_visual' ) ) :
+
+					theme_main_visual();
+				
+				endif;
+			?>

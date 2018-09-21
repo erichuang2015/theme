@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: Theme\n"
-"POT-Creation-Date: 2018-09-11 18:08+0200\n"
-"PO-Revision-Date: 2018-09-11 18:16+0200\n"
+"POT-Creation-Date: 2018-09-21 12:11+0200\n"
+"PO-Revision-Date: 2018-09-21 12:24+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,25 +34,25 @@ msgstr ""
 #, php-format
 msgctxt "comments title"
 msgid "One Reply to &ldquo;%s&rdquo;"
-msgstr "Eén antwoord op “%s”"
+msgstr "Eén Reactie op &ldquo;%s&rdquo;"
 
 #: comments.php:33
 #, php-format
 msgctxt "comments title"
 msgid "%1$s Reply to &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s Replies to &ldquo;%2$s&rdquo;"
-msgstr[0] "%1$s antwoord op “%2$s”"
-msgstr[1] "%1$s antwoorden op “%2$s”"
+msgstr[0] "%1$s Reactie op &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s Reacties op &ldquo;%2$s&rdquo;"
 
 #: comments.php:53
 msgid "Reply"
-msgstr "Beantwoord"
+msgstr "Reageer"
 
-#: comments.php:62 includes/template-tags.php:260
+#: comments.php:62 includes/template-tags.php:337
 msgid "Previous"
 msgstr "Vorige"
 
-#: comments.php:63 includes/template-tags.php:265
+#: comments.php:63 includes/template-tags.php:342
 msgid "Next"
 msgstr "Volgende"
 
@@ -60,194 +60,326 @@ msgstr "Volgende"
 msgid "Comments are closed."
 msgstr "Reacties zijn uitgeschakeld."
 
-#: functions.php:30
+#: functions.php:32
 msgid "Top Menu"
-msgstr "Topmenu"
+msgstr "Menu bovenaan"
 
-#: functions.php:31
+#: functions.php:33
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
-#: functions.php:32
+#: functions.php:34
 msgid "Bottom Menu"
 msgstr "Menu onderaan"
 
-#: functions.php:70 sidebar.php:14
+#: functions.php:104 sidebar.php:14
 msgid "Primary Sidebar"
-msgstr "Primaire zijbalk"
+msgstr "Primaire Zijbalk"
 
-#: functions.php:71
+#: functions.php:105
 msgid "Section on the left side."
 msgstr "Sectie aan de linkerkant."
 
-#: functions.php:82 sidebar-content.php:14
+#: functions.php:116 sidebar-content.php:14
 msgid "Content Sidebar"
 msgstr "Inhoud Zijbalk"
 
-#: functions.php:83
+#: functions.php:117
 msgid "Section on the right side."
 msgstr "Sectie aan de rechterkant."
 
-#: functions.php:95
-msgid "Footer Column 1"
-msgstr "Footer Kolom 1"
+#: functions.php:130
+msgid "first"
+msgstr "eerste"
 
-#: functions.php:96
-msgid "First column in footer section."
-msgstr "Eerste kolom in footer."
+#: functions.php:131
+msgid "second"
+msgstr "tweede"
 
-#: functions.php:106
-msgid "Footer Column 2"
-msgstr "Footer Kolom 2"
+#: functions.php:132
+msgid "thirth"
+msgstr "derde"
 
-#: functions.php:107
-msgid "Second column in footer section."
-msgstr "Tweede kolom in footer."
+#: functions.php:133
+msgid "fourth"
+msgstr "vierde"
 
-#: functions.php:117
-msgid "Footer Column 3"
-msgstr "Footer Kolom 3"
+#: functions.php:134
+msgid "fifth"
+msgstr "vijfde"
 
-#: functions.php:118
-msgid "Thirth column in footer section."
-msgstr "Derde kolom in footer."
+#: functions.php:135
+msgid "sixth"
+msgstr "zesde"
 
-#: includes/customizer.php:21
+#: functions.php:136
+msgid "seventh"
+msgstr "zevende"
+
+#: functions.php:137
+msgid "eighth"
+msgstr "achtste"
+
+#: functions.php:138
+msgid "ninth"
+msgstr "negende"
+
+#: functions.php:146
+#, php-format
+msgid "Footer Column %d"
+msgstr "Footer kolom %d"
+
+#: functions.php:147
+#, php-format
+msgid "%s column in footer section."
+msgstr "%s kolom in footer sectie."
+
+#: includes/customizer.php:24
 msgid "Site Logo (dark)"
 msgstr "Website Logo (donker)"
 
-#: includes/customizer.php:22
+#: includes/customizer.php:25
 msgid "Used on light backgrounds."
 msgstr "Gebruikt op een lichte achtergronden."
 
-#: includes/customizer.php:32
+#: includes/customizer.php:35
 msgid "Site Logo (dark, compact)"
 msgstr "Website Logo (donker, compact)"
 
-#: includes/customizer.php:33
+#: includes/customizer.php:36
 msgid "Compact version for use on light backgrounds. (optional)"
 msgstr ""
 "Compacte versie voor gebruik op een lichte achtergronden. (optioneel)"
 
-#: includes/customizer.php:43
+#: includes/customizer.php:46
 msgid "Site Logo (light)"
 msgstr "Website Logo (licht)"
 
-#: includes/customizer.php:44
+#: includes/customizer.php:47
 msgid "Used on dark backgrounds."
 msgstr "Gebruikt op een donkere achtergronden."
 
-#: includes/customizer.php:54
+#: includes/customizer.php:57
 msgid "Site Logo (light, compact)"
 msgstr "Website Logo (licht, compact)"
 
-#: includes/customizer.php:55
+#: includes/customizer.php:58
 msgid "Compact version for use on dark backgrounds. (optional)"
-msgstr ""
-"Compacte versie voor gebruik op een donkere achtergronden. (optioneel)"
+msgstr "Compacte versie voor gebruik op donkere achtergronden. (optioneel)"
 
-#: includes/mce.php:23
+#: includes/mce.php:26
 msgid "Primary"
 msgstr "Primair"
 
-#: includes/mce.php:24
+#: includes/mce.php:27
 msgid "Secondary"
 msgstr "Secondair"
 
-#: includes/mce.php:29 includes/mce.php:92
+#: includes/mce.php:32 includes/mce.php:95
 msgid "Light"
 msgstr "Licht"
 
-#: includes/mce.php:30
+#: includes/mce.php:33
 msgid "Dark"
 msgstr "Donker"
 
-#: includes/mce.php:31
+#: includes/mce.php:34
 msgid "Body"
 msgstr "Body"
 
-#: includes/mce.php:32
+#: includes/mce.php:35
 msgid "Muted"
 msgstr "Gedempt"
 
-#: includes/mce.php:33 includes/mce.php:35
+#: includes/mce.php:36 includes/mce.php:38
 msgid "White"
 msgstr "Wit"
 
-#: includes/mce.php:34
+#: includes/mce.php:37
 msgid "Black"
 msgstr "Zwart"
 
-#: includes/mce.php:60
+#: includes/mce.php:63
 msgid "Size"
 msgstr "Grootte"
 
-#: includes/mce.php:66
+#: includes/mce.php:69
 msgid "Large"
 msgstr "Groot"
 
-#: includes/mce.php:75
+#: includes/mce.php:78
 msgid "Small"
-msgstr "Small"
+msgstr "Klein"
 
-#: includes/mce.php:86
+#: includes/mce.php:89
 msgid "Weight"
 msgstr "Gewicht"
 
-#: includes/mce.php:101
+#: includes/mce.php:104
 msgid "Normal"
 msgstr "Normaal"
 
-#: includes/mce.php:110
+#: includes/mce.php:113
 msgid "Bold"
 msgstr "Vet"
 
-#: includes/mce.php:121
+#: includes/mce.php:124
 msgid "Font Family"
 msgstr "Lettertype"
 
-#: includes/mce.php:127
+#: includes/mce.php:130
 msgid "Serif"
-msgstr "Serif"
+msgstr "Met schreven"
 
-#: includes/mce.php:136
+#: includes/mce.php:139
 msgid "Sans Serif"
-msgstr "Sans Serif"
+msgstr "Zonder schreven"
 
-#: includes/mce.php:147
+#: includes/mce.php:150
 msgid "Colors"
 msgstr "Kleuren"
 
-#: includes/options-page.php:11
+#: includes/options-page.php:19
 msgid "Theme Options"
 msgstr "Thema Opties"
 
 #. Theme Name of the plugin/theme
-#: includes/options-page.php:14
+#: includes/options-page.php:22
 msgid "Theme"
-msgstr "Thema"
+msgstr ""
 
-#: includes/template-tags.php:14
+#: includes/post-loader.php:157
+#, php-format
+msgid "No %s found that match the chosen search criteria."
+msgstr "Geen %s gevonden die overeenkomen met de gekozen zoekcriteria."
+
+#: includes/post-loader.php:162
+#, php-format
+msgid "No %s available."
+msgstr "Geen %s beschikbaar."
+
+#: includes/sections.php:18
+msgctxt "post type general name"
+msgid "Sections"
+msgstr "Secties"
+
+#: includes/sections.php:19
+msgctxt "post type singular name"
+msgid "Section"
+msgstr "Sectie"
+
+#: includes/sections.php:20
+msgctxt "admin menu"
+msgid "Sections"
+msgstr "Secties"
+
+#: includes/sections.php:21
+msgctxt "add new on admin bar"
+msgid "Section"
+msgstr "Sectie"
+
+#: includes/sections.php:22
+msgctxt "section"
+msgid "Add New"
+msgstr "Nieuwe Toevoegen"
+
+#: includes/sections.php:23
+msgid "Add New Section"
+msgstr "Nieuwe Sectie Toevoegen"
+
+#: includes/sections.php:24
+msgid "New Section"
+msgstr "Nieuwe Sectie"
+
+#: includes/sections.php:25
+msgid "Edit Section"
+msgstr "Bewerk Sectie"
+
+#: includes/sections.php:26
+msgid "View Section"
+msgstr "Bekijk sectie"
+
+#: includes/sections.php:27
+msgid "All Sections"
+msgstr "Alle secties"
+
+#: includes/sections.php:28
+msgid "Search Sections"
+msgstr "Zoek secties"
+
+#: includes/sections.php:29
+msgid "Parent Sections:"
+msgstr "Bovenliggende Secties:"
+
+#: includes/sections.php:30 includes/widgets/section.php:63
+msgid "No sections found."
+msgstr "Geen secties gevonden."
+
+#: includes/sections.php:31
+msgid "No sections found in Trash."
+msgstr "Geen secties gevonden in de prullenmand."
+
+#: includes/sections.php:33
+msgid "Description."
+msgstr "Omschrijving."
+
+#: includes/template-tags.php:15 includes/template-tags.php:91
 msgid "Previous page"
 msgstr "Vorige pagina"
 
-#: includes/template-tags.php:15
+#: includes/template-tags.php:16 includes/template-tags.php:92
 msgid "Next page"
 msgstr "Volgende pagina"
 
-#: includes/template-tags.php:16
+#: includes/template-tags.php:64
+msgid "(current)"
+msgstr "(huidige)"
+
+#: includes/template-tags.php:93
 msgid "Page"
 msgstr "Pagina"
 
-#: includes/template-tags.php:35
+#: includes/template-tags.php:112
 #, php-format
 msgid "by %s"
 msgstr "door %s"
 
-#: includes/template-tags.php:68
+#: includes/template-tags.php:145
 #, php-format
 msgid "<span class=\"sr-only\">Posted on</span> %s"
-msgstr "<span class=“sr-only”>Gepost op</span> %s"
+msgstr "<span class=\"sr-only\">Gepost op</span> %s"
+
+#: includes/widgets/main-visual.php:7
+msgid "Main Visual"
+msgstr "Hoofd Visual"
+
+#: includes/widgets/main-visual.php:9
+msgid "Displays post/page main visual."
+msgstr "Geeft post/pagina hoofd visual weer"
+
+#: includes/widgets/main-visual.php:30
+msgid "Settings are available on post/page edit screens."
+msgstr "Instellingen zijn beschikbaar op post/pagina schermen."
+
+#: includes/widgets/section.php:7
+msgid "Section"
+msgstr "Sectie"
+
+#: includes/widgets/section.php:9
+msgid "Displays a section."
+msgstr "Toont een sectie."
+
+#: includes/widgets/section.php:65
+msgid "Add Section"
+msgstr "Sectie Toevoegen"
+
+#: includes/widgets/section.php:75
+msgid "Section:"
+msgstr "Sectie:"
+
+#: includes/widgets/section.php:77
+msgid "- Select -"
+msgstr "- Kies -"
 
 #: search.php:23
 #, php-format
@@ -256,7 +388,7 @@ msgstr "Zoekresultaten voor: %s"
 
 #: search.php:25 template-parts/content-none.php:11
 msgid "Nothing Found"
-msgstr "Niets gevonden"
+msgstr "Niets Gevonden"
 
 #: searchform.php:14
 msgctxt "label"
@@ -266,11 +398,15 @@ msgstr "Zoeken naar:"
 #: searchform.php:16
 msgctxt "placeholder"
 msgid "Search &hellip;"
-msgstr "Zoek &hellip;"
+msgstr "Zoeken &hellip;"
 
 #: searchform.php:19
 msgid "Search"
 msgstr "Zoeken"
+
+#: template-parts/card.php:21
+msgid "Read More"
+msgstr "Lees Meer"
 
 #: template-parts/content-none.php:18
 #, php-format
@@ -287,13 +423,17 @@ msgstr ""
 "Het ziet er naar uit dat wat u zoekt, niet kan worden gevonden. Wellicht "
 "kan de zoekfunctie helpen."
 
-#: template-parts/content-page.php:19 template-parts/content.php:50
+#: template-parts/content-page.php:19 template-parts/content.php:61
 msgid "Pages:"
 msgstr "Pagina’s:"
 
-#: template-parts/content.php:46
+#: template-parts/content.php:57
 msgid "Continue reading"
-msgstr "Verder lezen"
+msgstr "Lees verder"
+
+#: template-parts/layout-modal.php:23
+msgid "Close"
+msgstr "Sluiten"
 
 #: template-parts/nav-main.php:15
 msgid "Toggle navigation"

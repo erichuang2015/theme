@@ -20,6 +20,9 @@ function theme_setup()
 	// Make theme available for translation.
 	load_theme_textdomain( 'theme', get_template_directory() . '/languages' );
 
+	// This theme styles the visual editor to resemble the theme style.
+	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
+
 	// Register menu locations.
 	register_nav_menus( array
 	(
@@ -39,11 +42,6 @@ function theme_setup()
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 
-	add_theme_support( 'theme-sections' );
-	add_theme_support( 'theme-main-visuals' );
-	add_theme_support( 'theme-flexible-content' );
-	add_theme_support( 'theme-post-loader' );
-	
 	// Custom image sizes
 	add_image_size( 'theme-full-width', 1920, 1080 );
 }
@@ -59,30 +57,6 @@ function theme_support_init()
 	if ( current_theme_supports( 'theme-options-page' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/options-page.php' );
-	}
-
-	// Sections
-	if ( current_theme_supports( 'theme-sections' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/sections.php' );
-	}
-
-	// Main Visuals
-	if ( current_theme_supports( 'theme-main-visuals' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/main-visuals.php' );
-	}
-
-	// Flexible Content
-	if ( current_theme_supports( 'theme-flexible-content' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
-	}
-
-	// Post Loader
-	if ( current_theme_supports( 'theme-post-loader' ) ) 
-	{
-		require_once get_parent_theme_file_path( 'includes/post-loader.php' );
 	}
 }
 
@@ -123,38 +97,46 @@ function theme_widgets_init()
 
 	// Footer Sidebars
 
-	register_sidebar( array
-	(
-		'id'            => 'sidebar-3',
-		'name'          => __( 'Footer Column 1', 'theme' ),
-		'description'   => __( 'First column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+	$amount = 3; $index = 4;
 
-	register_sidebar( array
+	$cardinals = array
 	(
-		'id'            => 'sidebar-4',
-		'name'          => __( 'Footer Column 2', 'theme' ),
-		'description'   => __( 'Second column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+		1 => __( 'first', 'theme' ),
+		2 => __( 'second', 'theme' ),
+		3 => __( 'thirth', 'theme' ),
+		4 => __( 'fourth', 'theme' ),
+		5 => __( 'fifth', 'theme' ),
+		6 => __( 'sixth', 'theme' ),
+		7 => __( 'seventh', 'theme' ),
+		8 => __( 'eighth', 'theme' ),
+		9 => __( 'ninth', 'theme' ),
+	);
 
-	register_sidebar( array
-	(
-		'id'            => 'sidebar-5',
-		'name'          => __( 'Footer Column 3', 'theme' ),
-		'description'   => __( 'Thirth column in footer section.', 'theme' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	));
+	for ( $n = 1; $n <= $amount; $n++ ) 
+	{ 
+		if ( $amount == 1 ) 
+		{
+			$name        = __( 'Footer', 'theme' );
+			$description = __( 'Footer section.', 'theme' );
+		}
+
+		else
+		{
+			$name        = sprintf( __( 'Footer Column %d', 'theme' ), $n );
+			$description = sprintf( __( '%s column in footer section.', 'theme' ), ucfirst( $cardinals[ $n ] ) );
+		}
+
+		register_sidebar( array
+		(
+			'id'            => sprintf( 'sidebar-%d', $index++ ),
+			'name'          => $name,
+			'description'   => $description,
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		));
+	}
 }
 
 add_action( 'widgets_init', 'theme_widgets_init' );
@@ -212,8 +194,8 @@ function theme_scripts()
 	wp_register_script( 'jquery-scrollto', get_theme_file_uri( 'assets/js/jquery.scrollTo.min.js' ), array( 'jquery' ), '2.1.2', true );
 	
 	// Fancybox
-	wp_register_script( 'jquery-fancybox', get_theme_file_uri( 'assets/js/jquery.fancybox.min.js' ), array( 'jquery' ), '3.3.5', true );
-	wp_register_style( 'jquery-fancybox', get_theme_file_uri( 'assets/css/jquery-fancybox.min.css' ), null, '3.3.5' );
+	wp_register_script( 'jquery-fancybox', get_theme_file_uri( 'assets/js/jquery.fancybox.min.js' ), array( 'jquery' ), '3.4.2', true );
+	wp_register_style( 'jquery-fancybox', get_theme_file_uri( 'assets/css/jquery-fancybox.min.css' ), null, '3.4.2' );
 
 	// Owl Carousel
 	wp_register_script( 'owl-carousel', get_theme_file_uri( 'assets/js/owl.carousel.min.js' ), array( 'jquery' ), '2.3.4', true );
@@ -252,9 +234,6 @@ add_action( 'wp_enqueue_scripts', 'theme_scripts' );
 
 // Custom Customizer Settings
 require_once get_parent_theme_file_path( 'includes/customizer.php' );
-
-// Breadcrumbs
-require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
 	
 // MCE
 require_once get_parent_theme_file_path( 'includes/mce.php' );

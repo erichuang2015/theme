@@ -4,17 +4,6 @@
  */
 
 /**
- * Editor Style
- */
-function theme_mce_editor_style()
-{
-	// This theme styles the visual editor to resemble the theme style.
-	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
-}
-
-add_action( 'init', 'theme_mce_editor_style' );
-
-/**
  * MCE Before Init
  * 
  * @link https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@style_formats/

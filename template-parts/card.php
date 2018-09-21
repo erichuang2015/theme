@@ -15,6 +15,7 @@
 		<?php the_title( '<h5 class="entry-title card-title">', '</h5>' ); ?>
 
 		<div class="entry-summary card-text">
+			
 			<?php the_excerpt(); ?>
 
 			<p>
