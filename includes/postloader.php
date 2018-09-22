@@ -15,7 +15,7 @@ function theme_postloader( $loader_id )
 	?>
 
 	<div id="<?php echo esc_attr( $html_id ); ?>" class="postloader">
-		<?php theme_post_loader_inner( $loader_id ); ?>
+		<?php theme_postloader_inner( $loader_id ); ?>
 	</div>
 
 	<script type="text/javascript">
@@ -33,11 +33,11 @@ function theme_postloader( $loader_id )
 /**
  * Inner
  */
-function theme_post_loader_inner( $loader_id )
+function theme_postloader_inner( $loader_id )
 {
-	if ( has_action( "theme/post_loader_inner/loader=$loader_id" ) )
+	if ( has_action( "theme/postloader_inner/loader=$loader_id" ) )
 	{
-		do_action( "theme/post_loader_inner/loader=$loader_id", $loader_id );
+		do_action( "theme/postloader_inner/loader=$loader_id", $loader_id );
 
 		return;
 	}
@@ -45,15 +45,15 @@ function theme_post_loader_inner( $loader_id )
 	?>
 
 	<form class="postloader-form" method="post">
-		<?php theme_post_loader_form( $loader_id ); ?>
+		<?php theme_postloader_form( $loader_id ); ?>
 	</form>
 
 	<div class="postloader-result">
-		<?php theme_post_loader_result( $loader_id ); ?>
+		<?php theme_postloader_result( $loader_id ); ?>
 	</div>
 
 	<div class="postloader-progress">
-		<?php theme_post_loader_progress( $loader_id ); ?>
+		<?php theme_postloader_progress( $loader_id ); ?>
 	</div>
 
 	<?php
@@ -62,21 +62,21 @@ function theme_post_loader_inner( $loader_id )
 /**
  * Form
  */
-function theme_post_loader_form( $loader_id )
+function theme_postloader_form( $loader_id )
 {
-	wp_nonce_field( 'post_loader', THEME_NONCE_NAME );
+	wp_nonce_field( 'postloader', THEME_NONCE_NAME );
 
 	echo '<input type="hidden" name="action" value="theme/postloader_process">';
 	echo '<input type="hidden" name="loader" value="' . esc_attr( $loader_id ) . '">';
 	echo '<input type="hidden" name="paged" value="1">';
 
-	do_action( "theme/post_loader_form/loader=$loader_id" );
+	do_action( "theme/postloader_form/loader=$loader_id" );
 }
 
 /**
  * Result
  */
-function theme_post_loader_result( $loader_id, &$wp_query = null )
+function theme_postloader_result( $loader_id, &$wp_query = null )
 {
 	$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 
@@ -87,21 +87,21 @@ function theme_post_loader_result( $loader_id, &$wp_query = null )
 		'paged'       => $paged,
 	);
 
-	do_action_ref_array( "theme/post_loader_query_args/loader=$loader_id", array( &$query_args, $loader_id ) );
+	do_action_ref_array( "theme/postloader_query_args/loader=$loader_id", array( &$query_args, $loader_id ) );
 
 	$wp_query = new WP_Query( $query_args );
 
-	do_action( "theme/post_loader_result/loader=$loader_id", $wp_query, $loader_id );
+	do_action( "theme/postloader_result/loader=$loader_id", $wp_query, $loader_id );
 }
 
 /**
  * Progress
  */
-function theme_post_loader_progress( $loader_id )
+function theme_postloader_progress( $loader_id )
 {
-	if ( has_action( "theme/post_loader_progress/loader=$loader_id" ) ) 
+	if ( has_action( "theme/postloader_progress/loader=$loader_id" ) ) 
 	{
-		do_action( "theme/post_loader_progress/loader=$loader_id", $loader_id );
+		do_action( "theme/postloader_progress/loader=$loader_id", $loader_id );
 	}
 
 	else
@@ -113,7 +113,7 @@ function theme_post_loader_progress( $loader_id )
 /**
  * Process
  */
-function theme_post_loader_process()
+function theme_postloader_process()
 {
 	/**
 	 * Check
@@ -129,7 +129,7 @@ function theme_post_loader_process()
 
 	// Referer
 
-	check_ajax_referer( 'post_loader', THEME_NONCE_NAME );
+	check_ajax_referer( 'postloader', THEME_NONCE_NAME );
 
 	/**
 	 * Get post data
@@ -146,7 +146,7 @@ function theme_post_loader_process()
 
 	ob_start();
 
-	theme_post_loader_result( $loader_id, $wp_query );
+	theme_postloader_result( $loader_id, $wp_query );
 
 	$result = ob_get_clean();
 
@@ -165,8 +165,8 @@ function theme_post_loader_process()
 	));
 }
 
-add_action( 'wp_ajax_theme_postloader_process'		 , 'theme_post_loader_process' );
-add_action( 'wp_ajax_nopriv_theme_postloader_process', 'theme_post_loader_process' );
+add_action( 'wp_ajax_theme_postloader_process'		 , 'theme_postloader_process' );
+add_action( 'wp_ajax_nopriv_theme_postloader_process', 'theme_postloader_process' );
 
 /**
  * Shortcode
@@ -198,25 +198,25 @@ add_shortcode( 'postloader', 'theme_postloader_shortcode' );
 /**
  * Create Grid
  */
-add_action( 'theme/post_loader_inner/loader=test', function( $loader_id )
+add_action( 'theme/postloader_inner/loader=test', function( $loader_id )
 {
 	?>
 
 	<div class="row">
 		<div class="col-md-4">
 			<form class="postloader-form" method="post">
-				<?php theme_post_loader_form( $loader_id ); ?>
+				<?php theme_postloader_form( $loader_id ); ?>
 			</form>
 		</div>
 		<div class="col">
 			<div class="postloader-result">
-				<?php theme_post_loader_result( $loader_id ); ?>
+				<?php theme_postloader_result( $loader_id ); ?>
 			</div>
 		</div>
 	</div>
 
 	<div class="postloader-progress">
-		<?php theme_post_loader_progress( $loader_id ); ?>
+		<?php theme_postloader_progress( $loader_id ); ?>
 	</div>
 
 	<?php
@@ -225,7 +225,7 @@ add_action( 'theme/post_loader_inner/loader=test', function( $loader_id )
 /**
  * Render term filter
  */
-add_action( 'theme/post_loader_form/loader=test', function()
+add_action( 'theme/postloader_form/loader=test', function()
 {
 	$terms = get_terms( array
 	(
@@ -251,7 +251,7 @@ add_action( 'theme/post_loader_form/loader=test', function()
 /**
  * Apply term filter
  */
-add_action( 'theme/post_loader_query_args/loader=test', function( &$query_args )
+add_action( 'theme/postloader_query_args/loader=test', function( &$query_args )
 {
 	$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
 
@@ -273,7 +273,7 @@ add_action( 'theme/post_loader_query_args/loader=test', function( &$query_args )
 /**
  * Result
  */
-add_action( 'theme/post_loader_result/loader=test', function( $wp_query )
+add_action( 'theme/postloader_result/loader=test', function( $wp_query )
 {
 	if ( $wp_query->have_posts() ) 
 	{
