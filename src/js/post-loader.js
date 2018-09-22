@@ -1,5 +1,5 @@
 /**
- * Postloader
+ * Post Loader
  */
 (function( $ )
 {
@@ -10,12 +10,12 @@
 		this.$elem   = $( elem );
 		this.options = $.extend( {}, Plugin.defaultOptions, options );
 
-		this.$elem.addClass( 'postloader' );
+		this.$elem.addClass( 'post-loader' );
 
 		var _this = this;
 
 		// Form submit
-		this.$elem.on( 'submit', '.postloader-form', function( event )
+		this.$elem.on( 'submit', '.post-loader-form', function( event )
 		{
 			event.preventDefault();
 
@@ -65,7 +65,7 @@
 		});
 
 		// Notify init
-		$( document ).trigger( 'postloader.init', [ this ] );
+		$( document ).trigger( 'postLoader.init', [ this ] );
 	}
 
 	Plugin.defaultOptions = 
@@ -90,17 +90,17 @@
 		options = $.extend( {}, defaults, options );
 
 		// Set page
-		this.$elem.find( '.postloader-form :input[name="paged"]' ).val( options.page );
+		this.$elem.find( '.post-loader-form :input[name="paged"]' ).val( options.page );
 
 		// Get fields
-		var $fields = this.$elem.find( '.postloader-form :input:not([disabled])' );
+		var $fields = this.$elem.find( '.post-loader-form :input:not([disabled])' );
 
 		// Ajax
 		$.ajax(
 		{
 			url : theme.ajaxurl,
 			method : 'POST',
-			data : this.$elem.find( '.postloader-form' ).serialize(),
+			data : this.$elem.find( '.post-loader-form' ).serialize(),
 			context : this,
 			
 			beforeSend : function( jqXHR, settings )
@@ -112,7 +112,7 @@
 				$fields.prop( 'disabled', true );
 
 				// Dispatch event
-				this.$elem.trigger( 'postloader.loadBeforeSend', [ this, jqXHR, settings ] );
+				this.$elem.trigger( 'postLoader.loadBeforeSend', [ this, jqXHR, settings ] );
 			},
 
 			success : function( response, textStatus, jqXHR )
@@ -122,7 +122,7 @@
 				this.response = response;
 
 				// Set result
-				this.$elem.find( '.postloader-result' ).html( this.response.result );
+				this.$elem.find( '.post-loader-result' ).html( this.response.result );
 
 				// Animate
 				if ( options.animate ) 
@@ -130,13 +130,13 @@
 					// Scroll to result top
 					$( [ document.documentElement, document.body ] ).stop().animate(
 					{
-	        			scrollTop: this.$elem.find( '.postloader-result' ).offset().top,
+	        			scrollTop: this.$elem.find( '.post-loader-result' ).offset().top,
 
 	    			}, this.options.animationSpeed );
 				}
 
 				// Dispatch event
-				this.$elem.trigger( 'postloader.loadSuccess', [ this, textStatus, jqXHR ] );
+				this.$elem.trigger( 'postLoader.loadSuccess', [ this, textStatus, jqXHR ] );
 			},
 
 			error : function( jqXHR, textStatus, errorThrown )
@@ -144,7 +144,7 @@
 				console.warn( 'error', errorThrown );
 
 				// Dispatch event
-				this.$elem.trigger( 'postloader.loadError', [ this, jqXHR, textStatus, errorThrown ] );
+				this.$elem.trigger( 'postLoader.loadError', [ this, jqXHR, textStatus, errorThrown ] );
 			},
 
 			complete : function( jqXHR, textStatus )
@@ -156,7 +156,7 @@
 				$fields.prop( 'disabled', false );
 
 				// Dispatch event
-				this.$elem.trigger( 'postloader.loadComplete', [ this, jqXHR, textStatus ] );
+				this.$elem.trigger( 'postLoader.loadComplete', [ this, jqXHR, textStatus ] );
 			}
 		});
 	};
@@ -164,24 +164,24 @@
 	/**
 	 * jQuery Plugin
 	 */
-	$.fn.postloader = function( options )
+	$.fn.postLoader = function( options )
 	{
 		// Loop elements
 		return this.each( function()
 		{
 			// Check if already instantiated
-			if ( typeof $( this ).data( 'postloader' ) === 'undefined' ) 
+			if ( typeof $( this ).data( 'postLoader' ) === 'undefined' ) 
 			{
 				// Create instance
 				var instance = new Plugin( this, options );
 
 				// Attach instance to element
-				$( this ).data( 'postloader', instance );
+				$( this ).data( 'postLoader', instance );
 			}
 		});
 	}
 
 	// Assign to global scope
-	window.postloader = Plugin;
+	window.postLoader = Plugin;
 
 })( jQuery );

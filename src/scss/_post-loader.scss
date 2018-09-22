@@ -1,10 +1,10 @@
 
-.postloader-result
+.post-loader-result
 {
 	position: relative;
 }
 
-.postloader-progress
+.post-loader-progress
 {
     opacity: 0;
     z-index : -999;
@@ -34,9 +34,9 @@
     }
 }
 
-.postloader.loading
+.post-loader.loading
 {
-    .postloader-progress
+    .post-loader-progress
     {
         opacity: 1;
 
