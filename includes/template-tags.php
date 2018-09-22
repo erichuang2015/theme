@@ -46,7 +46,7 @@ function theme_posts_ajax_pagination( $wp_query, $args = array() )
 
 	?>
 
-	<nav class="pagination-nav">
+	<nav class="pagination-nav show-if-js">
 		<ul class="pagination">
 
 			<?php if ( $paged > 1 ) : ?>
