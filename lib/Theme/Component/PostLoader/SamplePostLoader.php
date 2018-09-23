@@ -93,6 +93,8 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 			);
 		}
 
+		$query = new \WP_Query( $query_args );
+
 		/**
 		 * Output
 		 * -----------------------------------------------------------
