@@ -47,21 +47,9 @@ class PostLoader
 	 */
 	public function inner()
 	{
-		?>
-
-		<form class="post-loader-form" method="post">
-			<?php $this->form(); ?>
-		</form>
-
-		<div class="post-loader-result">
-			<?php $this->result(); ?>
-		</div>
-
-		<div class="post-loader-progress">
-			<?php $this->progress(); ?>
-		</div>
-
-		<?php
+		$this->form();
+		$this->result();
+		$this->progress();
 	}
 
 	/**
@@ -69,17 +57,49 @@ class PostLoader
 	 */
 	public function form()
 	{
-		wp_nonce_field( 'post_loader', THEME_NONCE_NAME );
+		?>
 
-		echo '<input type="hidden" name="action" value="theme_post_loader_process">';
-		echo '<input type="hidden" name="loader" value="' . esc_attr( $this->id ) . '">';
-		echo '<input type="hidden" name="paged" value="1">';
+		<form class="post-loader-form" method="post">
+
+			<?php wp_nonce_field( 'post_loader', THEME_NONCE_NAME ); ?>
+
+			<input type="hidden" name="action" value="theme_post_loader_process">
+			<input type="hidden" name="loader" value="<?php echo esc_attr( $this->id ); ?>">
+			<input type="hidden" name="paged" value="1">
+
+			<?php $this->form_inner(); ?>
+
+		</form>
+
+		<?php
+	}
+
+	/**
+	 * Form Inner
+	 */
+	public function form_inner()
+	{
+
 	}
 
 	/**
 	 * Result
 	 */
-	public function result( &$query = null )
+	public function result()
+	{
+		?>
+
+		<div class="post-loader-result">
+			<?php $this->result_inner(); ?>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Result Inner
+	 */
+	public function result_inner( &$query = null )
 	{
 		$query = new \WP_Query();
 	}
@@ -88,6 +108,20 @@ class PostLoader
 	 * Progress
 	 */
 	public function progress()
+	{
+		?>
+
+		<div class="post-loader-progress">
+			<?php $this->progress_inner(); ?>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Progress Inner
+	 */
+	public function progress_inner()
 	{
 		echo theme_get_icon( 'spinner' );
 	}
@@ -128,7 +162,7 @@ class PostLoader
 
 		ob_start();
 
-		$this->result( $query );
+		$this->result_inner( $query );
 
 		$result = ob_get_clean();
 

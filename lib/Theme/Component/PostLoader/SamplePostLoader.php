@@ -18,28 +18,20 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 
 		<div class="row">
 			<div class="col-lg-4">
-				<form class="post-loader-form" method="post">
-					<?php $this->form(); ?>
-				</form>
+				<?php $this->form(); ?>
 			</div>
 			<div class="col">
-				<div class="post-loader-result">
-					<?php $this->result(); ?>
-				</div>
+				<?php $this->result(); ?>
 			</div>
 		</div>
 
-		<div class="post-loader-progress">
-			<?php $this->progress(); ?>
-		</div>
+		<?php $this->progress(); ?>
 
 		<?php
 	}
 
-	public function form()
+	public function form_inner()
 	{
-		parent::form();
-
 		// Render term filter
 
 		$terms = get_terms( array
@@ -62,7 +54,7 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 		}
 	}
 
-	public function result( &$query = null )
+	public function result_inner( &$query = null )
 	{
 		$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 		$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
