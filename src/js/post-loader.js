@@ -7,8 +7,9 @@
 
 	function Plugin( elem, options )
 	{
-		this.$elem   = $( elem );
-		this.options = $.extend( {}, Plugin.defaultOptions, options );
+		this.$elem    = $( elem );
+		this.$content = $( this.$elem.data( 'target' ) );
+		this.options  = $.extend( {}, Plugin.defaultOptions, options );
 
 		this.$elem.addClass( 'post-loader' );
 
@@ -24,7 +25,7 @@
 		});
 
 		// Pagination click
-		this.$elem.on( 'click', '.pagination .page-link', function( event )
+		this.$content.on( 'click', '.pagination .page-link', function( event )
 		{
 			event.preventDefault();
 
@@ -121,16 +122,16 @@
 
 				this.response = response;
 
-				// Set result
-				this.$elem.find( '.post-loader-result' ).html( this.response.result );
+				// Set content
+				this.$content.html( this.response.content );
 
 				// Animate
 				if ( options.animate ) 
 				{
-					// Scroll to result top
+					// Scroll to top
 					$( [ document.documentElement, document.body ] ).stop().animate(
 					{
-	        			scrollTop: this.$elem.find( '.post-loader-result' ).offset().top,
+	        			scrollTop: this.$content.offset().top,
 
 	    			}, this.options.animationSpeed );
 				}
@@ -185,3 +186,11 @@
 	window.postLoader = Plugin;
 
 })( jQuery );
+
+(function()
+{
+	jQuery( document ).on( 'ready', function()
+	{
+		jQuery( '.post-loader' ).postLoader();
+	});
+})();
