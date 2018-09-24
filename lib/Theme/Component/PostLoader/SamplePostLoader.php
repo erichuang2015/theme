@@ -2,9 +2,6 @@
 
 namespace Theme\Component\PostLoader;
 
-/**
- * Sample Post Loader
- */
 class SamplePostLoader extends \Theme\Core\PostLoader
 {
 	public function __construct()
@@ -12,34 +9,8 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 		parent::__construct( 'sample' );
 	}
 
-	public function inner()
-	{
-		?>
-
-		<div class="row">
-			<div class="col-lg-4">
-				<form class="post-loader-form" method="post">
-					<?php $this->form(); ?>
-				</form>
-			</div>
-			<div class="col">
-				<div class="post-loader-result">
-					<?php $this->result(); ?>
-				</div>
-			</div>
-		</div>
-
-		<div class="post-loader-progress">
-			<?php $this->progress(); ?>
-		</div>
-
-		<?php
-	}
-
 	public function form()
 	{
-		parent::form();
-
 		// Render term filter
 
 		$terms = get_terms( array
@@ -67,11 +38,6 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 		$paged = isset( $_POST['paged'] ) ? $_POST['paged'] : 1;
 		$terms = isset( $_POST['terms'] ) && is_array( $_POST['terms'] ) ? $_POST['terms'] : array();
 
-		/**
-		 * WP Query
-		 * -----------------------------------------------------------
-		 */
-
 		$query_args = array
 		(
 			'post_type'   => 'post',
@@ -94,11 +60,6 @@ class SamplePostLoader extends \Theme\Core\PostLoader
 		}
 
 		$query = new \WP_Query( $query_args );
-
-		/**
-		 * Output
-		 * -----------------------------------------------------------
-		 */
 
 		// Posts
 
