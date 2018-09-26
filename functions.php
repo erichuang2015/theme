@@ -61,7 +61,7 @@ function theme_support_init()
 		require_once get_parent_theme_file_path( 'includes/options-page.php' );
 	}
 
-	// Post Loader
+	// Options Page
 	if ( current_theme_supports( 'theme-post-loader' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/post-loader.php' );
