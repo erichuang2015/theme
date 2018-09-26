@@ -16,3 +16,7 @@ Bootstrap driven WordPress theme.
 - Bootstrap [navbar](http://getbootstrap.com/docs/4.1/components/navbar/).
 - [Advanced Custom Fields](https://www.advancedcustomfields.com/) option page.
 - Menu item utilities.
+
+## Documentation
+
+[Wiki](https://github.com/mmaarten/theme/wiki)
