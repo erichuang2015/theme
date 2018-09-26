@@ -1,6 +1,6 @@
 <!-- https://wpml.org/documentation/support/language-configuration-files/ -->
 <wpml-config>
     <custom-types>
-        <custom-type translate="1">section</custom-type>
+        <!--<custom-type translate="1">section</custom-type>-->
     </custom-types>
 </wpml-config>
