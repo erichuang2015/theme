@@ -7,7 +7,7 @@
 require_once get_theme_file_path( 'includes/constants.php' );
 
 // Autoloader
-require_once get_theme_file_path( 'includes/autoload.php' );
+require_once get_parent_theme_file_path( 'includes/autoload.php' );
 
 // Common helper functions
 require_once get_parent_theme_file_path( 'includes/common.php' );
@@ -61,7 +61,7 @@ function theme_support_init()
 		require_once get_parent_theme_file_path( 'includes/options-page.php' );
 	}
 
-	// Options Page
+	// Post Loader
 	if ( current_theme_supports( 'theme-post-loader' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/post-loader.php' );
