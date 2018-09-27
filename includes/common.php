@@ -3,44 +3,6 @@
  * Common functions.
  */
 
-function theme_post_has_shortcode( $tag, $post_id = 0 )
-{
-	$post = get_post( $post_id );
-
-	if ( $post ) 
-	{
-		return has_shortcode( $post->post_content, $tag );
-	}
-
-	return false;
-}
-
-function theme_has_shortcode( $content = null, $tag )
-{
-	if ( is_null( $content ) ) 
-	{
-		$post = get_post();
-
-		if ( is_a( $post, 'WP_Post' ) ) 
-		{
-			$content = $post->post_content;
-		}
-	}
-
-	if ( $content ) 
-	{
-		foreach ( (array) $tag as $shortcode ) 
-		{
-			if ( has_shortcode( $content, $shortcode ) ) 
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
 function theme_is_localhost()
 {
 	$whitelist = array
@@ -76,9 +38,6 @@ function theme_esc_attr( $attribute )
 	return $str;
 }
 
-/**
- * Sort order
- */
 function theme_sort_order( $a, $b )
 {
     if ( $a['order'] == $b['order'] ) 

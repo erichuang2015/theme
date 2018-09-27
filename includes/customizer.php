@@ -17,7 +17,10 @@ function theme_customizer_init( $wp_customize )
 
 	// Dark
 
-	$wp_customize->add_setting( 'site_logo_dark' );
+	$wp_customize->add_setting( 'site_logo_dark', array
+	(
+		'sanitize_callback' => 'esc_url',
+	));
 
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'site_logo_dark', array
 	(
@@ -28,7 +31,10 @@ function theme_customizer_init( $wp_customize )
 
 	// Dark (compact)
 
-	$wp_customize->add_setting( 'site_logo_dark_small' );
+	$wp_customize->add_setting( 'site_logo_dark_small', array
+	(
+		'sanitize_callback' => 'esc_url',
+	));
 
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'site_logo_dark_small', array
 	(
@@ -39,7 +45,10 @@ function theme_customizer_init( $wp_customize )
 
 	// Light
 
-	$wp_customize->add_setting( 'site_logo_light' );
+	$wp_customize->add_setting( 'site_logo_light', array
+	(
+		'sanitize_callback' => 'esc_url',
+	));
 
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'site_logo_light', array
 	(
@@ -50,7 +59,10 @@ function theme_customizer_init( $wp_customize )
 
 	// Light (compact)
 
-	$wp_customize->add_setting( 'site_logo_light_small' );
+	$wp_customize->add_setting( 'site_logo_light_small', array
+	(
+		'sanitize_callback' => 'esc_url',
+	));
 
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'site_logo_light_small', array
 	(

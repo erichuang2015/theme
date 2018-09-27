@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Theme\n"
-"POT-Creation-Date: 2018-09-21 12:11+0200\n"
-"PO-Revision-Date: 2018-09-21 10:49+0200\n"
+"POT-Creation-Date: 2018-09-27 16:22+0200\n"
+"PO-Revision-Date: 2018-09-27 16:22+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,11 +46,11 @@ msgstr[1] ""
 msgid "Reply"
 msgstr ""
 
-#: comments.php:62 includes/template-tags.php:337
+#: comments.php:62 includes/template-tags.php:339
 msgid "Previous"
 msgstr ""
 
-#: comments.php:63 includes/template-tags.php:342
+#: comments.php:63 includes/template-tags.php:344
 msgid "Next"
 msgstr ""
 
@@ -58,181 +58,189 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: functions.php:32
+#: functions.php:43
 msgid "Top Menu"
 msgstr ""
 
-#: functions.php:33
+#: functions.php:44
 msgid "Main Menu"
 msgstr ""
 
-#: functions.php:34
+#: functions.php:45
 msgid "Bottom Menu"
 msgstr ""
 
-#: functions.php:104 sidebar.php:14
+#: functions.php:121 sidebar.php:14
 msgid "Primary Sidebar"
 msgstr ""
 
-#: functions.php:105
+#: functions.php:122
 msgid "Section on the left side."
 msgstr ""
 
-#: functions.php:116 sidebar-content.php:14
+#: functions.php:133 sidebar-content.php:14
 msgid "Content Sidebar"
 msgstr ""
 
-#: functions.php:117
+#: functions.php:134
 msgid "Section on the right side."
 msgstr ""
 
-#: functions.php:130
+#: functions.php:147
 msgid "first"
 msgstr ""
 
-#: functions.php:131
+#: functions.php:148
 msgid "second"
 msgstr ""
 
-#: functions.php:132
+#: functions.php:149
 msgid "thirth"
 msgstr ""
 
-#: functions.php:133
+#: functions.php:150
 msgid "fourth"
 msgstr ""
 
-#: functions.php:134
+#: functions.php:151
 msgid "fifth"
 msgstr ""
 
-#: functions.php:135
+#: functions.php:152
 msgid "sixth"
 msgstr ""
 
-#: functions.php:136
+#: functions.php:153
 msgid "seventh"
 msgstr ""
 
-#: functions.php:137
+#: functions.php:154
 msgid "eighth"
 msgstr ""
 
-#: functions.php:138
+#: functions.php:155
 msgid "ninth"
 msgstr ""
 
-#: functions.php:146
+#: functions.php:162
+msgid "Footer"
+msgstr ""
+
+#: functions.php:163
+msgid "Footer section."
+msgstr ""
+
+#: functions.php:168
 #, php-format
 msgid "Footer Column %d"
 msgstr ""
 
-#: functions.php:147
+#: functions.php:169
 #, php-format
 msgid "%s column in footer section."
 msgstr ""
 
-#: includes/customizer.php:24
+#: includes/customizer.php:27
 msgid "Site Logo (dark)"
 msgstr ""
 
-#: includes/customizer.php:25
+#: includes/customizer.php:28
 msgid "Used on light backgrounds."
 msgstr ""
 
-#: includes/customizer.php:35
+#: includes/customizer.php:41
 msgid "Site Logo (dark, compact)"
 msgstr ""
 
-#: includes/customizer.php:36
+#: includes/customizer.php:42
 msgid "Compact version for use on light backgrounds. (optional)"
 msgstr ""
 
-#: includes/customizer.php:46
+#: includes/customizer.php:55
 msgid "Site Logo (light)"
 msgstr ""
 
-#: includes/customizer.php:47
+#: includes/customizer.php:56
 msgid "Used on dark backgrounds."
 msgstr ""
 
-#: includes/customizer.php:57
+#: includes/customizer.php:69
 msgid "Site Logo (light, compact)"
 msgstr ""
 
-#: includes/customizer.php:58
+#: includes/customizer.php:70
 msgid "Compact version for use on dark backgrounds. (optional)"
 msgstr ""
 
-#: includes/mce.php:26
+#: includes/mce.php:15
 msgid "Primary"
 msgstr ""
 
-#: includes/mce.php:27
+#: includes/mce.php:16
 msgid "Secondary"
 msgstr ""
 
-#: includes/mce.php:32 includes/mce.php:95
+#: includes/mce.php:21 includes/mce.php:84
 msgid "Light"
 msgstr ""
 
-#: includes/mce.php:33
+#: includes/mce.php:22
 msgid "Dark"
 msgstr ""
 
-#: includes/mce.php:34
+#: includes/mce.php:23
 msgid "Body"
 msgstr ""
 
-#: includes/mce.php:35
+#: includes/mce.php:24
 msgid "Muted"
 msgstr ""
 
-#: includes/mce.php:36 includes/mce.php:38
+#: includes/mce.php:25 includes/mce.php:27
 msgid "White"
 msgstr ""
 
-#: includes/mce.php:37
+#: includes/mce.php:26
 msgid "Black"
 msgstr ""
 
-#: includes/mce.php:63
+#: includes/mce.php:52
 msgid "Size"
 msgstr ""
 
-#: includes/mce.php:69
+#: includes/mce.php:58
 msgid "Large"
 msgstr ""
 
-#: includes/mce.php:78
+#: includes/mce.php:67
 msgid "Small"
 msgstr ""
 
-#: includes/mce.php:89
+#: includes/mce.php:78
 msgid "Weight"
 msgstr ""
 
-#: includes/mce.php:104
+#: includes/mce.php:93
 msgid "Normal"
 msgstr ""
 
-#: includes/mce.php:113
+#: includes/mce.php:102
 msgid "Bold"
 msgstr ""
 
-#: includes/mce.php:124
+#: includes/mce.php:113
 msgid "Font Family"
 msgstr ""
 
-#: includes/mce.php:130
+#: includes/mce.php:119
 msgid "Serif"
 msgstr ""
 
-#: includes/mce.php:139
+#: includes/mce.php:128
 msgid "Sans Serif"
 msgstr ""
 
-#: includes/mce.php:150
+#: includes/mce.php:139
 msgid "Colors"
 msgstr ""
 
@@ -245,103 +253,107 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-#: includes/post-loader.php:157
+#: includes/post-loader.php:235
 #, php-format
-msgid "No %s found that match the chosen search criteria."
+msgid "No %s found."
 msgstr ""
 
-#: includes/post-loader.php:162
+#: includes/post-loader.php:243
 #, php-format
-msgid "No %s available."
+msgid "No %s or %s found."
 msgstr ""
 
-#: includes/sections.php:18
+#: includes/post-loader.php:250
+msgid "No items found."
+msgstr ""
+
+#: includes/sections.php:14
 msgctxt "post type general name"
 msgid "Sections"
 msgstr ""
 
-#: includes/sections.php:19
+#: includes/sections.php:15
 msgctxt "post type singular name"
 msgid "Section"
 msgstr ""
 
-#: includes/sections.php:20
+#: includes/sections.php:16
 msgctxt "admin menu"
 msgid "Sections"
 msgstr ""
 
-#: includes/sections.php:21
+#: includes/sections.php:17
 msgctxt "add new on admin bar"
 msgid "Section"
 msgstr ""
 
-#: includes/sections.php:22
+#: includes/sections.php:18
 msgctxt "section"
 msgid "Add New"
 msgstr ""
 
-#: includes/sections.php:23
+#: includes/sections.php:19
 msgid "Add New Section"
 msgstr ""
 
-#: includes/sections.php:24
+#: includes/sections.php:20
 msgid "New Section"
 msgstr ""
 
-#: includes/sections.php:25
+#: includes/sections.php:21
 msgid "Edit Section"
 msgstr ""
 
-#: includes/sections.php:26
+#: includes/sections.php:22
 msgid "View Section"
 msgstr ""
 
-#: includes/sections.php:27
+#: includes/sections.php:23
 msgid "All Sections"
 msgstr ""
 
-#: includes/sections.php:28
+#: includes/sections.php:24
 msgid "Search Sections"
 msgstr ""
 
-#: includes/sections.php:29
+#: includes/sections.php:25
 msgid "Parent Sections:"
 msgstr ""
 
-#: includes/sections.php:30 includes/widgets/section.php:63
+#: includes/sections.php:26 includes/widgets/section.php:63
 msgid "No sections found."
 msgstr ""
 
-#: includes/sections.php:31
+#: includes/sections.php:27
 msgid "No sections found in Trash."
 msgstr ""
 
-#: includes/sections.php:33
+#: includes/sections.php:29
 msgid "Description."
 msgstr ""
 
-#: includes/template-tags.php:15 includes/template-tags.php:91
+#: includes/template-tags.php:17 includes/template-tags.php:93
 msgid "Previous page"
 msgstr ""
 
-#: includes/template-tags.php:16 includes/template-tags.php:92
+#: includes/template-tags.php:18 includes/template-tags.php:94
 msgid "Next page"
 msgstr ""
 
-#: includes/template-tags.php:64
+#: includes/template-tags.php:66
 msgid "(current)"
 msgstr ""
 
-#: includes/template-tags.php:93
+#: includes/template-tags.php:95
 msgid "Page"
 msgstr ""
 
-#: includes/template-tags.php:112
+#: includes/template-tags.php:114
 #, php-format
 msgid "by %s"
 msgstr ""
 
-#: includes/template-tags.php:145
+#: includes/template-tags.php:147
 #, php-format
 msgid "<span class=\"sr-only\">Posted on</span> %s"
 msgstr ""
@@ -401,7 +413,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: template-parts/card.php:21
+#: template-parts/card.php:22
 msgid "Read More"
 msgstr ""
 
@@ -425,7 +437,7 @@ msgstr ""
 msgid "Continue reading"
 msgstr ""
 
-#: template-parts/layout-modal.php:23
+#: template-parts/flexible-content/modal.php:23
 msgid "Close"
 msgstr ""
 

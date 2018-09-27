@@ -3,123 +3,6 @@
  * Template Tags
  */
 
-function theme_list_posts( $query_args, $args = array() )
-{
-	/**
-	 * Arguments
-	 */
-
-	$defaults = array
-	(
-		'before'           => '',
-		'before_posts'     => '',
-		'before_post'      => '',
-		'post_template'    => 'template-parts/card.php',
-		'after_post'       => '',
-		'after_posts'      => '',
-		'before_not_found' => '',
-		'not_found'        => null, // Set `null` to generate default message.
-		'after_not_found'  => '',
-		'after'            => '',
-	);
-
-	$args = wp_parse_args( $args, $defaults );
-
-	/**
-	 * WP Query
-	 */
-
-	$query = new WP_Query( $query_args );
-
-	/**
-	 * Output
-	 */
-
-	echo $args['before'];
-
-	// Posts found
-	if ( $query->have_posts() ) 
-	{
-		echo $args['before_posts'];
-
-		// The Loop
-		while ( $query->have_posts() ) 
-		{
-			$query->the_post();
-
-			echo $args['before_post'];
-
-			// Include post template
-			locate_template( $args['post_template'], true, false );
-
-			echo $args['after_post'];
-		}
-
-		echo $args['after_posts'];
-
-		// Reset
-		wp_reset_postdata();
-	}
-
-	// No posts found
-	else
-	{
-		if ( is_null( $args['not_found'] ) ) 
-		{
-			theme_no_posts_found_message( $query, $args['before_not_found'], $args['after_not_found'] );
-		}
-
-		else if ( $args['not_found'] )
-		{
-			echo $args['before_not_found'] . $args['not_found'] . $args['after_not_found'];
-		}
-	}
-
-	echo $args['after'];
-}
-
-function theme_no_posts_found_message( $query, $before = '', $after = '' )
-{
-	$post_types = array();
-
-	if ( $query->get( 'post_type' ) ) 
-	{
-		foreach ( (array) $query->get( 'post_type' ) as $post_type ) 
-		{
-			$post_type = get_post_type_object( $post_type );
-
-			if ( $post_type ) 
-			{
-				$post_types[ $post_type->name ] = strtolower( $post_type->labels->name );
-			}
-		}
-	}
-
-	if ( $post_types ) 
-	{
-		if ( count( $post_types ) > 1 ) 
-		{
-			$post_types = array_values( $post_types );
-
-			$last = array_pop( $post_types );
-
-			$message = sprintf( __( 'No %s or %s found.', 'theme' ), implode( ', ', $post_types ), $last );
-		}
-
-		else
-		{
-			$message = sprintf( __( 'No %s found.', 'theme' ), implode( ', ', $post_types ) );
-		}
-	}
-
-	else
-	{
-		$message = __( 'No items found.', 'theme' );
-	}
-
-	echo $before . $message . $after;
-}
-
 if ( ! function_exists( 'theme_posts_ajax_pagination' ) ) :
 /**
  * The Posts Ajax Pagination
@@ -130,7 +13,7 @@ function theme_posts_ajax_pagination( $wp_query, $args = array() )
 
 	$defaults = array
 	(
-		'mid_size'  => 1,
+		'mid_size'  => 2,
 		'prev_text' => sprintf( '%2$s<span class="sr-only">%1$s</span>', __( 'Previous page', 'theme' ), theme_get_icon( 'arrow-left' ) ),
 		'next_text' => sprintf( '<span class="sr-only">%1$s</span>%2$s', __( 'Next page', 'theme' ), theme_get_icon( 'arrow-right' ) ),
 	);
