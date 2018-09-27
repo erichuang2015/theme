@@ -1,6 +1,6 @@
 <?php 
 
-namespace Theme\Core;
+namespace Theme\Core\PostLoader;
 
 class PostLoader
 {
@@ -46,6 +46,8 @@ class PostLoader
 
 	/**
 	 * Render
+	 *
+	 * Render the Post Loader.
 	 */
 	public function render()
 	{
@@ -62,6 +64,8 @@ class PostLoader
 
 	/**
 	 * Inside
+	 *
+	 * Render the main elements.
 	 */
 	public function inside()
 	{
@@ -79,6 +83,8 @@ class PostLoader
 
 	/**
 	 * Settings Fields
+	 *
+	 * Render required fields for use inside the form.
 	 */
 	public function settings_fields()
 	{
@@ -95,6 +101,8 @@ class PostLoader
 
 	/**
 	 * Form
+	 *
+	 * Render the form.
 	 */
 	public function form()
 	{
@@ -113,6 +121,8 @@ class PostLoader
 
 	/**
 	 * Content
+	 *
+	 * Render the main content.
 	 */
 	public function content()
 	{
@@ -127,6 +137,12 @@ class PostLoader
 
 	/**
 	 * Result
+	 *
+	 * Create WP Query object and output the posts.
+	 *
+	 * Note: The $query argument needs to be set inside this method.
+	 *
+	 * @param WP_Query $query
 	 */
 	public function result( &$query = null )
 	{
@@ -179,6 +195,10 @@ class PostLoader
 
 	/**
 	 * List Posts
+	 *
+	 * Shorthand method for rendering posts dynamically.
+	 *
+	 * @param WP_Query $query
 	 */
 	public function list_posts( $query )
 	{
@@ -214,6 +234,12 @@ class PostLoader
 
 	/**
 	 * No Posts Message
+	 *
+	 * Outputs a not-found message based on the post type.
+	 *
+	 * @param WP_Query $query
+	 * @param String   $before The content before the message.
+	 * @param String   $after  The content after the message.
 	 */
 	public function no_posts_message( $query, $before = '', $after = '' )
 	{
@@ -223,14 +249,22 @@ class PostLoader
 			return;
 		}
 
+		/**
+		 * Get post type name
+		 */
+
 		$post_types = array();
 
+		// Check post type
 		if ( $query->get( 'post_type' ) ) 
 		{
+			// Loop post types
 			foreach ( (array) $query->get( 'post_type' ) as $post_type ) 
 			{
+				// Get object
 				$post_type = get_post_type_object( $post_type );
 
+				// Store post type name
 				if ( $post_type ) 
 				{
 					$post_types[ $post_type->name ] = strtolower( $post_type->labels->name );
@@ -240,13 +274,20 @@ class PostLoader
 			$post_types = array_values( $post_types );
 		}
 
+		/**
+		 * Message
+		 */
+
+		// Check post types
 		if ( $post_types ) 
 		{
+			// One post type
 			if ( count( $post_types ) == 1 ) 
 			{
 				$message = sprintf( __( 'No %s found.', 'theme' ), $post_types[0] );
 			}
 
+			// Multiple post types
 			else
 			{
 				$last = array_pop( $post_types );
@@ -257,14 +298,18 @@ class PostLoader
 
 		else
 		{
+			// No post types
 			$message = __( 'No items found.', 'theme' );
 		}
 
+		// Output
 		echo $before . $message . $after;
 	}
 
 	/**
 	 * Pagination
+	 *
+	 * @param WP_Query $query
 	 */
 	public function pagination( $query )
 	{
@@ -273,6 +318,8 @@ class PostLoader
 
 	/**
 	 * Process
+	 *
+	 * Ajax handler
 	 */
 	public function process()
 	{
