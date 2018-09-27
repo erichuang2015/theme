@@ -7,7 +7,7 @@
 require_once get_theme_file_path( 'includes/constants.php' );
 
 // Autoloader
-require_once get_theme_file_path( 'includes/autoload.php' );
+require_once get_parent_theme_file_path( 'includes/autoload.php' );
 
 // Common helper functions
 require_once get_parent_theme_file_path( 'includes/common.php' );
@@ -20,6 +20,14 @@ function theme_setup()
 	// Make theme available for translation.
 	load_theme_textdomain( 'theme', get_template_directory() . '/languages' );
 
+	/*
+	 * Let WordPress manage the document title.
+	 * By adding theme support, we declare that this theme does not use a
+	 * hard-coded <title> tag in the document head, and expect WordPress to
+	 * provide it for us.
+	 */
+	add_theme_support( 'title-tag' );
+	
 	// This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 'assets/css/editor-style.min.css' ) );
 
@@ -42,6 +50,9 @@ function theme_setup()
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 
+	add_theme_support( 'theme-options-page' );
+	add_theme_support( 'theme-main-visuals' );
+	add_theme_support( 'theme-flexible-content' );
 	add_theme_support( 'theme-post-loader' );
 
 	// Custom image sizes
@@ -61,7 +72,31 @@ function theme_support_init()
 		require_once get_parent_theme_file_path( 'includes/options-page.php' );
 	}
 
-	// Options Page
+	// Flexible Content
+	if ( current_theme_supports( 'theme-flexible-content' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/flexible-content.php' );
+	}
+
+	// Main Visuals
+	if ( current_theme_supports( 'theme-main-visuals' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/main-visuals.php' );
+	}
+
+	// Sections
+	if ( current_theme_supports( 'theme-sections' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/sections.php' );
+	}
+
+	// Breadcrumbs
+	if ( current_theme_supports( 'theme-breadcrumbs' ) ) 
+	{
+		require_once get_parent_theme_file_path( 'includes/breadcrumbs.php' );
+	}
+
+	// Post Loader
 	if ( current_theme_supports( 'theme-post-loader' ) ) 
 	{
 		require_once get_parent_theme_file_path( 'includes/post-loader.php' );

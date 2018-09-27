@@ -49,21 +49,34 @@ endif; // theme_is_full_width
  * @return array
  */
 function theme_body_class( $classes )
-{
-	// Browser and device Info
-	
-	global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+{	
+	/**
+	 * Browser
+	 *
+	 * @link https://codex.wordpress.org/Global_Variables
+	 */
 
-	    if ( $is_lynx )     $classes[] = 'browser-lynx';
-	elseif ( $is_gecko ) 	$classes[] = 'browser-gecko';
-	elseif ( $is_opera ) 	$classes[] = 'browser-opera';
-	elseif ( $is_NS4 ) 		$classes[] = 'browser-ns4';
-	elseif ( $is_safari ) 	$classes[] = 'browser-safari';
-	elseif ( $is_chrome ) 	$classes[] = 'browser-chrome';
-	elseif ( $is_IE ) 		$classes[] = 'browser-ie';
-	else 					$classes[] = 'browser-unknown';
+	global $is_iphone, $is_chrome, $is_safari, $is_NS4, $is_opera, $is_macIE, $is_winIE, $is_gecko, $is_lynx, $is_IE, $is_edge;
 
-	if ( $is_iphone ) $classes[] = 'iphone';
+	$browsers = array
+	(
+		'iphone' => $is_iphone,
+		'chrome' => $is_chrome,
+		'safari' => $is_safari,
+		'ns4'    => $is_NS4,
+		'opera'  => $is_opera,
+		'mac-ie' => $is_macIE,
+		'win-ie' => $is_winIE,
+		'gecko'  => $is_gecko,
+		'lynx'   => $is_lynx,
+		'ie'     => $is_IE,
+		'edge'   => $is_edge,
+	);
+
+	foreach ( array_filter( $browsers ) as $browser => $value ) 
+	{
+		 $classes[] = "browser-$browser";
+	}
 
 	//
 

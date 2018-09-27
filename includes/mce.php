@@ -49,13 +49,13 @@ function theme_tiny_mce_before_init( $init_array )
     	// Size
     	'size' => array
     	(
-    		'title' => __( 'Size' ),
+    		'title' => __( 'Size', 'theme' ),
 			'items' => array
 			(
 				// Lead
 				'lead' => array
 		        (  
-					'title'   => __( 'Large' ),  
+					'title'   => __( 'Large', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'lead',
 					'wrapper' => true,
@@ -64,7 +64,7 @@ function theme_tiny_mce_before_init( $init_array )
 		        // Small
 		        'small' => array
 		        (  
-					'title'   => __( 'Small' ),  
+					'title'   => __( 'Small', 'theme' ),  
 					'inline'  => 'small',  
 					'classes' => '',
 					'wrapper' => true,
@@ -75,13 +75,13 @@ function theme_tiny_mce_before_init( $init_array )
     	// Weight
     	'weight' => array
     	(
-    		'title' => __( 'Weight' ),
+    		'title' => __( 'Weight', 'theme' ),
 			'items' => array
 			(
 				// Light
 		        'light' => array
 		        (  
-					'title'   => __( 'Light' ),  
+					'title'   => __( 'Light', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'font-weight-light',
 					'wrapper' => true,
@@ -90,7 +90,7 @@ function theme_tiny_mce_before_init( $init_array )
 		        // Normal
 		        'normal' => array
 		        (  
-					'title'   => __( 'Normal' ),  
+					'title'   => __( 'Normal', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'font-weight-normal',
 					'wrapper' => true,
@@ -99,7 +99,7 @@ function theme_tiny_mce_before_init( $init_array )
 		        // Bold
 		        'bold' => array
 		        (  
-					'title'   => __( 'Bold' ),  
+					'title'   => __( 'Bold', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'font-weight-bold',
 					'wrapper' => true,
@@ -110,13 +110,13 @@ function theme_tiny_mce_before_init( $init_array )
     	// Font Family
     	'font_family' => array
     	(
-    		'title' => __( 'Font Family' ),
+    		'title' => __( 'Font Family', 'theme' ),
 			'items' => array
 			(
 				// Serif
 		        'serif' => array
 		        (  
-					'title'   => __( 'Serif' ),  
+					'title'   => __( 'Serif', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'font-family-serif',
 					'wrapper' => true,
@@ -125,7 +125,7 @@ function theme_tiny_mce_before_init( $init_array )
 		        // Sans Serif
 		        'sans-serif' => array
 		        (  
-					'title'   => __( 'Sans Serif' ),  
+					'title'   => __( 'Sans Serif', 'theme' ),  
 					'inline'  => 'span',  
 					'classes' => 'font-family-sans-serif',
 					'wrapper' => true,
@@ -136,7 +136,7 @@ function theme_tiny_mce_before_init( $init_array )
         // Colors
         'colors' => array
         (
-			'title' => __( 'Colors' ),
+			'title' => __( 'Colors', 'theme' ),
 			'items' => $color_items,
 		),
     ));

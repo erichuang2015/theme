@@ -49,7 +49,7 @@
 		$( 'html' ).removeClass( 'no-svg' ).addClass( 'svg' );
 	}
 
-	$( document ).on( 'ready', function( event )
+	$( document ).on( 'ready', function()
 	{
 		// Toggle javascript related elements
 		$( '.hide-if-js' ).hide();

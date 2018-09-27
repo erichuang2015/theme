@@ -8,7 +8,11 @@
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'card' ); ?>>
 
-	<?php the_post_thumbnail( 'large', array( 'class' => 'card-img-top' ) ); ?>
+	<?php if ( has_post_thumbnail() ) : ?>
+	<div class="cover-image cover-image-4by3">
+		<?php the_post_thumbnail( 'large', array( 'class' => 'card-img-top' ) ); ?>
+	</div>
+	<?php endif; ?>
 
 	<div class="card-body">
 		

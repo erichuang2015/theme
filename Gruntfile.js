@@ -46,6 +46,7 @@ module.exports = function(grunt) {
       theme: {
         src: [
           'src/js/utilities.js',
+          'src/js/cover-image.js',
           'src/js/scroll-to.js',
           'src/js/navbar.js',
           'src/js/post-loader.js',
