@@ -2,7 +2,7 @@
 
 namespace Theme\Component\PostLoader;
 
-class Sample extends \Theme\Core\PostLoader
+class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 {
 	public function __construct()
 	{
@@ -13,12 +13,13 @@ class Sample extends \Theme\Core\PostLoader
 			'post_template' => 'template-parts/card.php',
 			'after_post'    => '</div>',
 			'after_posts'   => '</div>',
-			'query_args' => 'post_type=page',
 		));
 	}
 
 	public function inside()
 	{
+		// Create grid
+
 		?>
 
 		<div class="row">
@@ -38,6 +39,8 @@ class Sample extends \Theme\Core\PostLoader
 
 	public function form()
 	{
+		// Create term filter
+
 		$terms = get_terms( array
 		(
 			'taxonomy'   => 'category',
@@ -83,6 +86,8 @@ class Sample extends \Theme\Core\PostLoader
 			'paged'       => $paged,
 		);
 
+		// Apply term filter
+
 		if ( $terms ) 
 		{
 			$query_args['tax_query'][] = array
@@ -94,6 +99,8 @@ class Sample extends \Theme\Core\PostLoader
 			);
 		}
 
+		//
+		
 		$query = new \WP_Query( $query_args );
 
 		/**

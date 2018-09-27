@@ -4,90 +4,84 @@
  *
  * Render posts via ajax.
  *
+ * dependency: /src/js/post-loader.js
+ *
  * @link https://github.com/mmaarten/theme/wiki/Post-Loader
  */
-
-$theme_post_loaders = array();
 
 /**
  * Init
  */
 function theme_post_loader_init()
 {
-	theme_register_post_loader( 'Theme\Component\PostLoader\Sample' );
+	// Registers Sample
+	theme_register_post_loader( 'Theme\Component\PostLoader\SamplePostLoader' );
 }
 
 add_action( 'init', 'theme_post_loader_init' );
 
 /**
- * Create
+ * Create Post Loader
  */
 function theme_create_post_loader( $id, $args = array() )
 {
-	$loader = new Theme\Core\PostLoader( $id, $args );
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
 
-	theme_register_post_loader( $loader );
-
-	return $loader;
+	return $manager->create_loader( $id, $args );
 }
 
 /**
- * Register
+ * Register Post Loader
  */
 function theme_register_post_loader( $loader )
 {
-	global $theme_post_loaders;
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
 
-	if ( ! $loader instanceof Theme\Core\PostLoader ) 
-	{
-		$loader = new $loader();
-	}
-
-	$theme_post_loaders[ $loader->id ] = $loader;
+	$manager->register_loader( $loader );
 }
 
 /**
- * Unregister
+ * Unregister Post Loader
  */
 function theme_unregister_post_loader( $loader_id )
 {
-	global $theme_post_loaders;
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
 
-	unset( $theme_post_loaders[ $loader_id ] );
+	$manager->unregister_loader( $loader_id );
 }
 
 /**
- * Get
+ * Get Post Loaders
+ */
+function theme_get_post_loaders( $loader_id )
+{
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
+
+	return $manager->get_loaders( $loader_id );
+}
+
+/**
+ * Get Post Loader
  */
 function theme_get_post_loader( $loader_id )
 {
-	global $theme_post_loaders;
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
 
-	if ( isset( $theme_post_loaders[ $loader_id ] ) ) 
-	{
-		return $theme_post_loaders[ $loader_id ];
-	}
-
-	return null;
+	return $manager->get_loader( $loader_id );
 }
 
 /**
- * Render
+ * Render Post Loader
  */
 function theme_post_loader( $loader_id )
 {
-	$loader = theme_get_post_loader( $loader_id );
+	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
 
-	if ( ! $loader ) 
-	{
-		$loader = theme_create_post_loader( $loader_id );
-	}
-
-	$loader->render();
+	$manager->render_loader( $loader_id );
 }
 
 /**
- * Shortcode
+ *  Post Loader Shortcode
  */
 function theme_post_loader_shortcode( $atts, $content, $tag )
 {
