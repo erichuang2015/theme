@@ -47,6 +47,17 @@
 		this.$elem.on( 'change', 'input[type="checkbox"], input[type="radio"]', function( event )
 		{
 			// Update label active class
+			
+			if ( $( this ).prop( 'type' ) == 'radio' ) 
+			{
+				var $radio = $( this );
+
+				_this.$elem.find( 'input[type="radio"]' ).filter( function()
+				{
+					return $( this ).prop( 'name' ) == $radio.prop( 'name' );
+
+				}).closest( 'label' ).removeClass( 'active' );
+			}
 
 			var $label = $( this ).closest( 'label' );
 
