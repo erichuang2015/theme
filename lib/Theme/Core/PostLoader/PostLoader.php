@@ -2,15 +2,20 @@
 
 namespace Theme\Core\PostLoader;
 
+/**
+ * Post Loader
+ */
 class PostLoader
 {
+	const ACTION_RESULT = 'post_loader';
+
 	public $id = null;
 
 	public function __construct( $id )
 	{
 		$this->id = $id;
 
-		add_action( 'wp_ajax_theme_post_loader_process'       , array( $this, 'process' ) );
+		add_action( 'wp_ajax_theme_post_loader_process'		  , array( $this, 'process' ) );
 		add_action( 'wp_ajax_nopriv_theme_post_loader_process', array( $this, 'process' ) );
 	}
 
@@ -23,7 +28,7 @@ class PostLoader
 
 		?>
 
-		<div id="<?php echo esc_attr( $html_id ); ?>" class="post-loader">
+		<div id="<?php echo esc_attr( $html_id ) ?>" class="post-loader">
 			<?php $this->inside(); ?>
 		</div>
 
@@ -35,31 +40,8 @@ class PostLoader
 	 */
 	public function inside()
 	{
-		if ( has_action( "theme_post_loader_inside/loader={$this->id}" ) ) 
-		{
-			do_action( "theme_post_loader_inside/loader={$this->id}", $this );
-
-			return;
-		}
-
 		$this->form();
 		$this->content();
-	}
-
-	/**
-	 * Settings Fields
-	 */
-	public function settings_fields()
-	{
-		wp_nonce_field( 'post_loader', THEME_NONCE_NAME );
-
-		?>
-			
-		<input type="hidden" name="action" value="theme_post_loader_process">
-		<input type="hidden" name="loader" value="<?php echo esc_attr( $this->id ); ?>">
-		<input type="hidden" name="paged" value="1">
-
-		<?php
 	}
 
 	/**
@@ -67,23 +49,10 @@ class PostLoader
 	 */
 	public function form()
 	{
-		// Custom
-
-		if ( has_action( "theme_post_loader_form/loader={$this->id}" ) ) 
-		{
-			do_action( "theme_post_loader_form/loader={$this->id}", $this );
-
-			return;
-		}
-
-		// Built-in
-
 		?>
 
 		<form class="post-loader-form" method="post">
-
 			<?php $this->settings_fields(); ?>
-
 		</form>
 
 		<?php
@@ -125,34 +94,35 @@ class PostLoader
 			'paged'       => $paged,
 		);
 
-		$query_args = apply_filters( "theme_post_loader_query_args/loader={$this->id}", $query_args, $this );
-
-		// Define $query
+		// Set $query argument (required).
 		$query = new \WP_Query( $query_args );
 
 		/**
 		 * Output
 		 */
 
-		// Custom
-
-		if ( has_action( "theme_post_loader_result/loader={$this->id}" ) ) 
-		{
-			do_action( "theme_post_loader_result/loader={$this->id}", $query, $this );
-
-			return;
-		}
-
-		// Built-in
-
+		// Posts found
 		if ( $query->have_posts() ) 
 		{
-			$this->list_posts( $query );
+			// List posts
+			theme_list_posts( $query, array
+			(
+				'before_posts'  => '',
+				'before_post'   => '',
+				'post_template' => 'template-parts/card.php',
+				'after_post'    => '',
+				'after_posts'   => '',
+			));
+
+			// Pagination
+			theme_posts_ajax_pagination( $query );
 		}
 
+		// No posts
 		else
 		{
-			$this->no_posts_message( $query, '<div class="alert alert-warning">', '</div>' );
+			// Output message
+			theme_no_posts_message( $query, '<div class="alert alert-warning">', '</div>' );
 		}
 	}
 
@@ -168,7 +138,7 @@ class PostLoader
 		}
 
 		// Check referer
-		check_ajax_referer( 'post_loader', THEME_NONCE_NAME );
+		check_ajax_referer( self::ACTION_RESULT, THEME_NONCE_NAME );
 
 		// Check loader
 		if ( $this->id != $_POST['loader'] ) 
@@ -176,8 +146,7 @@ class PostLoader
 			return;
 		}
 
-		// Get result and WP Query object
-
+		// Get result and WP Query object.
 		ob_start();
 
 		$this->result( $query );
@@ -196,121 +165,18 @@ class PostLoader
 	}
 
 	/**
-	 * List Posts
+	 * Settings Fields
 	 */
-	public function list_posts( $query, $args = array() )
+	public function settings_fields()
 	{
-		$defaults = array
-		(
-			'before_posts'  => '',
-			'before_post'   => '',
-			'post_template' => 'template-parts/card.php',
-			'after_post'    => '',
-			'after_posts'   => '',
-		);
+		wp_nonce_field( self::ACTION_RESULT, THEME_NONCE_NAME );
 
-		$args = wp_parse_args( $args, $defaults );
+		?>
 
-		// Check posts
-		if ( ! $query->have_posts() ) 
-		{
-			return;
-		}
+		<input type="hidden" name="action" value="theme_post_loader_process">
+		<input type="hidden" name="loader" value="<?php echo esc_attr( $this->id ); ?>">
+		<input type="hidden" name="paged" value="1">
 
-		echo $args['before_posts'];
-
-		// The Loop
-		while ( $query->have_posts() ) 
-		{
-			$query->the_post();
-
-			echo $args['before_post'];
-
-			// Include post template
-			locate_template( $args['post_template'], true, false );
-
-			echo $args['after_post'];
-		}
-
-		echo $args['after_posts'];
-
-		// Pagination
-		$this->pagination( $query );
-
-		// Reset post data
-		wp_reset_postdata();
-	}
-
-	public function pagination( $query )
-	{
-		theme_posts_ajax_pagination( $query );
-	}
-
-	/**
-	 * No Posts Message
-	 */
-	public function no_posts_message( $query, $before = '', $after = '' )
-	{
-		// Check posts
-		if ( $query->have_posts() ) 
-		{
-			return;
-		}
-
-		/**
-		 * Get post type name
-		 */
-
-		$post_types = array();
-
-		// Check post type
-		if ( $query->get( 'post_type' ) ) 
-		{
-			// Loop post types
-			foreach ( (array) $query->get( 'post_type' ) as $post_type ) 
-			{
-				// Get object
-				$post_type = get_post_type_object( $post_type );
-
-				// Store post type name
-				if ( $post_type ) 
-				{
-					$post_types[ $post_type->name ] = strtolower( $post_type->labels->name );
-				}
-			}
-
-			$post_types = array_values( $post_types );
-		}
-
-		/**
-		 * Message
-		 */
-
-		// Check post types
-		if ( $post_types ) 
-		{
-			// One post type
-			if ( count( $post_types ) == 1 ) 
-			{
-				$message = sprintf( __( 'No %s found.', 'theme' ), $post_types[0] );
-			}
-
-			// Multiple post types
-			else
-			{
-				$last = array_pop( $post_types );
-
-				$message = sprintf( __( 'No %s or %s found.', 'theme' ), implode( ', ', $post_types ), $last );
-			}
-		}
-
-		else
-		{
-			// No post types
-			$message = __( 'No items found.', 'theme' );
-		}
-
-		// Output
-		echo $before . $message . $after;
+		<?php
 	}
 }
