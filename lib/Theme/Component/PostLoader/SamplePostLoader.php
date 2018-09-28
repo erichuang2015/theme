@@ -6,16 +6,12 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 {
 	public function __construct()
 	{
-		parent::__construct( 'sample', array
-		(
-			'before_posts'  => '<div class="row">',
-			'before_post'   => '<div class="col-md-4">',
-			'post_template' => 'template-parts/card.php',
-			'after_post'    => '</div>',
-			'after_posts'   => '</div>',
-		));
+		parent::__construct( 'sample');
 	}
 
+	/**
+	 * Inside
+	 */
 	public function inside()
 	{
 		// Create grid
@@ -37,6 +33,9 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 		<?php
 	}
 
+	/**
+	 * Form
+	 */
 	public function form()
 	{
 		// Create term filter
@@ -66,6 +65,9 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 		<?php
 	}
 
+	/**
+	 * Result
+	 */
 	public function result( &$query = null )
 	{
 		/**
@@ -79,6 +81,8 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 		 * WP Query
 		 */
 
+		// Before filter
+
 		$query_args = array
 		(
 			'post_type'   => 'post',
@@ -86,7 +90,9 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 			'paged'       => $paged,
 		);
 
-		// Apply term filter
+		$pre_filter_query = new \WP_Query( $query_args );
+
+		// Filter
 
 		if ( $terms ) 
 		{
@@ -99,8 +105,7 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 			);
 		}
 
-		//
-		
+		// Define $query
 		$query = new \WP_Query( $query_args );
 
 		/**
@@ -109,11 +114,47 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 
 		if ( $query->have_posts() ) 
 		{
-			$this->list_posts( $query );
+			/**
+			 * Message
+			 */
+
+			// Filter active
+
+			if ( $pre_filter_query->query_vars != $query->query_vars ) 
+			{
+				$posts = _n( 'post', 'posts', $pre_filter_query->found_posts, 'theme' );
+
+				$message = sprintf( __( 'Found %d of %d %s.', 'theme' ), $query->found_posts, $pre_filter_query->found_posts, $posts );
+			}
+
+			// Filter not active
+
+			else
+			{
+				$posts = _n( 'post', 'posts', $query->found_posts, 'theme' );
+
+				$message = sprintf( __( 'Showing %d %s.', 'theme' ), $query->found_posts, $posts );
+			}
+
+			printf( '<div class="alert alert-info">%s</div>', $message );
+
+			/**
+			 * List posts
+			 */
+
+			$this->list_posts( $query, array
+			(
+				'before_posts'  => '<div class="row">',
+				'before_post'   => '<div class="col-md-4">',
+				'post_template' => 'template-parts/card.php',
+				'after_post'    => '</div>',
+				'after_posts'   => '</div>',
+			));
 		}
 
 		else
 		{
+			// No posts message
 			$this->no_posts_message( $query, '<div class="alert alert-warning">', '</div>' );
 		}
 	}
