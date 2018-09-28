@@ -19,16 +19,6 @@ function theme_post_loader_init()
 add_action( 'init', 'theme_post_loader_init' );
 
 /**
- * Create Post Loader
- */
-function theme_create_post_loader( $id, $args = array() )
-{
-	$manager = Theme\Core\PostLoader\PostLoaderManager::get_instance();
-
-	return $manager->create_loader( $id, $args );
-}
-
-/**
  * Register Post Loader
  */
 function theme_register_post_loader( $loader )

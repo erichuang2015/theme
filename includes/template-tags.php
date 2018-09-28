@@ -3,6 +3,114 @@
  * Template Tags
  */
 
+/**
+ * No Posts message
+ */
+function theme_no_posts_message( $query, $before = '', $after = '' )
+{
+	/**
+	 * Get post type name
+	 */
+
+	$post_types = array();
+
+	if ( $query->get( 'post_type' ) ) 
+	{
+		foreach ( (array) $query->get( 'post_type' ) as $post_type ) 
+		{
+			$post_type = get_post_type_object( $post_type );
+
+			if ( $post_type ) 
+			{
+				$post_types[ $post_type->name ] = strtolower( $post_types->labels->name );
+			}
+		}
+
+		$post_types = array_values( $post_types );
+	}
+
+	/**
+	 * Message
+	 */
+
+	// One post type
+	if ( count( $post_types ) == 1 ) 
+	{
+		$message = sprintf( __( 'No %s found.', 'theme' ), $post_types[0] );
+	}
+
+	// Multiple post types
+	elseif ( count( $post_types ) > 1 )
+	{
+		$last = array_pop( $post_types );
+
+		$message = sprintf( __( 'No %s or %s found.', 'theme' ), implode( ', ', $post_types ), $last );
+	}
+
+	// No post types
+	else
+	{
+		$message = __( 'No items found.', 'theme' );
+	}
+
+	// Output
+	echo $before . $message . $after;
+}
+
+/**
+ * List Posts
+ */
+function theme_list_posts( $query, $args = array() )
+{
+	/**
+	 * Arguments
+	 */
+
+	$defaults = array
+	(
+		'before_posts'  => '',
+		'before_post'   => '',
+		'post_template' => 'template-parts/card.php',
+		'after_post'    => '',
+		'after_posts'   => '',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Check posts
+	 */
+
+	if ( ! $query->have_posts() ) 
+	{
+		return;
+	}
+
+	/**
+	 * Output
+	 */
+		
+	echo $args['before_posts'];
+
+	// The Loop
+	while ( $query->have_posts() ) 
+	{
+		$query->the_post();
+
+		echo $args['before_post'];
+
+		// Include post template.
+		locate_template( $args['post_template'], true, false );
+
+		echo $args['after_post'];
+	}
+
+	echo $args['after_posts'];
+
+	// Reset post data
+	wp_reset_postdata();
+}
+
 if ( ! function_exists( 'theme_posts_ajax_pagination' ) ) :
 /**
  * The Posts Ajax Pagination
