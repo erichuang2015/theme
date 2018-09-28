@@ -5,8 +5,6 @@
  * Render posts via ajax.
  *
  * dependency: /src/js/post-loader.js
- *
- * @link https://github.com/mmaarten/theme/wiki/Post-Loader
  */
 
 /**
@@ -14,7 +12,7 @@
  */
 function theme_post_loader_init()
 {
-	// Registers Sample
+	// Register Sample
 	theme_register_post_loader( 'Theme\Component\PostLoader\SamplePostLoader' );
 }
 
