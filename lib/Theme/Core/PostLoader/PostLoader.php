@@ -10,7 +10,7 @@ class PostLoader
 	{
 		$this->id = $id;
 
-		add_action( 'wp_ajax_theme_post_loader_process'		  , array( $this, 'process' ) );
+		add_action( 'wp_ajax_theme_post_loader_process'       , array( $this, 'process' ) );
 		add_action( 'wp_ajax_nopriv_theme_post_loader_process', array( $this, 'process' ) );
 	}
 
@@ -67,13 +67,22 @@ class PostLoader
 	 */
 	public function form()
 	{
+		// Custom
+
+		if ( has_action( "theme_post_loader_form/loader={$this->id}" ) ) 
+		{
+			do_action( "theme_post_loader_form/loader={$this->id}", $this );
+
+			return;
+		}
+
+		// Built-in
+
 		?>
 
-		<form class="post-loader" method="post">
+		<form class="post-loader-form" method="post">
 
 			<?php $this->settings_fields(); ?>
-
-			<?php do_action( "theme_post_loader_form/loader={$this->id}", $this ); ?>
 
 		</form>
 
