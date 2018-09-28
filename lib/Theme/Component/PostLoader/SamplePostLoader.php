@@ -2,35 +2,14 @@
 
 namespace Theme\Component\PostLoader;
 
+/**
+ * Post Loader
+ */
 class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 {
 	public function __construct()
 	{
-		parent::__construct( 'sample');
-	}
-
-	/**
-	 * Inside
-	 */
-	public function inside()
-	{
-		// Create grid
-
-		?>
-
-		<div class="row">
-
-			<div class="col-lg-4">
-				<?php $this->form(); ?>
-			</div>
-
-			<div class="col">
-				<?php $this->content(); ?>
-			</div>
-
-		</div>
-
-		<?php
+		parent::__construct( 'sample' );
 	}
 
 	/**
@@ -38,29 +17,41 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 	 */
 	public function form()
 	{
-		// Create term filter
-
 		$terms = get_terms( array
 		(
 			'taxonomy'   => 'category',
-			'hide_empty' => false, // test not found message
+			'hide_empty' => false, // Testing not found message
 		));
 
 		?>
 
 		<form class="post-loader-form" method="post">
 
-			<?php $this->settings_fields() ?>
+			<?php $this->settings_fields(); ?>
 
-			<?php if ( $terms ) : ?>
-			<div class="term-filter d-lg-flex flex-lg-column">
-				<?php foreach ( $terms as $term ) : ?>
-				<label class="btn btn-outline-dark btn-sm text-lg-left"><input type="checkbox" class="autoload d-none" name="terms[]" value="<?php echo esc_attr( $term->term_id ); ?>"> <?php echo esc_html( $term->name ); ?></label>
-				<?php endforeach; ?>
-			</div><!-- .term-filter -->
-			<?php endif ?>
+			<?php  
 
-		</form><!-- .post-loader-form -->
+				// Term filter
+
+				if ( $terms ) 
+				{
+					echo '<nav class="filter-nav mb-4">';
+
+					printf( '<label class="btn btn-outline-secondary btn-sm active"><input type="radio" class="autoload d-none" name="terms[]" value="" checked> %s</label> ', 
+						esc_html__( 'Show All', 'theme' ) );
+
+					foreach ( $terms as $term ) 
+					{
+						printf( '<label class="btn btn-outline-primary btn-sm"><input type="radio" class="autoload d-none" name="terms[]" value="%s"> %s</label> ', 
+							esc_attr( $term->term_id ), esc_html( $term->name ) );
+					}
+
+					echo '</nav>';
+				}
+
+			?>
+
+		</form>
 
 		<?php
 	}
@@ -81,7 +72,7 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 		 * WP Query
 		 */
 
-		// Before filter
+		$is_filter_active = false;
 
 		$query_args = array
 		(
@@ -92,7 +83,10 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 
 		$pre_filter_query = new \WP_Query( $query_args );
 
-		// Filter
+		// Apply term filter
+
+		// Remove 'Show All' empty value
+		$terms = array_filter( $terms );
 
 		if ( $terms ) 
 		{
@@ -103,46 +97,40 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 				'terms'    => array_map( 'intval', $terms ),
 				'operator' => 'IN',
 			);
+
+			$is_filter_active = true;
 		}
 
-		// Define $query
+		// Set $query argument (required).
+
 		$query = new \WP_Query( $query_args );
 
 		/**
 		 * Output
 		 */
 
+		// Posts found
 		if ( $query->have_posts() ) 
 		{
-			/**
-			 * Message
-			 */
+			// Meta data
 
-			// Filter active
-
-			if ( $pre_filter_query->query_vars != $query->query_vars ) 
+			if ( $is_filter_active ) 
 			{
-				$posts = _n( 'post', 'posts', $pre_filter_query->found_posts, 'theme' );
+				$term = get_term( $terms[0] );
 
-				$message = sprintf( __( 'Found %d of %d %s.', 'theme' ), $query->found_posts, $pre_filter_query->found_posts, $posts );
+				$message = sprintf( '<strong>%s</strong> - ', esc_html( $term->name ) );
+				$message .= sprintf( __( '%d of %d posts', 'theme' ), $query->found_posts, $pre_filter_query->found_posts );
 			}
-
-			// Filter not active
 
 			else
 			{
-				$posts = _n( 'post', 'posts', $query->found_posts, 'theme' );
-
-				$message = sprintf( __( 'Showing %d %s.', 'theme' ), $query->found_posts, $posts );
+				$message = sprintf( __( 'Showing all %d posts', 'theme' ), $query->found_posts );
 			}
 
-			printf( '<div class="alert alert-info">%s</div>', $message );
+			printf( '<div class="alert alert-info"><small>%s</small></div>', $message );
 
-			/**
-			 * List posts
-			 */
-
-			$this->list_posts( $query, array
+			// List posts
+			theme_list_posts( $query, array
 			(
 				'before_posts'  => '<div class="row">',
 				'before_post'   => '<div class="col-md-4">',
@@ -150,12 +138,16 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 				'after_post'    => '</div>',
 				'after_posts'   => '</div>',
 			));
+
+			// Pagination
+			theme_posts_ajax_pagination( $query );
 		}
 
+		// No posts
 		else
 		{
-			// No posts message
-			$this->no_posts_message( $query, '<div class="alert alert-warning">', '</div>' );
+			// Output message
+			theme_no_posts_message( $query, '<div class="alert alert-warning">', '</div>' );
 		}
 	}
 }
