@@ -21,6 +21,7 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 	/**
 	 * Inside
 	 */
+	
 	public function inside()
 	{
 		echo '<div class="row">';
@@ -32,7 +33,7 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 			echo '</div>';
 		echo '</div>';
 	}
-
+	
 	/**
 	 * Form Inside
 	 */
@@ -42,28 +43,32 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 
 		$this->nav( 'category', array
 		(
-			'before'       => '<nav class="%1$s">',
-			'title'        => null,
-			'before_items' => '<div class="items d-flex flex-column">',
-			'before_item'  => '',
-			'after_item'   => '',
-			'after_items'  => '</div>',
-			'after'        => '</nav>',
-			'type'         => 'checkbox',
-			'radio_all'    => __( 'Show all', 'theme' ),
+			'before'          => '<nav class="%1$s">',
+			'title'           => null,
+			'before_items'    => '<div class="items d-flex flex-column">',
+			'before_item'     => '',
+			'after_item'      => '',
+			'after_items'     => '</div>',
+			'after'           => '</nav>',
+			'type'            => 'checkbox',
+			'radio_all'       => __( 'Show all', 'theme' ),
+			'autoload'        => true,
+			'custom_controls' => true,
 		));
 
 		$this->nav( 'post_tag', array
 		(
-			'before'       => '<nav class="%1$s">',
-			'title'        => null,
-			'before_items' => '<div class="items d-flex flex-column">',
-			'before_item'  => '',
-			'after_item'   => '',
-			'after_items'  => '</div>',
-			'after'        => '</nav>',
-			'type'         => 'checkbox',
-			'radio_all'    => __( 'Show all', 'theme' ),
+			'before'          => '<nav class="%1$s">',
+			'title'           => null,
+			'before_items'    => '<div class="items d-flex flex-column">',
+			'before_item'     => '',
+			'after_item'      => '',
+			'after_items'     => '</div>',
+			'after'           => '</nav>',
+			'type'            => 'checkbox',
+			'radio_all'       => __( 'Show all', 'theme' ),
+			'autoload'        => true,
+			'custom_controls' => true,
 		));
 	}
 
@@ -76,10 +81,10 @@ class SamplePostLoader extends \Theme\Core\PostLoader\PostLoader
 	{
 		$query_args['tax_query'] = array
 		(
-			'relation' => 'AND',
+			'relation' => 'OR',
 		);
 
-		$this->apply_nav( 'category', $query_args );
-		$this->apply_nav( 'post_tag', $query_args );
+		$this->apply_nav( 'category', $query_args['tax_query'] );
+		$this->apply_nav( 'post_tag', $query_args['tax_query'] );
 	}
 }
