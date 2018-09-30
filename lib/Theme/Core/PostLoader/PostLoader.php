@@ -131,6 +131,9 @@ class PostLoader
 
 			// Pagination
 			$this->pagination( $query );
+
+			// Load more
+			//$this->load_more();
 		}
 
 		// No posts
@@ -263,11 +266,7 @@ class PostLoader
 	 */
 	public function pagination( $query )
 	{
-		// Load more
-		$this->load_more( $query );
-
-		// pagination
-		//theme_posts_ajax_pagination( $query );
+		theme_posts_ajax_pagination( $query );
 	}
 
 	/**
@@ -353,16 +352,24 @@ class PostLoader
 
 		$defaults = array
 		(
-			'before'       => '<nav class="%1$s">',
-			'title'        => null,
-			'before_items' => '',
-			'before_item'  => '',
-			'after_item'   => '',
-			'after_items'  => '',
-			'after'        => '</nav>',
-			
-			'type'         => 'checkbox',
-			'radio_all'    => __( 'Show all', 'theme' ),
+			// Template
+			'before'          => '<nav class="%1$s">',
+			'title'           => null,
+			'before_items'    => '',
+			'before_item'     => '',
+			'after_item'      => '',
+			'after_items'     => '',
+			'after'           => '</nav>',
+			// Terms
+			'orderby'         => 'name',
+			'order'           => 'ASC',
+			'include'         => array(),
+			'exclude'         => array(),
+			// General
+			'type'            => 'checkbox',
+			'radio_all'       => __( 'Show all', 'theme' ),
+			'autoload'        => false,
+			'custom_controls' => false,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -381,6 +388,10 @@ class PostLoader
 		$terms = get_terms( array
 		(
 			'taxonomy' => $taxonomy->name,
+			'orderby'  => $args['orderby'],
+			'order'    => $args['order'],
+			'include'  => $args['include'],
+			'exclude'  => $args['exclude'],
 		));
 
 		if ( ! $terms || is_wp_error( $terms ) ) 
@@ -404,8 +415,9 @@ class PostLoader
 
 		$field_name = "terms[{$taxonomy->name}][]";
 
-		printf( $args['before'], 'post-loader-nav' );
+		printf( $args['before'], esc_attr( "post-loader-nav post-loader-{$taxonomy->name}-nav" ) );
 
+		// Title
 		if ( $title ) 
 		{
 			printf( '<h3>%s</h3>', esc_html( $title ) );
@@ -418,7 +430,7 @@ class PostLoader
 		{
 			echo $args['before_item'];
 
-			$this->radio_all( $args['radio_all'], $field_name );
+			$this->radio_all( $args['radio_all'], $field_name, $args['autoload'] );
 
 			echo $args['after_item'];
 		}
@@ -428,7 +440,7 @@ class PostLoader
 		{
 			echo $args['before_item'];
 
-			$this->nav_item( $term, $field_name, $args['type'] );
+			$this->nav_item( $term, $field_name, $args['type'], $args['autoload'], $args['custom_controls'] );
 
 			echo $args['after_item'];
 		}
@@ -445,12 +457,44 @@ class PostLoader
 	 * @param string $field_name
 	 * @param string $type
 	 */
-	public function nav_item( $term, $field_name, $type = 'checkbox' )
+	public function nav_item( $term, $field_name, $type = 'checkbox', $autoload = false, $custom = false )
 	{
-		$type = $type == 'radio' ? 'radio' : 'checkbox';
+		$label = array();
 
-		printf( '<label><input type="%s" class="autoload" name="%s" value="%d"> %s</label> ', 
-			esc_attr( $type ), esc_attr( $field_name ), $term->term_id, esc_html( $term->name ) );
+		$input = array
+		(
+			'type'    => $type == 'radio' ? 'radio' : 'checkbox',
+			'id'      => "nav-term-{$term->term_id}",
+			'name'    => $field_name,
+			'value'   => $term->term_id,
+		);
+
+		if ( $autoload ) 
+		{
+			$input['class'] = 'autoload';
+		}
+
+		if ( $custom )
+		{
+			$field_id = "nav-term-{$term->term_id}";
+
+			$label['for']   = $field_id;
+			$label['class'] = 'custom-control-label';
+
+			$input['id']     = $field_id;
+			$input['class'] .= ' custom-control-input';
+			
+
+			printf( '<div class="custom-control custom-%s">', esc_attr( $input['type'] ) );
+			printf( '<input%s><label%s>%s</label>', theme_esc_attr( $input ), theme_esc_attr( $label ), esc_html( $term->name ) );
+			echo '</div>';
+		}
+
+		else
+		{
+			printf( '<label%s><input%s> %s</label> ', 
+				theme_esc_attr( $label ), theme_esc_attr( $input ), esc_html( $term->name ) );
+		}
 	}
 
 	/**
@@ -459,19 +503,37 @@ class PostLoader
 	 * @param string $text
 	 * @param string $field_name
 	 */
-	public function radio_all( $text, $field_name )
+	public function radio_all( $text, $field_name, $autoload = false )
 	{
-		printf( '<label class="active"><input type="radio" class="autoload" name="%s" value="%d" checked> %s</label> ', 
-			esc_attr( $field_name ), 0, esc_html( $text ) );
+		$label = array
+		(
+			'class' => 'active',
+		);
+
+		$input = array
+		(
+			'type'    => 'radio',
+			'name'    => $field_name,
+			'value'   => 0,
+			'checked' => 'checked',
+		);
+
+		if ( $autoload ) 
+		{
+			$input['class'] = 'autoload';
+		}
+
+		printf( '<label%s><input%s> %s</label> ', 
+			theme_esc_attr( $label ), theme_esc_attr( $input ), esc_html( $text ) );
 	}
 
 	/**
 	 * Apply Navigation
 	 *
 	 * @param string $taxonomy
-	 * @param array $query_args
+	 * @param array $tax_query
 	 */
-	public function apply_nav( $taxonomy, &$query_args )
+	public function apply_nav( $taxonomy, &$tax_query )
 	{
 		// Check post data
 		if ( ! isset( $_POST['terms'][ $taxonomy ] ) ) 
@@ -492,7 +554,7 @@ class PostLoader
 		}
 
 		// Apply
-		$query_args['tax_query'][] = array
+		$tax_query[] = array
 		(
 			'taxonomy' => $taxonomy,
 			'field'    => 'term_id',
