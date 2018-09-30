@@ -24,18 +24,6 @@ class PostLoaderManager
 	}
 
 	/**
-	 * Create Loader
-	 */
-	public function create_loader( $id, $args = array() )
-	{
-		$loader = new PostLoader( $id, $args );
-
-		$this->register_loader( $loader );
-
-		return $loader;
-	}
-
-	/**
 	 * Register Loader
 	 */
 	public function register_loader( $loader )
