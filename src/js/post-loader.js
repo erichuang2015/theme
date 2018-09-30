@@ -23,6 +23,20 @@
 			_this.load();
 		});
 
+		// Form reset
+		this.$elem.on( 'reset', '.post-loader-form', function( event )
+		{
+			setTimeout( function()
+			{
+				_this.updateLabelActive();
+
+				if ( _this.options.loadOnReset ) 
+				{
+					_this.load();
+				}
+			}, 50);
+		});
+
 		// Pagination Click
 		this.$elem.on( 'click', '.pagination .page-link', function( event )
 		{
@@ -32,11 +46,25 @@
 			_this.load( 
 			{
 				page : $( this ).data( 'page' ),
-				animate : true,
+				animate : false,
 			});
 		});
 
-		// .autload change
+		// 'Load More' Click
+		this.$elem.on( 'click', '.post-loader-more-button', function( event )
+		{
+			event.preventDefault();
+
+			// Load
+			_this.load( 
+			{
+				page    : $( this ).data( 'page' ),
+				animate : true,
+				append  : true,
+			});
+		});
+
+		// input.autload change
 		this.$elem.on( 'change', ':input.autoload', function( event )
 		{
 			// Load
@@ -46,15 +74,41 @@
 		// Checkbox and radio change
 		this.$elem.on( 'change', 'input[type="checkbox"], input[type="radio"]', function( event )
 		{
-			// Update label active class
-			
-			if ( $( this ).prop( 'type' ) == 'radio' ) 
-			{
-				var $radio = $( this );
+			_this.updateLabelActive( this );
+		});
 
-				_this.$elem.find( 'input[type="radio"]' ).filter( function()
+		$( document ).trigger( 'postLoader.init', [ this ] );
+	}
+
+	Plugin.defaultOptions = 
+	{
+		scrollSpeed  : 500, // Milliseconds
+		scrollOffset : -120,
+		loadOnReset  : true,
+	};
+
+	Plugin.prototype.$elem = null;
+	Plugin.prototype.$content = null;
+	Plugin.prototype.options = {};
+
+	Plugin.prototype.updateLabelActive = function( elem )
+	{
+		if ( typeof elem === 'undefined' ) 
+		{
+			elem = this.$elem.find( 'input[type="checkbox"], input[type="radio"]' );
+		}
+
+		var _this = this;
+
+		$( elem ).filter( 'input[type="checkbox"], input[type="radio"]' ).each( function()
+		{
+			// Radio
+			if ( $( elem ).prop( 'type' ) == 'radio' ) 
+			{
+				// Select related radio buttons. And removes label 'active' class.
+				_this.$elem.find( 'input[type="radio"]' ).not( elem, ':checked' ).filter( function()
 				{
-					return $( this ).prop( 'name' ) == $radio.prop( 'name' );
+					return $( this ).prop( 'name' ) == $( elem ).prop( 'name' );
 
 				}).closest( 'label' ).removeClass( 'active' );
 			}
@@ -71,25 +125,15 @@
 				$label.removeClass( 'active' );
 			}
 		});
-
-		$( document ).trigger( 'postLoader.init', [ this ] );
 	}
-
-	Plugin.defaultOptions = 
-	{
-		scrollSpeed : 500, // Milliseconds
-	};
-
-	Plugin.prototype.$elem = null;
-	Plugin.prototype.$content = null;
-	Plugin.prototype.options = {};
 
 	Plugin.prototype.load = function( options ) 
 	{
 		var defaults = 
 		{
-			page : 1,
+			page    : 1,
 			animate : false,
+			append  : false,
 		};
 
 		options = $.extend( {}, defaults, options );
@@ -117,16 +161,42 @@
 			success : function( response, textStatus, jqXHR )
 			{
 				console.log( 'response', response );
+
+				// Get content
+				var $content = $( response.content );
+
+				// Check append
+				if ( ! options.append ) 
+				{
+					// Empty content
+					this.$elem.find( '.post-loader-content' ).html( '' );
+				}
+
+				else
+				{
+					// Remove 'load more' from current content
+					this.$elem.find( '.post-loader-content .post-loader-more' ).remove();
+				}
 				
-				this.$elem.find( '.post-loader-content' ).html( response.result );
+				// Add content
+				this.$elem.find( '.post-loader-content' ).append( $content );
 
 				// Animation
 				if ( options.animate ) 
 				{
-					// Scroll to content top
+					// Get target
+
+					var $target = this.$elem.find( '.post-loader-content' );
+
+					if ( options.append ) 
+					{
+						$target = $content.children().first();
+					}
+
+					// Scroll to target
 					$( [ document.documentElement, document.body ] ).stop().animate(
 					{
-						scrollTop: this.$elem.find( '.post-loader-content' ).offset().top
+						scrollTop: $target.offset().top + this.options.scrollOffset
 
 					}, this.options.scrollSpeed );
 				}
