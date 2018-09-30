@@ -464,7 +464,6 @@ class PostLoader
 		$input = array
 		(
 			'type'    => $type == 'radio' ? 'radio' : 'checkbox',
-			'id'      => "nav-term-{$term->term_id}",
 			'name'    => $field_name,
 			'value'   => $term->term_id,
 		);
@@ -476,7 +475,7 @@ class PostLoader
 
 		if ( $custom )
 		{
-			$field_id = "nav-term-{$term->term_id}";
+			$field_id = "nav-item-{$term->term_id}";
 
 			$label['for']   = $field_id;
 			$label['class'] = 'custom-control-label';
